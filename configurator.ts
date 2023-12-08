@@ -1,5 +1,5 @@
 const fs = require('fs-extra');
-import entities, { IEntity } from './config.entity';
+import entities, { IEntity } from './_config/config.entity';
 import Entity from './entity';
 import {
   ICreateModuleImportPayload,
@@ -76,11 +76,11 @@ export function moveToServer() {
     `${serverPath}/src/entities`,
   );
   fs.copySync(
-    `${CURRENT_DIR}/config.page.ts`,
+    `${CURRENT_DIR}/_config/config.page.ts`,
     `${serverPath}/src/config/config.page.ts`,
   );
   fs.copySync(
-    `${CURRENT_DIR}/config.menu.ts`,
+    `${CURRENT_DIR}/_config/config.menu.ts`,
     `${serverPath}/src/config/config.menu.ts`,
   );
 }

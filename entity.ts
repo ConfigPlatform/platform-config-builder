@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-import { IEntity as IEntityData } from './config.entity';
+import { IEntity as IEntityData } from './_config/config.entity';
 import { createClassName, createModuleImport } from './helpers';
 
 export default class Entity {
