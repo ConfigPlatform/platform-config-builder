@@ -5,7 +5,6 @@ export interface IEntityField {
   type: 'string' | 'number';
   options: ColumnOptions;
 }
-
 export interface IEntity {
   entityName: string;
   fields: IEntityField[];

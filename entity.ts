@@ -1,92 +1,62 @@
-const fs = require('fs');
 const path = require('path');
-
+const fs = require('fs-extra');
+const { ENTITIES_PATH } = require('./paths');
 import { IEntity as IEntityData } from './_config/config.entity';
 import { createClassName, createModuleImport } from './helpers';
 
-export default class Entity {
-  private entityData: IEntityData;
-  private entityDirsPath: string;
+// function updates entity file
+export const updateEntity = (entityData: IEntityData): void => {
+  const { entityName, fields } = entityData;
 
-  constructor(entityData: IEntityData, entityDirsPath: string) {
-    this.entityData = entityData;
-    this.entityDirsPath = entityDirsPath;
+  // define entity dir path
+  const entityDirPath: string = path.join(ENTITIES_PATH, `/${entityName}`);
+
+  // create dir if not exists
+  if (!fs.pathExistsSync(entityDirPath)) {
+    fs.mkdirSync(entityDirPath);
   }
 
-  // function creates entity file entries
-  private createFileEntries() {
-    const { entityName, fields } = this.entityData;
+  // entity file path
+  const entityFilePath = path.join(entityDirPath, `${entityName}.entity.ts`);
 
-    // class name
-    const className = createClassName(entityName);
+  // class name
+  const className = createClassName(entityName);
 
-    // db table columns
-    let columns: string = `\n  @PrimaryGeneratedColumn()\n  id: number;`;
+  // db table columns
+  let columns = `\n  @PrimaryGeneratedColumn()\n  id: number;`;
 
-    // loop through fields to generate columns
-    for (const field of fields) {
-      const { name, type, options } = field;
+  // loop through fields to generate columns
+  for (const field of fields) {
+    const { name, type, options } = field;
 
-      const optionArr: [string, string][] = Object.entries(options);
-      const optionStr = optionArr
-        .map((el) => `${el[0]}: '${el[1]}'`)
-        .join(', ');
+    const optionArr: [string, string][] = Object.entries(options);
+    const optionStr = optionArr.map((el) => `${el[0]}: '${el[1]}'`).join(', ');
 
-      // create column
-      const column = `\n\n  @Column({ ${optionStr} })\n  ${name}: '${type}';`;
+    // create column
+    const column = `\n\n  @Column({ ${optionStr} })\n  ${name}: '${type}';`;
 
-      // add column
-      columns += column;
-    }
-
-    // module import
-    const moduleImport = createModuleImport({
-      variable: '{ Column, Entity, PrimaryGeneratedColumn }',
-      path: 'typeorm',
-    });
-
-    // file entries
-    const entries = `${moduleImport};\n\n@Entity()\nexport class ${className} {${columns}\n}`;
-
-    return entries;
+    // add column
+    columns += column;
   }
 
-  // function applies entity
-  apply() {
-    const { entityName } = this.entityData;
+  // module import
+  const moduleImport = createModuleImport({
+    variable: '{ Column, Entity, PrimaryGeneratedColumn }',
+    path: 'typeorm',
+  });
 
-    // define entity dir path
-    const entityDirPath: string = path.join(
-      this.entityDirsPath,
-      `/${entityName}`,
-    );
+  // file entries
+  const entries = `${moduleImport};\n\n@Entity()\nexport class ${className} {${columns}\n}`;
 
-    // create dir if not exists
-    if (!fs.existsSync(entityDirPath)) {
-      fs.mkdirSync(entityDirPath);
-    }
+  // update entity file
+  fs.writeFileSync(entityFilePath, entries);
+};
 
-    // entity file path
-    const entityFilePath = path.join(entityDirPath, `${entityName}.entity.ts`);
+// function deletes entity
+export const deleteEntity = (entityName: string): void => {
+  // define entity dir path
+  const entityDirPath: string = path.join(ENTITIES_PATH, `/${entityName}`);
 
-    // updated file entries
-    const updatedFileEntries = this.createFileEntries();
-
-    // update entity file
-    fs.writeFileSync(entityFilePath, updatedFileEntries);
-  }
-
-  // function deletes entity
-  delete() {
-    const { entityName } = this.entityData;
-
-    // define entity dir path
-    const entityDirPath: string = path.join(
-      this.entityDirsPath,
-      `/${entityName}`,
-    );
-
-    // delete dir
-    fs.rmdirSync(entityDirPath, { recursive: true });
-  }
-}
+  // delete dir
+  fs.rmdirSync(entityDirPath, { recursive: true });
+};
