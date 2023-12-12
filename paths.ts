@@ -4,6 +4,8 @@ export const ROOT_PATH = process.cwd();
 
 export const ENTITIES_PATH = mergePaths(ROOT_PATH, '/generated/entities');
 
+export const HANDLERS_PATH = mergePaths(ROOT_PATH, '/generated/handlers');
+
 export const ENTITY_MAP_PATH = mergePaths(ROOT_PATH, '/generated/entityMap.ts');
 
 export const PAGE_CONFIG_PATH = mergePaths(
@@ -21,6 +23,11 @@ export const SERVER_ROOT_PATH = mergePaths(process.cwd(), '../platform-server');
 export const SERVER_ENTITIES_PATH = mergePaths(
   SERVER_ROOT_PATH,
   '/src/entities',
+);
+
+export const SERVER_HANDLERS_PATH = mergePaths(
+  SERVER_ROOT_PATH,
+  '/src/handler',
 );
 
 export const SERVER_ENTITY_MAP_PATH = mergePaths(

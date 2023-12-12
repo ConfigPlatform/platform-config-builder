@@ -1,23 +1,24 @@
-const path = require('path');
 const fs = require('fs-extra');
 const { ENTITIES_PATH } = require('./paths');
 import { IEntity as IEntityData } from './_config/config.entity';
-import { createClassName, createModuleImport } from './helpers';
+import { createClassName, createModuleImport, mergePaths } from './helpers';
+
+export interface IDeleteEntityPayload {
+  entityName: string;
+  entitiesPath: string;
+}
 
 // function updates entity file
 export const updateEntity = (entityData: IEntityData): void => {
   const { entityName, fields } = entityData;
 
   // define entity dir path
-  const entityDirPath: string = path.join(ENTITIES_PATH, `/${entityName}`);
+  const entityDirPath: string = mergePaths(ENTITIES_PATH, `/${entityName}`);
 
   // create dir if not exists
   if (!fs.pathExistsSync(entityDirPath)) {
     fs.mkdirSync(entityDirPath);
   }
-
-  // entity file path
-  const entityFilePath = path.join(entityDirPath, `${entityName}.entity.ts`);
 
   // class name
   const className = createClassName(entityName);
@@ -48,15 +49,21 @@ export const updateEntity = (entityData: IEntityData): void => {
   // file entries
   const entries = `${moduleImport};\n\n@Entity()\nexport class ${className} {${columns}\n}`;
 
+  // entity file path
+  const entityFilePath = mergePaths(entityDirPath, `${entityName}.entity.ts`);
+
   // update entity file
   fs.writeFileSync(entityFilePath, entries);
 };
 
 // function deletes entity
-export const deleteEntity = (entityName: string): void => {
+export const deleteEntity = ({
+  entityName,
+  entitiesPath,
+}: IDeleteEntityPayload): void => {
   // define entity dir path
-  const entityDirPath: string = path.join(ENTITIES_PATH, `/${entityName}`);
+  const entityDirPath: string = mergePaths(entitiesPath, `/${entityName}`);
 
   // delete dir
-  fs.rmdirSync(entityDirPath, { recursive: true });
+  fs.removeSync(entityDirPath, { recursive: true });
 };

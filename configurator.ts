@@ -9,37 +9,39 @@ const {
   SERVER_ENTITY_MAP_PATH,
   SERVER_MENU_CONFIG_PATH,
   SERVER_PAGE_CONFIG_PATH,
+  HANDLERS_PATH,
+  SERVER_HANDLERS_PATH,
 } = require('./paths');
 import entities from './_config/config.entity';
+import handlers from './_config/config.handler';
 import {
   ICreateModuleImportPayload,
   createClassName,
   createModuleImport,
 } from './helpers';
 import { deleteEntity, updateEntity } from './entity';
+import { deleteHandler, updateHandler } from './handler';
 
 // function generates entities
-export function updateEntities() {
+export const updateEntities = (): void => {
   // if /generated/entities path isn't valid, we should create dirs recursively
   if (!fs.ensureDirSync(ENTITIES_PATH)) {
     fs.mkdirSync(ENTITIES_PATH, { recursive: true });
   }
 
-  // get entity dir names
-  const entityDirNames = fs.readdirSync(ENTITIES_PATH);
+  // get entity dir entries
+  const entityDirEntries = fs.readdirSync(ENTITIES_PATH);
 
-  // loop through entityDirNames to define entities for update and deletion
-  for (const entityName of entityDirNames) {
+  // loop through entityDirEntries to define entities for deletion
+  for (const entityName of entityDirEntries) {
     // check if we have entity with such name in config. entityMap - exception, we shouldn't delete this file
-    const existsInConfig = entities.some(
-      (entity) =>
-        entityName === entity.entityName || entityName === 'entityMap.ts',
+    const existsInConfig = !!entities.find(
+      (el) => entityName === el.entityName || entityName === 'entityMap.ts',
     );
 
-    // update entity if entity is in config
+    // delete entity if entity isn't in config
     if (!existsInConfig) {
-      // delete entity
-      deleteEntity(entityName);
+      deleteEntity({ entityName, entitiesPath: ENTITIES_PATH });
     }
   }
 
@@ -48,10 +50,10 @@ export function updateEntities() {
     // update entity
     updateEntity(entityData);
   }
-}
+};
 
 // function generates entity map file, file is used for accessing entities directly through one object
-export function updateEntityMap() {
+export const updateEntityMap = (): void => {
   const moduleImportPayloads: ICreateModuleImportPayload[] = [];
   let entityMapObjEntries = '';
 
@@ -88,20 +90,95 @@ export function updateEntityMap() {
 
   // update file
   fs.writeFileSync(entityMapPath, entityMapEntries);
-}
+};
 
-export async function moveToServer() {
-  // remove entities dir if exists
-  if (fs.pathExistsSync(SERVER_ENTITIES_PATH)) {
-    await fs.remove(SERVER_ENTITIES_PATH);
+// function generates handlers
+export const updateHandlers = (): void => {
+  // if /generated/handlers path isn't valid, we should create dirs recursively
+  if (!fs.ensureDirSync(HANDLERS_PATH)) {
+    fs.mkdirSync(HANDLERS_PATH, { recursive: true });
   }
 
-  // create entities dir
-  fs.mkdirSync(SERVER_ENTITIES_PATH);
+  // get handlers dir entries
+  const handlerDirEntries = fs.readdirSync(HANDLERS_PATH);
 
-  // copy file & dirs
-  fs.copyFileSync(ENTITY_MAP_PATH, SERVER_ENTITY_MAP_PATH);
+  // loop through handlerDirEntries to define handler for deletion
+  for (const handlerFile of handlerDirEntries) {
+    const handlerName = handlerFile.slice(0, handlerFile.length - 3);
+
+    // check if we have handler with such name in config
+    const existsInConfig = !!handlers.find((el) => handlerName === el.name);
+
+    // delete handler if handler isn't in config
+    if (!existsInConfig) {
+      deleteHandler({ handlerName, handlersPath: HANDLERS_PATH });
+    }
+  }
+
+  // loop through handlers in config to refresh
+  for (const handler of handlers) {
+    // update handler
+    updateHandler(handler);
+  }
+};
+
+// function cleanups server: removes not actual components
+export const serverCleanup = (): void => {
+  // get entity dir entries
+  const entityDirEntries = fs.readdirSync(SERVER_ENTITIES_PATH);
+
+  // loop through entityDirEntries to define entities for deletion
+  for (const entityName of entityDirEntries) {
+    // check if we have entity with such name in config. entityMap - exception, we shouldn't delete this file
+    const existsInConfig = !!entities.find(
+      (el) => entityName === el.entityName || entityName === 'entityMap.ts',
+    );
+
+    // delete entity if entity isn't in config
+    if (!existsInConfig) {
+      deleteEntity({ entityName, entitiesPath: SERVER_ENTITIES_PATH });
+    }
+  }
+
+  // get handler dir entries
+  const handlerDirEntries = fs.readdirSync(SERVER_HANDLERS_PATH);
+
+  // loop through handlerDirEntries to define handler for deletion
+  for (const handlerFile of handlerDirEntries) {
+    // system files - manually created nest files with specific ends
+    const systemFileEnds = [
+      'spec.ts',
+      'controller.ts',
+      'module.ts',
+      'service.ts',
+    ];
+
+    const systemFile = systemFileEnds.some((el) => handlerFile.includes(el));
+
+    // skip checks if file is system file
+    if (systemFile) continue;
+
+    const handlerName = handlerFile.slice(0, handlerFile.length - 3);
+
+    // check if we have handler with such name in config
+    const existsInConfig = !!handlers.find((el) => handlerName === el.name);
+
+    // delete handler if handler isn't in config
+    if (!existsInConfig) {
+      deleteHandler({ handlerName, handlersPath: SERVER_HANDLERS_PATH });
+    }
+  }
+};
+
+// function uploads updates to server
+export const moveToServer = (): void => {
+  // server cleanup
+  serverCleanup();
+
+  // copy files & dirs
+  fs.copySync(ENTITY_MAP_PATH, SERVER_ENTITY_MAP_PATH);
   fs.copySync(ENTITIES_PATH, SERVER_ENTITIES_PATH);
+  fs.copySync(HANDLERS_PATH, SERVER_HANDLERS_PATH);
   fs.copySync(PAGE_CONFIG_PATH, SERVER_PAGE_CONFIG_PATH);
   fs.copySync(MENU_CONFIG_PATH, SERVER_MENU_CONFIG_PATH);
-}
+};

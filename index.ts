@@ -1,5 +1,11 @@
-import { updateEntities, updateEntityMap, moveToServer } from './configurator';
+import {
+  updateEntities,
+  updateEntityMap,
+  moveToServer,
+  updateHandlers,
+} from './configurator';
 
 updateEntities();
 updateEntityMap();
+updateHandlers();
 moveToServer();
