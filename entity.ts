@@ -34,7 +34,7 @@ export const updateEntity = (entityData: IEntityData): void => {
     const optionStr = optionArr.map((el) => `${el[0]}: '${el[1]}'`).join(', ');
 
     // create column
-    const column = `\n\n  @Column({ ${optionStr} })\n  ${name}: '${type}';`;
+    const column = `\n\n  @Column({ ${optionStr} })\n  ${name}: ${type};`;
 
     // add column
     columns += column;
