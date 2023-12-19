@@ -71,7 +71,7 @@ export const updateEntityMap = (): void => {
     moduleImportPayloads.push(moduleImportPayload);
 
     // entity data in format: 'entityName': entity
-    const entityMapData = `  '${entity.entityName}': ${className}`;
+    const entityMapData = `  ${className}`;
 
     // add entity property and value
     entityMapObjEntries += `${

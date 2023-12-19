@@ -6,45 +6,8 @@ export interface IPages {
 const pages: IPages = {
   // CLIENT LIST
   '/client': {
-    id: 1,
     pageTitle: 'Client List',
-    content: [
-      {
-        type: 'form',
-        id: 'client_create_form',
-        fields: [
-          {
-            name: 'firstName',
-            label: 'First Name',
-            type: 'string',
-            required: true,
-            defaultValue: '',
-          },
-          {
-            name: 'lastName',
-            label: 'Last Name',
-            type: 'string',
-            required: true,
-            defaultValue: '',
-          },
-          {
-            name: 'phone',
-            label: 'Phone',
-            type: 'string',
-            required: true,
-            defaultValue: '',
-          },
-        ],
-        actions: [
-          {
-            type: 'button',
-            style: 'primary',
-            label: 'Create',
-            serverHandler: 'form_create_client_submit',
-          },
-        ],
-      },
-    ],
+    contentType: 'table',
   },
 
   // PAYMENT LIST
@@ -84,7 +47,7 @@ const pages: IPages = {
                     label: 'Name',
                     type: 'string',
                     required: true,
-                    defaultValue: 'John',
+                    defaultValue: 'Item',
                     validation: 'min:3|max:10',
                   },
                 ],
@@ -115,9 +78,50 @@ const pages: IPages = {
     ],
   },
 
+  // CLIENT CREATE
+  '/client/create': {
+    pageTitle: 'Client Create',
+    content: [
+      {
+        type: 'form',
+        id: 'client_create_form',
+        fields: [
+          {
+            name: 'firstName',
+            label: 'First Name',
+            type: 'string',
+            required: true,
+            defaultValue: '',
+          },
+          {
+            name: 'lastName',
+            label: 'Last Name',
+            type: 'string',
+            required: true,
+            defaultValue: '',
+          },
+          {
+            name: 'phone',
+            label: 'Phone',
+            type: 'string',
+            required: true,
+            defaultValue: '',
+          },
+        ],
+        actions: [
+          {
+            type: 'button',
+            style: 'primary',
+            label: 'Create',
+            serverHandler: 'form_create_client_submit',
+          },
+        ],
+      },
+    ],
+  },
+
   // PRODUCT CREATE
   '/product/create': {
-    id: 1,
     pageTitle: 'Product Create',
     content: [
       {
@@ -144,7 +148,6 @@ const pages: IPages = {
                     label: 'Name',
                     type: 'string',
                     required: true,
-                    defaultValue: 'John',
                     validation: 'min:3|max:10',
                   },
                   {
@@ -154,10 +157,11 @@ const pages: IPages = {
                     required: true,
                   },
                   {
-                    name: 'category',
-                    label: 'Category',
-                    type: 'select',
+                    name: 'client',
+                    label: 'Client',
+                    type: 'string',
                     required: true,
+                    defaultValue: '',
                   },
                 ],
                 actions: [
@@ -197,14 +201,12 @@ const pages: IPages = {
 
   // PRODUCT LIST
   '/product': {
-    id: 2,
     pageTitle: 'Product List',
     contentType: 'table',
   },
 
   // USER LIST
   '/user': {
-    id: 3,
     pageTitle: 'User List',
     contentType: 'table',
   },

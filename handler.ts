@@ -1,5 +1,5 @@
 import { IField, IHandler } from '_config/config.handler';
-import { mergePaths } from './helpers';
+import { createClassName, mergePaths } from './helpers';
 import { HANDLERS_PATH } from './paths';
 const fs = require('fs-extra');
 
@@ -20,6 +20,8 @@ const createSaveAction = ({
   data,
   entityName,
 }: IActionHandlerPayload): string => {
+  const entityClassName = createClassName(entityName);
+
   // convert arr of field object to array of strings which represent fields data
   const entityValuesArr = data.map((el: IField) => {
     const value = el.update
@@ -32,10 +34,9 @@ const createSaveAction = ({
   // convert entityValuesArr to string with separated fields
   const entityValuesStr = entityValuesArr.join(', ');
 
-  // file entries
-  const entries = `  service.execute({ entityName: '${entityName}', action: 'create', data: { ${entityValuesStr} } });`;
+  const entries = `  await dataSource\n    .createQueryBuilder()\n    .insert()\n    .into(entities.${entityClassName})\n    .values({ ${entityValuesStr} })\n    .execute()`;
 
-  return entries;
+  return entries
 };
 
 // function creates return config action
@@ -72,7 +73,7 @@ export const updateHandler = (handler: IHandler): void => {
   }
 
   // file entries
-  const entries = `const ${handlerName} = ({ data, service }) => {${actionsStr}\n}\n\nmodule.exports = ${handlerName}`;
+  const entries = `const ${handlerName} = async ({ data, entities, dataSource }) => {${actionsStr}\n}\n\nmodule.exports = ${handlerName}`;
 
   // entity file path
   const handlerFilePath = mergePaths(HANDLERS_PATH, `${handlerName}.ts`);

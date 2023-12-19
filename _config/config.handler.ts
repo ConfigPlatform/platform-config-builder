@@ -34,6 +34,10 @@ const form_create_product_submit: IHandler = {
           fieldName: 'description',
           entityFieldName: 'description',
         },
+        {
+          fieldName: 'client',
+          entityFieldName: 'client',
+        }
       ],
     },
     {

@@ -12,27 +12,32 @@ export interface IMenu {
 // menu config
 const menu: IMenu = [
   {
-    id: 10,
+    id: 1,
     name: 'Clients',
     path: '/client',
   },
   {
-    id: 1,
+    id: 2,
     name: 'Products',
     path: '/product',
   },
   {
-    id: 2,
+    id: 3,
+    name: 'Create Client',
+    path: '/client/create'
+  },
+  {
+    id: 4,
     name: 'Create Product',
     path: '/product/create',
   },
   {
-    id: 3,
+    id: 5,
     name: 'Orders',
     path: '/order',
   },
   {
-    id: 4,
+    id: 6,
     name: 'Payments',
     path: '/payment',
     count: 2,
