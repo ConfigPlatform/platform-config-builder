@@ -7,7 +7,6 @@ const pages: IPages = {
   // CLIENT LIST
   '/client': {
     pageTitle: 'Client List',
-    contentType: 'table',
     content: [
       {
         type: 'table',

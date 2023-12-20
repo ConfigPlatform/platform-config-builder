@@ -42,6 +42,11 @@ const menu: IMenu = [
     path: '/payment',
     count: 2,
   },
+  {
+    id: 7,
+    name: 'Invoices',
+    path: '/invoice',
+  },
 ];
 
 export default menu;

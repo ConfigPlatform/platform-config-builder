@@ -55,6 +55,21 @@ const entities: IEntity[] = [
       { name: 'phone', type: 'string', options: { type: 'varchar' } },
     ],
   },
+  {
+    entityName: 'invoice',
+    fields: [
+      { name: 'amount', type: 'number', options: { type: 'varchar' } },
+      {
+        name: 'client',
+        type: 'relation',
+        options: {
+          relationType: 'one-to-one',
+          ownerSide: true,
+          ref: 'client',
+        },
+      },
+    ],
+  },
 ];
 
 export default entities;
