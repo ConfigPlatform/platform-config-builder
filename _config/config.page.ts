@@ -4,10 +4,124 @@ export interface IPages {
 
 // pages config
 const pages: IPages = {
+  // INVOICE LIST
+  '/invoice': {
+    pageTitle: 'Invoice List',
+    content: [
+      {
+        type: 'table',
+        id: 'invoice_table',
+        className: 'min-w-full leading-normal',
+        select: 'invoice_get_all',
+        content: [
+          {
+            type: 'tableHead',
+            content: [
+              {
+                type: 'tableHeading',
+                className:
+                  'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
+                name: 'ID',
+              },
+              {
+                type: 'tableHeading',
+                className:
+                  'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
+                name: 'Price',
+              },
+              {
+                type: 'tableHeading',
+                className:
+                  'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
+                name: 'Client',
+              },
+            ],
+          },
+          {
+            type: 'tableBody',
+            selectRef: 'invoice_get_all',
+            content: [
+              {
+                className:
+                  'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                dataKey: 'id',
+              },
+              {
+                className:
+                  'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                dataKey: 'price',
+              },
+              {
+                className:
+                  'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                dataKey: 'client.lastName',
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+
+  // INVOICE CREATE
+  '/invoice/create': {
+    pageTitle: 'Invoice Create',
+    content: [
+      {
+        type: 'row',
+        className: 'mt-2 grid grid-cols-12 gap-x-6 gap-y-2',
+        content: [
+          {
+            type: 'column',
+            className: 'col-span-6',
+            content: [
+              {
+                type: 'form',
+                id: 'invoice_create_form',
+                fields: [
+                  {
+                    name: 'price',
+                    label: 'Price',
+                    type: 'number',
+                    required: true,
+                    defaultValue: 100,
+                  },
+                  {
+                    name: 'client',
+                    label: 'Client',
+                    type: 'string',
+                    required: true,
+                    defaultValue: '',
+                  },
+                ],
+                actions: [
+                  {
+                    type: 'button',
+                    style: 'primary',
+                    label: 'Submit',
+                    className: 'btn btn-primary',
+                    serverHandler: 'form_create_invoice_submit',
+                  },
+                  {
+                    type: 'button',
+                    style: 'secondary',
+                    label: 'Create and Add New',
+                    className: 'btn btn-primary',
+                    serverHandler: 'form_create_invoice_cancel',
+                  },
+                ],
+                handlers: [{ name: 'onSubmit' }],
+              },
+            ],
+          }
+        ],
+      },
+    ],
+  },
+
   // CLIENT LIST
   '/client': {
     pageTitle: 'Client List',
-    contentType: 'table',
     content: [
       {
         type: 'table',

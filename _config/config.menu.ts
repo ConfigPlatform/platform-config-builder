@@ -23,24 +23,23 @@ const menu: IMenu = [
   },
   {
     id: 3,
+    name: 'Invoices',
+    path: '/invoice',
+  },
+  {
+    id: 4,
     name: 'Create Client',
     path: '/client/create'
   },
   {
-    id: 4,
+    id: 5,
     name: 'Create Product',
     path: '/product/create',
   },
   {
-    id: 5,
-    name: 'Orders',
-    path: '/order',
-  },
-  {
     id: 6,
-    name: 'Payments',
-    path: '/payment',
-    count: 2,
+    name: 'Invoice Create',
+    path: '/invoice/create',
   },
 ];
 
