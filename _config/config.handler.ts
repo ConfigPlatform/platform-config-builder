@@ -82,6 +82,44 @@ const form_create_product_submit: IHandler = {
   ],
 };
 
+const form_create_invoice_submit: IHandler = {
+  name: 'form_create_invoice_submit',
+  entityName: 'invoice',
+  actions: [
+    {
+      type: 'create',
+      data: [
+        {
+          fieldName: 'price',
+          entityFieldName: 'price',
+        },
+        {
+          fieldName: 'client',
+          entityFieldName: 'client',
+        },
+      ],
+    },
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'message_set',
+          data: {
+            status: 'success',
+            name: 'Invoice was created',
+          },
+        },
+        {
+          clientHandler: 'page_redirect',
+          data: {
+            path: '/invoice',
+          },
+        },
+      ],
+    },
+  ],
+};
+
 const form_create_client_submit: IHandler = {
   name: 'form_create_client_submit',
   entityName: 'client',
@@ -138,6 +176,24 @@ const form_create_client_submit: IHandler = {
   ],
 };
 
+const invoice_get_all: IHandler = {
+  name: 'invoice_get_all',
+  entityName: 'invoice',
+  actions: [
+    {
+      type: 'select',
+      joins: [['invoice.client', 'client']],
+      multiple: true,
+      assignVar: 'products',
+    },
+    {
+      type: 'return',
+      data: '$products',
+      config: null,
+    },
+  ],
+};
+
 const product_get_all: IHandler = {
   name: 'product_get_all',
   entityName: 'product',
@@ -176,8 +232,10 @@ const client_get_all: IHandler = {
 const handlers: IHandler[] = [
   form_create_product_submit,
   form_create_client_submit,
+  form_create_invoice_submit,
   product_get_all,
-  client_get_all
+  client_get_all,
+  invoice_get_all
 ];
 
 export default handlers;
