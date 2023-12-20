@@ -1,50 +1,77 @@
-import { IField, IHandler } from '_config/config.handler';
+import { IHandler } from '_config/config.handler';
 import { createClassName, mergePaths } from './helpers';
 import { HANDLERS_PATH } from './paths';
 const fs = require('fs-extra');
 
-export interface IActionHandlerPayload {
-  data: any;
-  entityName: string;
+export interface IActionPayload {
+  [key: string]: any;
 }
 
-export type TActionHandler = (payload: IActionHandlerPayload) => string;
+export type TActionHandler = (payload: IActionPayload) => string;
 
 export interface IDeleteHandlerPayload {
   handlerName: string;
   handlersPath: string;
 }
 
-// function creates save action
-const createSaveAction = ({
-  data,
-  entityName,
-}: IActionHandlerPayload): string => {
-  const entityClassName = createClassName(entityName);
+// function creates mutation action
+const createMutationAction = ({ data, dataVar }: IActionPayload): string => {
+  let entries = '';
 
-  // convert arr of field object to array of strings which represent fields data
-  const entityValuesArr = data.map((el: IField) => {
-    const value = el.update
-      ? el.update.replaceAll('$', 'data.')
-      : `data.${el.fieldName}`;
+  // loop through data to create mutations
+  for (const mutation of data) {
+    const mutationStr = `\n  ${dataVar}.${
+      mutation.fieldName
+    } = ${mutation.update.replaceAll('$', `${dataVar}.`)}`;
 
-    return `${el.entityFieldName}: ${value}`;
-  });
+    entries += mutationStr;
+  }
 
-  // convert entityValuesArr to string with separated fields
-  const entityValuesStr = entityValuesArr.join(', ');
-
-  const entries = `  await dataSource\n    .createQueryBuilder()\n    .insert()\n    .into(entities.${entityClassName})\n    .values({ ${entityValuesStr} })\n    .execute()`;
-
-  return entries
+  return entries;
 };
 
-// function creates return config action
-const createReturnConfigAction = ({ data }: IActionHandlerPayload): string => {
-  const config = JSON.stringify(data, null, 2);
+// function creates save action
+const createSaveAction = ({ entityName }: IActionPayload): string => {
+  const entityClassName = createClassName(entityName);
 
-  // file entries
-  const entries = `  return ${config}`;
+  const entries = `  await dataSource\n    .createQueryBuilder()\n    .insert()\n    .into(entities.${entityClassName})\n    .values(data)\n    .execute()`;
+
+  return entries;
+};
+
+// function creates return action
+const createReturnAction = ({ data, config }: IActionPayload): string => {
+  const stringifiedConfig = JSON.stringify(config, null, 2);
+  const stringifiedData = data ? data.replaceAll('$', '') : 'null';
+
+  const entries = `  return {\n  config: ${stringifiedConfig},\n  data: ${stringifiedData}}`;
+
+  return entries;
+};
+
+// function creates select action
+const createSelectAction = ({
+  joins,
+  multiple,
+  assignVar,
+  entityName,
+}): string => {
+  const entityClassName = createClassName(entityName);
+
+  let joinsStr = '';
+
+  if (joins) {
+    // loop through joins schema to create joins
+    for (const join of joins) {
+      const [own, foreign] = join;
+      joinsStr += `\n    .leftJoinAndSelect('${own}', '${foreign}')`;
+    }
+  }
+
+  // return data operation
+  const getDataOperation = `.get${!!multiple ? 'Many' : 'One'}()`;
+
+  const entries = `  const ${assignVar} = await dataSource\n    .createQueryBuilder()\n    .select('${entityName}')\n    .from(entities.${entityClassName}, '${entityName}')${joinsStr}\n    ${getDataOperation}`;
 
   return entries;
 };
@@ -52,7 +79,9 @@ const createReturnConfigAction = ({ data }: IActionHandlerPayload): string => {
 // action handler by action name
 const actionHandler: { [key: string]: TActionHandler } = {
   create: createSaveAction,
-  returnConfig: createReturnConfigAction,
+  mutation: createMutationAction,
+  select: createSelectAction,
+  return: createReturnAction,
 };
 
 // function updates handler file
@@ -63,10 +92,16 @@ export const updateHandler = (handler: IHandler): void => {
 
   // loop through actions to fill actionsStr
   for (const action of actions) {
-    const { type, data } = action;
+    const { type } = action;
+
+    // define action handler
+    const handler = actionHandler[type];
+
+    // continue if handler wasn't found
+    if (!handler) continue;
 
     // execute action handler with data to receive content for performing action
-    const actionContent = actionHandler[type]({ data, entityName });
+    const actionContent = actionHandler[type]({ entityName, ...action });
 
     // add action to other actions
     actionsStr += `\n\n${actionContent}`;

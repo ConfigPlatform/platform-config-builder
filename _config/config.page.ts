@@ -8,6 +8,71 @@ const pages: IPages = {
   '/client': {
     pageTitle: 'Client List',
     contentType: 'table',
+    content: [
+      {
+        type: 'table',
+        id: 'client_table',
+        className: 'min-w-full leading-normal',
+        select: 'client_get_all',
+        content: [
+          {
+            type: 'tableHead',
+            content: [
+              {
+                type: 'tableHeading',
+                className:
+                  'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
+                name: 'ID',
+              },
+              {
+                type: 'tableHeading',
+                className:
+                  'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
+                name: 'First Name',
+              },
+              {
+                type: 'tableHeading',
+                className:
+                  'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
+                name: 'Last Name',
+              },
+              {
+                type: 'tableHeading',
+                className:
+                  'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
+                name: 'Phone',
+              },
+            ],
+          },
+          {
+            type: 'tableBody',
+            selectRef: 'client_get_all',
+            content: [
+              {
+                className:
+                  'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                dataKey: 'id',
+              },
+              {
+                className:
+                  'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                dataKey: 'firstName',
+              },
+              {
+                className:
+                  'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                dataKey: 'lastName',
+              },
+              {
+                className:
+                  'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                dataKey: 'phone',
+              },
+            ],
+          },
+        ],
+      },
+    ],
   },
 
   // PAYMENT LIST
@@ -202,7 +267,82 @@ const pages: IPages = {
   // PRODUCT LIST
   '/product': {
     pageTitle: 'Product List',
-    contentType: 'table',
+    content: [
+      {
+        type: 'table',
+        id: 'product_table',
+        className: 'min-w-full leading-normal',
+        select: 'product_get_all',
+        content: [
+          {
+            type: 'tableHead',
+            content: [
+              {
+                type: 'tableHeading',
+                className:
+                  'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
+                name: 'ID',
+              },
+              {
+                type: 'tableHeading',
+                className:
+                  'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
+                name: 'Name',
+              },
+              {
+                type: 'tableHeading',
+                className:
+                  'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
+                name: 'Price',
+              },
+              {
+                type: 'tableHeading',
+                className:
+                  'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
+                name: 'Description',
+              },
+              {
+                type: 'tableHeading',
+                className:
+                  'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
+                name: 'Client',
+              },
+            ],
+          },
+          {
+            type: 'tableBody',
+            selectRef: 'product_get_all',
+            content: [
+              {
+                className:
+                  'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                dataKey: 'id',
+              },
+              {
+                className:
+                  'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                dataKey: 'name',
+              },
+              {
+                className:
+                  'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                dataKey: 'price',
+              },
+              {
+                className:
+                  'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                dataKey: 'description',
+              },
+              {
+                className:
+                  'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                dataKey: 'client.lastName',
+              },
+            ],
+          },
+        ],
+      },
+    ],
   },
 
   // USER LIST
