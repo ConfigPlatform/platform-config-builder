@@ -84,10 +84,15 @@ export const updateEntity = (entityData: IEntityData): void => {
 
       let column = relationRow;
 
-      // if it's owning side of relation, we should add joinColumn decorator
+      // if it's owning side of relation, we should add join decorator
       if (ownerSide) {
-        column += '\n  @JoinColumn()';
-        typeormRequiredEntries.push('JoinColumn');
+        if (relationType === 'one-to-one') {
+          column += '\n  @JoinColumn()';
+          typeormRequiredEntries.push('JoinColumn');
+        } else {
+          column += '\n  @JoinTable()';
+          typeormRequiredEntries.push('JoinTable');
+        }
       }
 
       const arrRelationTypes: string[] = ['one-to-many', 'many-to-many'];

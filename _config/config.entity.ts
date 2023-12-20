@@ -36,15 +36,6 @@ const entities: IEntity[] = [
       { name: 'name', type: 'string', options: { type: 'varchar' } },
       { name: 'price', type: 'number', options: { type: 'int' } },
       { name: 'description', type: 'string', options: { type: 'varchar' } },
-      {
-        name: 'client',
-        type: 'relation',
-        options: {
-          relationType: 'one-to-one',
-          ownerSide: true,
-          ref: 'client',
-        },
-      },
     ],
   },
   {
@@ -53,6 +44,15 @@ const entities: IEntity[] = [
       { name: 'firstName', type: 'string', options: { type: 'varchar' } },
       { name: 'lastName', type: 'string', options: { type: 'varchar' } },
       { name: 'phone', type: 'string', options: { type: 'varchar' } },
+      {
+        name: 'products',
+        type: 'relation',
+        options: {
+          relationType: 'many-to-many',
+          ref: 'product',
+          ownerSide: true,
+        },
+      },
     ],
   },
 ];
