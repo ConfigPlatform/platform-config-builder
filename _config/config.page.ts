@@ -6,55 +6,65 @@ export interface IPages {
 const pages: IPages = {
   // INVOICE LIST
   '/invoice': {
-    pageTitle: 'Invoice List',
+    pageTitle: 'Invoices',
     content: [
       {
         type: 'table',
         id: 'invoice_table',
         className: 'min-w-full leading-normal',
-        select: 'invoice_get_all',
         content: [
           {
-            type: 'tableHead',
+            type: 'tableEntries',
+            select: 'invoice_get_all',
             content: [
               {
                 type: 'tableHeading',
                 className:
                   'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
                 name: 'ID',
+                cell: {
+                  data: '$id',
+                  className:
+                    'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                },
               },
               {
                 type: 'tableHeading',
                 className:
                   'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
-                name: 'Price',
+                name: 'Products',
+                cell: {
+                  data: '$products',
+                  className:
+                    'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                  listElem: {
+                    className: '',
+                    data: '$name',
+                  },
+                  separator: ', ',
+                },
               },
               {
                 type: 'tableHeading',
                 className:
                   'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
                 name: 'Client',
-              },
-            ],
-          },
-          {
-            type: 'tableBody',
-            selectRef: 'invoice_get_all',
-            content: [
-              {
-                className:
-                  'px-5 py-5 border-b border-gray-200 bg-white text-sm',
-                dataKey: 'id',
+                cell: {
+                  data: '$client.lastName',
+                  className:
+                    'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                },
               },
               {
+                type: 'tableHeading',
                 className:
-                  'px-5 py-5 border-b border-gray-200 bg-white text-sm',
-                dataKey: 'price',
-              },
-              {
-                className:
-                  'px-5 py-5 border-b border-gray-200 bg-white text-sm',
-                dataKey: 'client.lastName',
+                  'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
+                name: 'Total',
+                cell: {
+                  data: '$products[0].price',
+                  className:
+                    'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                },
               },
             ],
           },
@@ -65,7 +75,7 @@ const pages: IPages = {
 
   // INVOICE CREATE
   '/invoice/create': {
-    pageTitle: 'Invoice Create',
+    pageTitle: 'Create Invoice',
     content: [
       {
         type: 'row',
@@ -80,11 +90,11 @@ const pages: IPages = {
                 id: 'invoice_create_form',
                 fields: [
                   {
-                    name: 'price',
-                    label: 'Price',
-                    type: 'number',
+                    name: 'product',
+                    label: 'Product',
+                    type: 'string',
                     required: true,
-                    defaultValue: 100,
+                    defaultValue: '',
                   },
                   {
                     name: 'client',
@@ -113,7 +123,7 @@ const pages: IPages = {
                 handlers: [{ name: 'onSubmit' }],
               },
             ],
-          }
+          },
         ],
       },
     ],
@@ -121,66 +131,77 @@ const pages: IPages = {
 
   // CLIENT LIST
   '/client': {
-    pageTitle: 'Client List',
+    pageTitle: 'Clients',
     content: [
       {
         type: 'table',
         id: 'client_table',
         className: 'min-w-full leading-normal',
-        select: 'client_get_all',
         content: [
           {
-            type: 'tableHead',
+            type: 'tableEntries',
+            select: 'client_get_all',
             content: [
               {
                 type: 'tableHeading',
                 className:
                   'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
                 name: 'ID',
+                cell: {
+                  data: '$id',
+                  className:
+                    'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                },
               },
               {
                 type: 'tableHeading',
                 className:
                   'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
                 name: 'First Name',
+                cell: {
+                  data: '$firstName',
+                  className:
+                    'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                },
               },
               {
                 type: 'tableHeading',
                 className:
                   'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
                 name: 'Last Name',
+                cell: {
+                  data: '$lastName',
+                  className:
+                    'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                },
               },
               {
                 type: 'tableHeading',
                 className:
                   'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
                 name: 'Phone',
-              },
-            ],
-          },
-          {
-            type: 'tableBody',
-            selectRef: 'client_get_all',
-            content: [
-              {
-                className:
-                  'px-5 py-5 border-b border-gray-200 bg-white text-sm',
-                dataKey: 'id',
+                cell: {
+                  data: '$phone',
+                  className:
+                    'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                },
               },
               {
+                type: 'tableHeading',
                 className:
-                  'px-5 py-5 border-b border-gray-200 bg-white text-sm',
-                dataKey: 'firstName',
-              },
-              {
-                className:
-                  'px-5 py-5 border-b border-gray-200 bg-white text-sm',
-                dataKey: 'lastName',
-              },
-              {
-                className:
-                  'px-5 py-5 border-b border-gray-200 bg-white text-sm',
-                dataKey: 'phone',
+                  'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
+                name: 'Invoices',
+                cell: {
+                  data: '$invoices',
+                  className:
+                    'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                  listElem: {
+                    className: '',
+                    data: '$id',
+                  },
+                  prefix: '#',
+                  separator: ', ',
+                },
               },
             ],
           },
@@ -192,7 +213,7 @@ const pages: IPages = {
   // PAYMENT LIST
   '/payment': {
     id: 2,
-    pageTitle: 'Payment List',
+    pageTitle: 'Payments',
     content: [
       {
         type: 'row',
@@ -259,7 +280,7 @@ const pages: IPages = {
 
   // CLIENT CREATE
   '/client/create': {
-    pageTitle: 'Client Create',
+    pageTitle: 'Create Client',
     content: [
       {
         type: 'form',
@@ -301,7 +322,7 @@ const pages: IPages = {
 
   // PRODUCT CREATE
   '/product/create': {
-    pageTitle: 'Product Create',
+    pageTitle: 'Create Product',
     content: [
       {
         type: 'row',
@@ -335,13 +356,6 @@ const pages: IPages = {
                     type: 'string',
                     required: true,
                   },
-                  {
-                    name: 'client',
-                    label: 'Client',
-                    type: 'string',
-                    required: true,
-                    defaultValue: '',
-                  },
                 ],
                 actions: [
                   {
@@ -363,16 +377,6 @@ const pages: IPages = {
               },
             ],
           },
-          {
-            type: 'column',
-            className: 'col-span-6',
-            content: [
-              {
-                type: 'text',
-                value: 'Hello world',
-              },
-            ],
-          },
         ],
       },
     ],
@@ -380,77 +384,60 @@ const pages: IPages = {
 
   // PRODUCT LIST
   '/product': {
-    pageTitle: 'Product List',
+    pageTitle: 'Products',
     content: [
       {
         type: 'table',
         id: 'product_table',
         className: 'min-w-full leading-normal',
-        select: 'product_get_all',
         content: [
           {
-            type: 'tableHead',
+            type: 'tableEntries',
+            select: 'product_get_all',
             content: [
               {
                 type: 'tableHeading',
                 className:
                   'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
                 name: 'ID',
+                cell: {
+                  data: '$id',
+                  className:
+                    'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                },
               },
               {
                 type: 'tableHeading',
                 className:
                   'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
                 name: 'Name',
+                cell: {
+                  data: '$name',
+                  className:
+                    'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                },
               },
               {
                 type: 'tableHeading',
                 className:
                   'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
                 name: 'Price',
+                cell: {
+                  data: '$price',
+                  className:
+                    'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                },
               },
               {
                 type: 'tableHeading',
                 className:
                   'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
                 name: 'Description',
-              },
-              {
-                type: 'tableHeading',
-                className:
-                  'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
-                name: 'Client',
-              },
-            ],
-          },
-          {
-            type: 'tableBody',
-            selectRef: 'product_get_all',
-            content: [
-              {
-                className:
-                  'px-5 py-5 border-b border-gray-200 bg-white text-sm',
-                dataKey: 'id',
-              },
-              {
-                className:
-                  'px-5 py-5 border-b border-gray-200 bg-white text-sm',
-                dataKey: 'name',
-              },
-              {
-                className:
-                  'px-5 py-5 border-b border-gray-200 bg-white text-sm',
-                dataKey: 'price',
-              },
-              {
-                className:
-                  'px-5 py-5 border-b border-gray-200 bg-white text-sm',
-                dataKey: 'description',
-              },
-              {
-                className:
-                  'px-5 py-5 border-b border-gray-200 bg-white text-sm',
-                dataKey: 'client.lastName',
+                cell: {
+                  data: '$description',
+                  className:
+                    'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                },
               },
             ],
           },

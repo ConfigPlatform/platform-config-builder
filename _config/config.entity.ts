@@ -20,6 +20,7 @@ export interface IRelationField {
     ref: string;
     foreignField?: string;
     ownerSide?: boolean;
+    cascade?: true;
   };
 }
 
@@ -45,12 +46,12 @@ const entities: IEntity[] = [
       { name: 'lastName', type: 'string', options: { type: 'varchar' } },
       { name: 'phone', type: 'string', options: { type: 'varchar' } },
       {
-        name: 'products',
+        name: 'invoices',
         type: 'relation',
         options: {
-          relationType: 'many-to-many',
-          ref: 'product',
-          ownerSide: true,
+          relationType: 'one-to-many',
+          ref: 'invoice',
+          foreignField: 'client',
         },
       },
     ],
@@ -58,14 +59,22 @@ const entities: IEntity[] = [
   {
     entityName: 'invoice',
     fields: [
-      { name: 'price', type: 'number', options: { type: 'varchar' } },
+      {
+        name: 'products',
+        type: 'relation',
+        options: {
+          relationType: 'many-to-many',
+          ownerSide: true,
+          ref: 'product',
+        },
+      },
       {
         name: 'client',
         type: 'relation',
         options: {
-          relationType: 'one-to-one',
-          ownerSide: true,
+          relationType: 'many-to-one',
           ref: 'client',
+          foreignField: 'invoices'
         },
       },
     ],

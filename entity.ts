@@ -47,7 +47,7 @@ export const updateEntity = (entityData: IEntityData): void => {
 
     // table relation
     if (type === 'relation') {
-      const { ref, foreignField, ownerSide, relationType } = options;
+      const { ref, foreignField, ownerSide, relationType, cascade } = options;
 
       // ref entity class name
       const entityRefClassName = createClassName(ref);
@@ -75,12 +75,19 @@ export const updateEntity = (entityData: IEntityData): void => {
         typeormRequiredEntries.push(relationDecorator);
       }
 
-      let relationRow = `\n\n  @${relationDecorator}(() => ${entityRefClassName})`;
+      let relationRow = `\n\n  @${relationDecorator}(() => ${entityRefClassName}`;
 
       // if foreignField exists, we should add path
       if (foreignField) {
         relationRow += `, (${ref}) => ${ref}.${foreignField}`;
       }
+
+      // if cascade is set, we should add this options
+      if (cascade) {
+        relationRow += ', { cascade: true }';
+      }
+
+      relationRow += ')';
 
       let column = relationRow;
 

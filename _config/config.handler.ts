@@ -1,14 +1,17 @@
 export interface IField {
-  fieldName: string;
-  entityFieldName: string;
+  value: string;
+  entityField: string;
   update?: string;
 }
 
-export type TActionType = 'mutation' | 'select' | 'create' | 'return';
+export type TRelation = 'addRelation' | 'removeRelation';
+export type TActionType = 'mutate' | 'select' | 'create' | 'return' | TRelation;
 
-export interface ICreateAction {
-  type: 'create';
-  data: { fieldName: string; entityFieldName: string }[];
+export interface IInsertAction {
+  type: 'insert';
+  entityName: string;
+  fields: { value: string; entityField: string }[];
+  assignVar?: string;
 }
 
 export interface IReturnAction {
@@ -19,47 +22,71 @@ export interface IReturnAction {
 
 export interface ISelectAction {
   type: 'select';
-  joins?: [string, string][];
+  entityName: string;
+  leftJoinAndSelect?: [string, string] | [string, string][];
+  where?: [string, string];
+  andWhere?: [string, string];
+  orWhere?: [string, string];
   multiple?: boolean;
   assignVar: string;
 }
 
-export interface IMutationAction {
-  type: 'mutation';
-  dataVar: string;
-  data: { fieldName: string; update: string }[];
+export interface IMutateAction {
+  type: 'mutate';
+  steps: { field: string; value: string }[];
 }
+
+export interface IRelationAction {
+  type: TRelation;
+  entityName: string;
+  entityId: string;
+  field: string;
+}
+
+export interface IAddRelationAction extends IRelationAction {
+  type: 'addRelation';
+  addId: string;
+}
+
+export interface IRemoveRelationAction extends IRelationAction {
+  type: 'removeRelation';
+  removeId: string;
+}
+
+export type TAction =
+  | IInsertAction
+  | IReturnAction
+  | ISelectAction
+  | IMutateAction
+  | IAddRelationAction
+  | IRemoveRelationAction;
 
 export interface IHandler {
   name: string;
-  entityName: string;
-  actions: (ICreateAction | IReturnAction | ISelectAction | IMutationAction)[];
+  actions: TAction[];
 }
 
 const form_create_product_submit: IHandler = {
   name: 'form_create_product_submit',
-  entityName: 'product',
   actions: [
     {
-      type: 'create',
-      data: [
+      type: 'insert',
+      entityName: 'product',
+      fields: [
         {
-          fieldName: 'name',
-          entityFieldName: 'name',
+          entityField: 'name',
+          value: '$data.name',
         },
         {
-          fieldName: 'price',
-          entityFieldName: 'price',
+          entityField: 'price',
+          value: '$data.price',
         },
         {
-          fieldName: 'description',
-          entityFieldName: 'description',
-        },
-        {
-          fieldName: 'client',
-          entityFieldName: 'client',
+          entityField: 'description',
+          value: '$data.description',
         },
       ],
+      assignVar: 'product',
     },
     {
       type: 'return',
@@ -84,20 +111,38 @@ const form_create_product_submit: IHandler = {
 
 const form_create_invoice_submit: IHandler = {
   name: 'form_create_invoice_submit',
-  entityName: 'invoice',
   actions: [
     {
-      type: 'create',
-      data: [
-        {
-          fieldName: 'price',
-          entityFieldName: 'price',
-        },
-        {
-          fieldName: 'client',
-          entityFieldName: 'client',
-        },
-      ],
+      type: 'select',
+      entityName: 'product',
+      where: ['name', '$data.product'],
+      assignVar: 'product',
+    },
+    {
+      type: 'select',
+      entityName: 'client',
+      where: ['lastName', '$data.client'],
+      assignVar: 'client',
+    },
+    {
+      type: 'insert',
+      entityName: 'invoice',
+      fields: [{ entityField: 'client', value: '$client.id' }],
+      assignVar: 'invoice',
+    },
+    {
+      type: 'addRelation',
+      entityName: 'client',
+      entityId: '$client.id',
+      field: 'invoices',
+      addId: '$invoice.identifiers[0].id',
+    },
+    {
+      type: 'addRelation',
+      entityName: 'invoice',
+      entityId: '$invoice.identifiers[0].id',
+      field: 'products',
+      addId: '$product.id',
     },
     {
       type: 'return',
@@ -122,36 +167,35 @@ const form_create_invoice_submit: IHandler = {
 
 const form_create_client_submit: IHandler = {
   name: 'form_create_client_submit',
-  entityName: 'client',
   actions: [
     {
-      type: 'mutation',
-      dataVar: 'data',
-      data: [
+      type: 'mutate',
+      steps: [
         {
-          fieldName: 'firstName',
-          update: '$firstName.toUpperCase()',
+          field: '$data.firstName',
+          value: '$data.firstName.toUpperCase()',
         },
         {
-          fieldName: 'lastName',
-          update: '$lastName.toUpperCase()',
+          field: '$data.lastName',
+          value: '$data.lastName.toUpperCase()',
         },
       ],
     },
     {
-      type: 'create',
-      data: [
+      type: 'insert',
+      entityName: 'client',
+      fields: [
         {
-          fieldName: 'firstName',
-          entityFieldName: 'firstName',
+          entityField: 'firstName',
+          value: '$data.firstName',
         },
         {
-          fieldName: 'lastName',
-          entityFieldName: 'lastName',
+          entityField: 'lastName',
+          value: '$data.lastName',
         },
         {
-          fieldName: 'phone',
-          entityFieldName: 'phone',
+          entityField: 'phone',
+          value: '$data.phone',
         },
       ],
     },
@@ -178,11 +222,14 @@ const form_create_client_submit: IHandler = {
 
 const invoice_get_all: IHandler = {
   name: 'invoice_get_all',
-  entityName: 'invoice',
   actions: [
     {
       type: 'select',
-      joins: [['invoice.client', 'client']],
+      entityName: 'invoice',
+      leftJoinAndSelect: [
+        ['client', 'client'],
+        ['products', 'product'],
+      ],
       multiple: true,
       assignVar: 'products',
     },
@@ -196,11 +243,10 @@ const invoice_get_all: IHandler = {
 
 const product_get_all: IHandler = {
   name: 'product_get_all',
-  entityName: 'product',
   actions: [
     {
       type: 'select',
-      joins: [['product.client', 'client']],
+      entityName: 'product',
       multiple: true,
       assignVar: 'products',
     },
@@ -214,10 +260,11 @@ const product_get_all: IHandler = {
 
 const client_get_all: IHandler = {
   name: 'client_get_all',
-  entityName: 'client',
   actions: [
     {
       type: 'select',
+      entityName: 'client',
+      leftJoinAndSelect: ['invoices', 'invoice'],
       multiple: true,
       assignVar: 'clients',
     },
@@ -235,7 +282,7 @@ const handlers: IHandler[] = [
   form_create_invoice_submit,
   product_get_all,
   client_get_all,
-  invoice_get_all
+  invoice_get_all,
 ];
 
 export default handlers;

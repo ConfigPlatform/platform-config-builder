@@ -38,7 +38,7 @@ const menu: IMenu = [
   },
   {
     id: 6,
-    name: 'Invoice Create',
+    name: 'Create Invoice',
     path: '/invoice/create',
   },
 ];

@@ -20,7 +20,7 @@ import {
   createModuleImport,
 } from './helpers';
 import { deleteEntity, updateEntity } from './entity';
-import { deleteHandler, updateHandler } from './handler';
+import { deleteHandler, updateHandler } from './handler/handler';
 
 // function generates entities
 export const updateEntities = (): void => {
