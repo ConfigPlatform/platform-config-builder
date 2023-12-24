@@ -86,7 +86,6 @@ const form_create_product_submit: IHandler = {
           value: '$data.description',
         },
       ],
-      assignVar: 'product',
     },
     {
       type: 'return',

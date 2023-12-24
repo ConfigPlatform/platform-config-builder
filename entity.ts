@@ -47,7 +47,7 @@ export const updateEntity = (entityData: IEntityData): void => {
 
     // table relation
     if (type === 'relation') {
-      const { ref, foreignField, ownerSide, relationType, cascade } = options;
+      const { ref, foreignField, ownerSide, relationType } = options;
 
       // ref entity class name
       const entityRefClassName = createClassName(ref);
@@ -80,11 +80,6 @@ export const updateEntity = (entityData: IEntityData): void => {
       // if foreignField exists, we should add path
       if (foreignField) {
         relationRow += `, (${ref}) => ${ref}.${foreignField}`;
-      }
-
-      // if cascade is set, we should add this options
-      if (cascade) {
-        relationRow += ', { cascade: true }';
       }
 
       relationRow += ')';
