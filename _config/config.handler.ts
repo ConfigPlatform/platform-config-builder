@@ -91,17 +91,13 @@ const form_create_product_submit: IHandler = {
       type: 'return',
       config: [
         {
-          clientHandler: 'message_set',
-          data: {
-            status: 'success',
-            name: 'Product was created',
-          },
+          clientHandler: 'setMessage',
+          status: 'success',
+          name: 'Product was created',
         },
         {
-          clientHandler: 'page_redirect',
-          data: {
-            path: '/product',
-          },
+          clientHandler: 'redirectPage',
+          path: '/product',
         },
       ],
     },
@@ -147,17 +143,13 @@ const form_create_invoice_submit: IHandler = {
       type: 'return',
       config: [
         {
-          clientHandler: 'message_set',
-          data: {
-            status: 'success',
-            name: 'Invoice was created',
-          },
+          clientHandler: 'setMessage',
+          status: 'success',
+          name: 'Invoice was created',
         },
         {
-          clientHandler: 'page_redirect',
-          data: {
-            path: '/invoice',
-          },
+          clientHandler: 'redirectPage',
+          path: '/invoice',
         },
       ],
     },
@@ -202,17 +194,13 @@ const form_create_client_submit: IHandler = {
       type: 'return',
       config: [
         {
-          clientHandler: 'message_set',
-          data: {
-            status: 'success',
-            name: 'Client was created',
-          },
+          clientHandler: 'setMessage',
+          status: 'success',
+          name: 'Client was created',
         },
         {
-          clientHandler: 'page_redirect',
-          data: {
-            path: '/client',
-          },
+          clientHandler: 'redirectPage',
+          path: '/client',
         },
       ],
     },

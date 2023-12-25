@@ -1,6 +1,9 @@
 import { IMutateAction } from '_config/config.handler';
+import { TCreateActionHandler } from './index';
 
-const mutateActionHandler = ({ steps }: IMutateAction): string => {
+const mutateActionHandler: TCreateActionHandler<IMutateAction> = ({
+  steps,
+}) => {
   let entries = '';
 
   // loop through data to create mutations

@@ -3,10 +3,11 @@ import {
   IRemoveRelationAction,
 } from '_config/config.handler';
 import { createClassName } from '../../helpers';
+import { TCreateActionHandler } from './index';
 
-const relationActionHandler = (
-  payload: IAddRelationAction | IRemoveRelationAction,
-): string => {
+const relationActionHandler: TCreateActionHandler<
+  IAddRelationAction | IRemoveRelationAction
+> = (payload) => {
   const { type, entityName, field } = payload;
 
   const entityClassName = createClassName(entityName);
@@ -23,7 +24,7 @@ const relationActionHandler = (
     entries += `\n    .remove(${id})`;
   }
 
-  return entries
+  return entries;
 };
 
 export default relationActionHandler;

@@ -1,6 +1,10 @@
-import { IActionPayload } from '.';
+import { IReturnAction } from '_config/config.handler';
+import { TCreateActionHandler } from './index';
 
-const returnActionHandler = ({ data, config }: IActionPayload): string => {
+const returnActionHandler: TCreateActionHandler<IReturnAction> = ({
+  data,
+  config,
+}) => {
   const stringifiedConfig = config ? JSON.stringify(config, null, 2) : 'null';
   const stringifiedData = data ? data.replaceAll('$', '') : 'null';
 

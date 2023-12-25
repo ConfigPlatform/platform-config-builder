@@ -1,5 +1,6 @@
 import { ISelectAction } from '_config/config.handler';
 import { createClassName } from '../../helpers';
+import { TCreateActionHandler } from './index';
 
 type TIgnoredKey = 'entityName' | 'type' | 'assignVar' | 'multiple';
 
@@ -34,7 +35,9 @@ const leftJoinAndSelectOperationHandler = ({
   return entries;
 };
 
-const selectActionHandler = (operations: ISelectAction): string => {
+const selectActionHandler: TCreateActionHandler<ISelectAction> = (
+  operations,
+) => {
   const { entityName, multiple, assignVar } = operations;
 
   const entityClassName = createClassName(operations.entityName);

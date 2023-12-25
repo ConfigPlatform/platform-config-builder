@@ -1,11 +1,12 @@
 import { IInsertAction } from '_config/config.handler';
 import { createClassName } from '../../helpers';
+import { TCreateActionHandler } from './index';
 
-const insertActionHandler = ({
+const insertActionHandler: TCreateActionHandler<IInsertAction> = ({
   entityName,
   assignVar,
   fields,
-}: IInsertAction): string => {
+}) => {
   const entityClassName = createClassName(entityName);
 
   const values = fields
