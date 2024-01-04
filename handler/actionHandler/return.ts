@@ -1,16 +1,20 @@
 import { IReturnAction } from '_config/config.handler';
 import { TCreateActionHandler } from './index';
 
-const returnActionHandler: TCreateActionHandler<IReturnAction> = ({
-  data,
-  config,
-}) => {
+const returnActionHandler: TCreateActionHandler<IReturnAction> = ({ data, config, pagination }) => {
   const stringifiedConfig = config ? JSON.stringify(config, null, 2) : 'null';
   const stringifiedData = data ? data.replaceAll('$', '') : 'null';
 
-  const entries = `  return {\n  config: ${stringifiedConfig},\n  data: ${stringifiedData}}`;
+  //dont change indents if dont want eslint conflict on server side
 
-  return entries;
+  return `  return {
+    config: ${stringifiedConfig},
+    data: {
+      items: ${stringifiedData},
+      totalCount,
+      ${ !pagination?.[0] ? `itemsPerPage: ${pagination?.[1]},`: ''}
+    }
+  }`;
 };
 
 export default returnActionHandler;

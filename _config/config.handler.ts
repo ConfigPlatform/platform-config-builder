@@ -18,6 +18,7 @@ export interface IReturnAction {
   type: 'return';
   data?: any;
   config?: any;
+  pagination?: [boolean, number];
 }
 
 export interface ISelectAction {
@@ -28,7 +29,13 @@ export interface ISelectAction {
   andWhere?: [string, string];
   orWhere?: [string, string];
   multiple?: boolean;
+  pagination?: [boolean, number];
   assignVar: string;
+}
+
+export interface ICountAction {
+  type: 'count';
+  entityName: string;
 }
 
 export interface IMutateAction {
@@ -57,6 +64,7 @@ export type TAction =
   | IInsertAction
   | IReturnAction
   | ISelectAction
+  | ICountAction
   | IMutateAction
   | IAddRelationAction
   | IRemoveRelationAction;
@@ -221,6 +229,10 @@ const invoice_get_all: IHandler = {
       assignVar: 'products',
     },
     {
+      type: 'count',
+      entityName: 'invoice',
+    },
+    {
       type: 'return',
       data: '$products',
       config: null,
@@ -238,6 +250,10 @@ const product_get_all: IHandler = {
       assignVar: 'products',
     },
     {
+      type: 'count',
+      entityName: 'product',
+    },
+    {
       type: 'return',
       data: '$products',
       config: null,
@@ -253,11 +269,17 @@ const client_get_all: IHandler = {
       entityName: 'client',
       leftJoinAndSelect: ['invoices', 'invoice'],
       multiple: true,
+      pagination: [true, 5],
       assignVar: 'clients',
+    },
+    {
+      type: 'count',
+      entityName: 'client',
     },
     {
       type: 'return',
       data: '$clients',
+      pagination: [true, 5],
       config: null,
     },
   ],

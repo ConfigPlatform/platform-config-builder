@@ -11,10 +11,10 @@ interface IOperationPayload<TPayload> {
 }
 
 const whereOperationHandler = ({
-  entityName,
-  payload,
-  operationKey,
-}: IOperationPayload<[string, string]>): string => {
+                                 entityName,
+                                 payload,
+                                 operationKey,
+                               }: IOperationPayload<[string, string]>): string => {
   const field = payload[0];
   const value = payload[1].replaceAll('$', '');
 
@@ -24,10 +24,10 @@ const whereOperationHandler = ({
 };
 
 const leftJoinAndSelectOperationHandler = ({
-  entityName,
-  payload,
-  operationKey,
-}: IOperationPayload<[string, string]>): string => {
+                                             entityName,
+                                             payload,
+                                             operationKey,
+                                           }: IOperationPayload<[string, string]>): string => {
   const [field, foreignEntityName] = payload;
 
   const entries = `\n    .${operationKey}('${entityName}.${field}', '${foreignEntityName}')`;
@@ -35,9 +35,22 @@ const leftJoinAndSelectOperationHandler = ({
   return entries;
 };
 
+
+const paginationOperationHandler = ({
+                                      entityName,
+                                      payload,
+                                      operationKey,
+                                    }: IOperationPayload<[boolean, number]>): string => {
+  const [paginated, itemsPerPage] = payload;
+  if(!paginated) return ''
+
+  return  `\n    .skip(((data.page || 1) - 1) * ${itemsPerPage})\n    .take(${itemsPerPage})`;
+};
+
 const selectActionHandler: TCreateActionHandler<ISelectAction> = (
   operations,
 ) => {
+  //console.log('operations log', operations);
   const { entityName, multiple, assignVar } = operations;
 
   const entityClassName = createClassName(operations.entityName);
@@ -74,7 +87,10 @@ const selectActionHandler: TCreateActionHandler<ISelectAction> = (
       case 'andWhere':
       case 'orWhere':
         operationsStr += whereOperationHandler(operationHandlerPayload);
+        break;
 
+      case 'pagination':
+        operationsStr += paginationOperationHandler(operationHandlerPayload);
         break;
 
       case 'leftJoinAndSelect':
@@ -111,7 +127,7 @@ const selectActionHandler: TCreateActionHandler<ISelectAction> = (
   }
 
   // return data operation
-  const getDataOperation = `\n    .get${!!multiple ? 'Many' : 'One'}()`;
+  const getDataOperation = `\n    .get${!!multiple ? 'Many' : 'One'}();`;
 
   entries += getDataOperation;
 
