@@ -40,17 +40,14 @@ const paginationOperationHandler = ({
                                       entityName,
                                       payload,
                                       operationKey,
-                                    }: IOperationPayload<[boolean, number]>): string => {
-  const [paginated, itemsPerPage] = payload;
-  if(!paginated) return ''
+                                    }: IOperationPayload<{isPaginated: boolean, itemsPerPage: number}>): string => {
+  const {isPaginated, itemsPerPage} = payload;
+  if(!isPaginated) return ''
 
   return  `\n    .skip(((data.page || 1) - 1) * ${itemsPerPage})\n    .take(${itemsPerPage})`;
 };
 
-const selectActionHandler: TCreateActionHandler<ISelectAction> = (
-  operations,
-) => {
-  //console.log('operations log', operations);
+const selectActionHandler: TCreateActionHandler<ISelectAction> = (operations) => {
   const { entityName, multiple, assignVar } = operations;
 
   const entityClassName = createClassName(operations.entityName);
