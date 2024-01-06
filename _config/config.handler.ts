@@ -5,13 +5,20 @@ export interface IField {
 }
 
 export type TRelation = 'addRelation' | 'removeRelation';
-export type TActionType = 'mutate' | 'select' | 'create' | 'return' | TRelation;
+export type TActionType = 'variable' | 'mutate' | 'select' | 'create' | 'return' | TRelation;
 
 export interface IInsertAction {
   type: 'insert';
   entityName: string;
   fields: { value: string; entityField: string }[];
   assignVar?: string;
+}
+
+export interface IVariableAction {
+  type: 'variable';
+  name: string;
+  value: string
+  as: string
 }
 
 export interface IReturnAction {
@@ -59,7 +66,8 @@ export type TAction =
   | ISelectAction
   | IMutateAction
   | IAddRelationAction
-  | IRemoveRelationAction;
+  | IRemoveRelationAction
+  | IVariableAction
 
 export interface IHandler {
   name: string;
@@ -69,6 +77,14 @@ export interface IHandler {
 const form_create_product_submit: IHandler = {
   name: 'form_create_product_submit',
   actions: [
+
+    {
+      type: 'variable',
+      name: 'myVar',
+      value: '$data', // string value or variable
+      as: 'let' // 'let' or 'const'
+    },
+
     {
       type: 'insert',
       entityName: 'product',
