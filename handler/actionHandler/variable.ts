@@ -8,10 +8,7 @@ const variableActionHandler: TCreateActionHandler<IVariableAction> = ({
 }) => {
 
   const processedValue = value.replaceAll('$', '');
-  const declaration = as === 'let' ? 'let' : 'const';
-
-  const variableDeclaration = `${declaration} ${name} = ${processedValue}`
-  
+  const variableDeclaration = `  ${as} ${name} = ${processedValue}`;
 
   return variableDeclaration;
 }

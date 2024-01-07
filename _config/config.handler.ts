@@ -77,14 +77,6 @@ export interface IHandler {
 const form_create_product_submit: IHandler = {
   name: 'form_create_product_submit',
   actions: [
-
-    {
-      type: 'variable',
-      name: 'myVar',
-      value: '$data', // string value or variable
-      as: 'let' // 'let' or 'const'
-    },
-
     {
       type: 'insert',
       entityName: 'product',
