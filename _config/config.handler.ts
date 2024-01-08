@@ -5,7 +5,7 @@ export interface IField {
 }
 
 export type TRelation = 'addRelation' | 'removeRelation';
-export type TActionType = 'variable' | 'mutate' | 'select' | 'create' | 'return' | TRelation;
+export type TActionType = 'parallel' | 'variable' | 'mutate' | 'select' | 'create' | 'return' | TRelation;
 
 export interface IInsertAction {
   type: 'insert';
@@ -19,6 +19,11 @@ export interface IVariableAction {
   name: string;
   value: string
   as: string
+}
+
+export interface IParallelAction {
+  type: 'parallel';
+  actions: TAction[]
 }
 
 export interface IReturnAction {
@@ -68,6 +73,7 @@ export type TAction =
   | IAddRelationAction
   | IRemoveRelationAction
   | IVariableAction
+  | IParallelAction
 
 export interface IHandler {
   name: string;
@@ -116,16 +122,21 @@ const form_create_invoice_submit: IHandler = {
   name: 'form_create_invoice_submit',
   actions: [
     {
-      type: 'select',
-      entityName: 'product',
-      where: ['name', '$data.product'],
-      assignVar: 'product',
-    },
-    {
-      type: 'select',
-      entityName: 'client',
-      where: ['lastName', '$data.client'],
-      assignVar: 'client',
+      type: 'parallel',
+      actions: [
+        {
+        type: 'select',
+        entityName: 'product',
+        where: ['name', '$data.product'],
+        assignVar: 'product',
+      },
+        {
+          type: 'select',
+          entityName: 'client',
+          where: ['lastName', '$data.client'],
+          assignVar: 'client',
+        }
+        ]
     },
     {
       type: 'insert',
