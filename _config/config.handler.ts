@@ -43,6 +43,15 @@ export interface IMutateAction {
   steps: { field: string; value: string }[];
 }
 
+export interface IParallelAction {
+  type: 'parallel',
+  actions: {
+    type: 'select',
+    entityName: 'product' | 'client' | 'invoice' ,
+    where: [string, string],
+    assignVar: string,
+  }[]
+}
 export interface IRelationAction {
   type: TRelation;
   entityName: string;
@@ -68,6 +77,7 @@ export type TAction =
   | IAddRelationAction
   | IRemoveRelationAction
   | IVariableAction
+  | IParallelAction
 
 export interface IHandler {
   name: string;
