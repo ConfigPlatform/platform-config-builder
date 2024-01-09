@@ -25,6 +25,8 @@ export interface IReturnAction {
   type: 'return';
   data?: any;
   config?: any;
+  multiple?: boolean;
+  pagination?: { itemsPerPage: number };
 }
 
 export interface ISelectAction {
@@ -35,6 +37,7 @@ export interface ISelectAction {
   andWhere?: [string, string];
   orWhere?: [string, string];
   multiple?: boolean;
+  itemsPerPage?: number;
   assignVar: string;
 }
 
@@ -260,12 +263,16 @@ const client_get_all: IHandler = {
       type: 'select',
       entityName: 'client',
       leftJoinAndSelect: ['invoices', 'invoice'],
-      multiple: true,
+      itemsPerPage: 4,
       assignVar: 'clients',
     },
     {
       type: 'return',
-      data: '$clients',
+      data: {
+        items: '$clients',
+        totalCount: '$clientsCount',
+        pagination: { itemsPerPage: 4 },
+      },
       config: null,
     },
   ],

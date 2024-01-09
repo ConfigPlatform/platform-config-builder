@@ -35,14 +35,27 @@ const leftJoinAndSelectOperationHandler = ({
   return entries;
 };
 
+const itemsPerPageOperationHandler = ({
+  payload,
+}: IOperationPayload<number>): string => {
+
+  const entries = `\n    .skip(((data.page || 1) - 1) * ${payload})\n    .take(${payload})`;
+
+  return entries;
+};
+
 const selectActionHandler: TCreateActionHandler<ISelectAction> = (
   operations,
 ) => {
-  const { entityName, multiple, assignVar } = operations;
+  const { entityName, multiple, itemsPerPage, assignVar } = operations;
 
   const entityClassName = createClassName(operations.entityName);
 
-  let entries = `  const ${assignVar} = await dataSource\n    .createQueryBuilder()\n    .select('${entityName}')\n    .from(entities.${entityClassName}, '${entityName}')`;
+  const response = itemsPerPage
+    ? `[${assignVar}, ${assignVar}Count]`
+    : `${assignVar}`;
+
+  let entries = `  const ${response} = await dataSource\n    .createQueryBuilder()\n    .select('${entityName}')\n    .from(entities.${entityClassName}, '${entityName}')`;
 
   const ignoredKeys: TIgnoredKey[] = [
     'entityName',
@@ -74,7 +87,10 @@ const selectActionHandler: TCreateActionHandler<ISelectAction> = (
       case 'andWhere':
       case 'orWhere':
         operationsStr += whereOperationHandler(operationHandlerPayload);
+        break;
 
+      case 'itemsPerPage':
+        operationsStr += itemsPerPageOperationHandler(operationHandlerPayload);
         break;
 
       case 'leftJoinAndSelect':
@@ -111,7 +127,9 @@ const selectActionHandler: TCreateActionHandler<ISelectAction> = (
   }
 
   // return data operation
-  const getDataOperation = `\n    .get${!!multiple ? 'Many' : 'One'}()`;
+  const getDataOperation = `\n    .get${
+    itemsPerPage ? 'ManyAndCount' : multiple ? 'Many' : 'One'
+  }();`;
 
   entries += getDataOperation;
 

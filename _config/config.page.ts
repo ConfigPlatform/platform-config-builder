@@ -205,8 +205,31 @@ const pages: IPages = {
                 },
               },
             ],
-          },
+          }
         ],
+      },
+      {
+        type: 'pagination',
+        select: 'client_get_all',
+        className:
+          'md:w-2/5 w-full  flex items-center justify-between  py-5 lg:px-0 sm:px-6 px-4',
+        previousButton: {
+          className:
+            'text-sm font-medium leading-none cursor-pointer text-gray-600 hover:text-indigo-700 border-t border-transparent pt-3 mr-4 px-2',
+        },
+        nextButton: {
+          className:
+            'text-sm font-medium leading-none cursor-pointer text-gray-600 hover:text-indigo-700 pt-3 mr-4 px-2',
+        },
+        pagesWrapper: { className: 'flex items-center' },
+        page: {
+          className:
+            'text-sm font-medium leading-none cursor-pointer text-gray-600 hover:text-indigo-700 border-t border-transparent hover:border-indigo-400 pt-3 mr-4 px-2',
+        },
+        pageActive: {
+          className:
+            'text-lg font-medium leading-none cursor-pointer text-gray-600 hover:text-indigo-700 border-t border-transparent hover:border-indigo-400 pt-3 mr-4 px-2',
+        },
       },
     ],
   },
