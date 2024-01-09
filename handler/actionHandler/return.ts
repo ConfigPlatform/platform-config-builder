@@ -1,22 +1,48 @@
 import { IReturnAction } from '_config/config.handler';
 import { TCreateActionHandler } from './index';
 
-const returnActionHandler: TCreateActionHandler<IReturnAction> = ({ data, config, pagination, multiple }) => {
+const returnActionHandler: TCreateActionHandler<IReturnAction> = ({
+  data,
+  config,
+  pagination,
+  multiple,
+}) => {
   const stringifiedConfig = config ? JSON.stringify(config, null, 2) : 'null';
-  const stringifiedData = data ? data.replaceAll('$', '') : 'null';
-  const { isPaginated = false, itemsPerPage = 10 } = pagination ?? {};  //dont change indents if dont want eslint conflict on server side
 
-  if(!multiple) {
-    return  `  return {\n  config: ${stringifiedConfig},\n  data: ${stringifiedData}}`;
+  if (data) {
+    if (typeof data === 'string') {
+      data = data.replaceAll('$', '');
+    }
+
+    if (typeof data !== 'string') {
+      data.items = data.items.replaceAll('$', '');
+    }
+  } else {
+    data = 'null';
   }
-  return `  return {
-    config: ${stringifiedConfig},
-    data: {
-      items: ${stringifiedData},
-      totalCount,    
-      ${isPaginated? `pagination: { itemsPerPage: ${itemsPerPage}},`: ''}
-    },
-  }`;
+
+  let stringifiedData;
+
+  if (!data) {
+    stringifiedData = 'null';
+  }
+
+  if (data && typeof data === 'string') {
+    stringifiedData = data.replaceAll('$', '');
+  }
+
+  if (data && typeof data !== 'string') {
+    const { items, pagination } = data;
+
+    const totalCount = data.totalCount.replaceAll('$', '');
+    const stringifiedPagination = JSON.stringify(pagination, null, 2);
+
+    stringifiedData = `{ items: ${items}, totalCount: ${totalCount}, pagination: ${stringifiedPagination} }`;
+  }
+
+  const entries = `  return {\n  config: ${stringifiedConfig},\n  data: ${stringifiedData}}`;
+
+  return entries;
 };
 
 export default returnActionHandler;

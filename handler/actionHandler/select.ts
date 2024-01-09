@@ -11,10 +11,10 @@ interface IOperationPayload<TPayload> {
 }
 
 const whereOperationHandler = ({
-                                 entityName,
-                                 payload,
-                                 operationKey,
-                               }: IOperationPayload<[string, string]>): string => {
+  entityName,
+  payload,
+  operationKey,
+}: IOperationPayload<[string, string]>): string => {
   const field = payload[0];
   const value = payload[1].replaceAll('$', '');
 
@@ -24,10 +24,10 @@ const whereOperationHandler = ({
 };
 
 const leftJoinAndSelectOperationHandler = ({
-                                             entityName,
-                                             payload,
-                                             operationKey,
-                                           }: IOperationPayload<[string, string]>): string => {
+  entityName,
+  payload,
+  operationKey,
+}: IOperationPayload<[string, string]>): string => {
   const [field, foreignEntityName] = payload;
 
   const entries = `\n    .${operationKey}('${entityName}.${field}', '${foreignEntityName}')`;
@@ -35,24 +35,26 @@ const leftJoinAndSelectOperationHandler = ({
   return entries;
 };
 
+const itemsPerPageOperationHandler = ({
+  payload,
+}: IOperationPayload<number>): string => {
 
-const paginationOperationHandler = ({
-                                      entityName,
-                                      payload,
-                                      operationKey,
-                                    }: IOperationPayload<{isPaginated: boolean, itemsPerPage: number}>): string => {
-  const {isPaginated, itemsPerPage} = payload;
-  if(!isPaginated) return ''
+  const entries = `\n    .skip(((data.page || 1) - 1) * ${payload})\n    .take(${payload})`;
 
-  return  `\n    .skip(((data.page || 1) - 1) * ${itemsPerPage})\n    .take(${itemsPerPage})`;
+  return entries;
 };
 
-const selectActionHandler: TCreateActionHandler<ISelectAction> = (operations) => {
-  const { entityName, multiple, assignVar } = operations;
+const selectActionHandler: TCreateActionHandler<ISelectAction> = (
+  operations,
+) => {
+  const { entityName, multiple, itemsPerPage, assignVar } = operations;
 
   const entityClassName = createClassName(operations.entityName);
 
-  const response = multiple ? `[${assignVar}, totalCount]`: `${assignVar}`
+  const response = itemsPerPage
+    ? `[${assignVar}, ${assignVar}Count]`
+    : `${assignVar}`;
+
   let entries = `  const ${response} = await dataSource\n    .createQueryBuilder()\n    .select('${entityName}')\n    .from(entities.${entityClassName}, '${entityName}')`;
 
   const ignoredKeys: TIgnoredKey[] = [
@@ -87,8 +89,8 @@ const selectActionHandler: TCreateActionHandler<ISelectAction> = (operations) =>
         operationsStr += whereOperationHandler(operationHandlerPayload);
         break;
 
-      case 'pagination':
-        operationsStr += paginationOperationHandler(operationHandlerPayload);
+      case 'itemsPerPage':
+        operationsStr += itemsPerPageOperationHandler(operationHandlerPayload);
         break;
 
       case 'leftJoinAndSelect':
@@ -125,7 +127,9 @@ const selectActionHandler: TCreateActionHandler<ISelectAction> = (operations) =>
   }
 
   // return data operation
-  const getDataOperation = `\n    .get${!!multiple ? 'ManyAndCount' : 'One'}();`;
+  const getDataOperation = `\n    .get${
+    itemsPerPage ? 'ManyAndCount' : multiple ? 'Many' : 'One'
+  }();`;
 
   entries += getDataOperation;
 
