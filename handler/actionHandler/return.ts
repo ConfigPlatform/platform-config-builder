@@ -13,10 +13,9 @@ const returnActionHandler: TCreateActionHandler<IReturnAction> = ({ data, config
     config: ${stringifiedConfig},
     data: {
       items: ${stringifiedData},
-      totalCount,
-      paginated: ${isPaginated},
-      ${ isPaginated ? `itemsPerPage: ${itemsPerPage},`: ''}
-    }
+      totalCount,    
+      ${isPaginated? `pagination: { itemsPerPage: ${itemsPerPage}},`: ''}
+    },
   }`;
 };
 

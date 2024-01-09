@@ -52,7 +52,8 @@ const selectActionHandler: TCreateActionHandler<ISelectAction> = (operations) =>
 
   const entityClassName = createClassName(operations.entityName);
 
-  let entries = `  const ${assignVar} = await dataSource\n    .createQueryBuilder()\n    .select('${entityName}')\n    .from(entities.${entityClassName}, '${entityName}')`;
+  const response = multiple ? `[${assignVar}, totalCount]`: `${assignVar}`
+  let entries = `  const ${response} = await dataSource\n    .createQueryBuilder()\n    .select('${entityName}')\n    .from(entities.${entityClassName}, '${entityName}')`;
 
   const ignoredKeys: TIgnoredKey[] = [
     'entityName',
@@ -124,7 +125,7 @@ const selectActionHandler: TCreateActionHandler<ISelectAction> = (operations) =>
   }
 
   // return data operation
-  const getDataOperation = `\n    .get${!!multiple ? 'Many' : 'One'}();`;
+  const getDataOperation = `\n    .get${!!multiple ? 'ManyAndCount' : 'One'}();`;
 
   entries += getDataOperation;
 

@@ -1,5 +1,5 @@
 import {
-  IAddRelationAction, ICountAction,
+  IAddRelationAction,
   IInsertAction,
   IMutateAction,
   IRemoveRelationAction,
@@ -12,7 +12,6 @@ import mutateActionHandler from './mutate';
 import selectActionHandler from './select';
 import returnActionHandler from './return';
 import relationActionHandler from './relation';
-import countActionHandler from './count';
 
 export interface IActionPayload {
   [key: string]: any;
@@ -26,7 +25,6 @@ export interface IActionHandler {
   insert: TCreateActionHandler<IInsertAction>;
   mutate: TCreateActionHandler<IMutateAction>;
   select: TCreateActionHandler<ISelectAction>;
-  count: TCreateActionHandler<ICountAction>;
   addRelation: TCreateActionHandler<IAddRelationAction>;
   removeRelation: TCreateActionHandler<IRemoveRelationAction>;
   return: TCreateActionHandler<IReturnAction>;
@@ -37,7 +35,6 @@ const actionHandler: IActionHandler = {
   insert: insertActionHandler,
   mutate: mutateActionHandler,
   select: selectActionHandler,
-  count: countActionHandler,
   addRelation: relationActionHandler,
   removeRelation: relationActionHandler,
   return: returnActionHandler,

@@ -34,11 +34,6 @@ export interface ISelectAction {
   assignVar: string;
 }
 
-export interface ICountAction {
-  type: 'count';
-  entityName: string;
-}
-
 export interface IMutateAction {
   type: 'mutate';
   steps: { field: string; value: string }[];
@@ -65,7 +60,6 @@ export type TAction =
   | IInsertAction
   | IReturnAction
   | ISelectAction
-  | ICountAction
   | IMutateAction
   | IAddRelationAction
   | IRemoveRelationAction;
@@ -230,10 +224,6 @@ const invoice_get_all: IHandler = {
       assignVar: 'products',
     },
     {
-      type: 'count',
-      entityName: 'invoice',
-    },
-    {
       type: 'return',
       data: '$products',
       config: null,
@@ -252,10 +242,6 @@ const product_get_all: IHandler = {
       assignVar: 'products',
     },
     {
-      type: 'count',
-      entityName: 'product',
-    },
-    {
       type: 'return',
       data: '$products',
       config: null,
@@ -271,13 +257,9 @@ const client_get_all: IHandler = {
       type: 'select',
       entityName: 'client',
       leftJoinAndSelect: ['invoices', 'invoice'],
-      multiple: true,
+      multiple: false,
       pagination: { isPaginated: true, itemsPerPage: 5},
       assignVar: 'clients',
-    },
-    {
-      type: 'count',
-      entityName: 'client',
     },
     {
       type: 'return',
