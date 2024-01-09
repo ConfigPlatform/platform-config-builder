@@ -257,7 +257,7 @@ const client_get_all: IHandler = {
       type: 'select',
       entityName: 'client',
       leftJoinAndSelect: ['invoices', 'invoice'],
-      multiple: false,
+      multiple: true,
       pagination: { isPaginated: true, itemsPerPage: 5},
       assignVar: 'clients',
     },
