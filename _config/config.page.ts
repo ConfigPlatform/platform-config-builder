@@ -142,6 +142,14 @@ const pages: IPages = {
           {
             type: 'tableEntries',
             select: 'client_get_all',
+            paginationClassNames: {
+              paginationWrapper: 'md:w-2/5 w-full  flex items-center justify-between  py-5 lg:px-0 sm:px-6 px-4',
+              previousButton: 'text-sm font-medium leading-none cursor-pointer text-gray-600 hover:text-indigo-700 border-t border-transparent pt-3 mr-4 px-2',
+              nextButton: 'text-sm font-medium leading-none cursor-pointer text-gray-600 hover:text-indigo-700 pt-3 mr-4 px-2',
+              pagesWrapper: 'flex items-center',
+              page: 'text-sm font-medium leading-none cursor-pointer text-gray-600 hover:text-indigo-700 border-t border-transparent hover:border-indigo-400 pt-3 mr-4 px-2',
+              pageActive: 'text-lg font-medium leading-none cursor-pointer text-gray-600 hover:text-indigo-700 border-t border-transparent hover:border-indigo-400 pt-3 mr-4 px-2'
+            },
             content: [
               {
                 type: 'tableHeading',

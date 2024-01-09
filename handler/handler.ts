@@ -17,6 +17,7 @@ export const updateHandler = (handler: IHandler): void => {
 
   // loop through actions to fill actionsStr
   for (const action of actions) {
+
     const { type } = action;
 
     // define action handler

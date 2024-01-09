@@ -25,6 +25,8 @@ export interface IReturnAction {
   type: 'return';
   data?: any;
   config?: any;
+  multiple?: boolean;
+  pagination?: {isPaginated: boolean, itemsPerPage: number};
 }
 
 export interface ISelectAction {
@@ -35,6 +37,7 @@ export interface ISelectAction {
   andWhere?: [string, string];
   orWhere?: [string, string];
   multiple?: boolean;
+  pagination?: {isPaginated: boolean, itemsPerPage: number};
   assignVar: string;
 }
 
@@ -232,6 +235,7 @@ const invoice_get_all: IHandler = {
       type: 'return',
       data: '$products',
       config: null,
+      multiple: true
     },
   ],
 };
@@ -249,6 +253,7 @@ const product_get_all: IHandler = {
       type: 'return',
       data: '$products',
       config: null,
+      multiple: true
     },
   ],
 };
@@ -261,11 +266,14 @@ const client_get_all: IHandler = {
       entityName: 'client',
       leftJoinAndSelect: ['invoices', 'invoice'],
       multiple: true,
+      pagination: { isPaginated: true, itemsPerPage: 5},
       assignVar: 'clients',
     },
     {
       type: 'return',
       data: '$clients',
+      pagination: {isPaginated: true, itemsPerPage: 5},
+      multiple: true,
       config: null,
     },
   ],
