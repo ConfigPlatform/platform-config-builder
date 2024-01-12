@@ -278,10 +278,26 @@ const client_get_all: IHandler = {
   ],
 };
 
+const form_create_product_cancel: IHandler = {
+  name: 'form_create_product_cancel',
+  actions: [
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'redirect_page',
+          path: '/product',
+        },
+      ],
+    }
+  ]
+}
+
 const handlers: IHandler[] = [
   form_create_product_submit,
   form_create_client_submit,
   form_create_invoice_submit,
+  form_create_product_cancel,
   product_get_all,
   client_get_all,
   invoice_get_all,
