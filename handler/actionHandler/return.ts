@@ -28,19 +28,21 @@ const returnActionHandler: TCreateActionHandler<IReturnAction> = ({
   }
 
   if (data && typeof data === 'string') {
-    stringifiedData = data.replaceAll('$', '');
+    stringifiedData = data;
   }
 
   if (data && typeof data !== 'string') {
-    const { items, pagination } = data;
+    const { items, pagination, totalCount } = data;
 
-    const totalCount = data.totalCount.replaceAll('$', '');
     const stringifiedPagination = JSON.stringify(pagination, null, 2);
 
     stringifiedData = `{ items: ${items}, totalCount: ${totalCount}, pagination: ${stringifiedPagination} }`;
   }
 
-  const entries = `  return {\n  config: ${stringifiedConfig},\n  data: ${stringifiedData}}`;
+  const entries = `  return {\n  config: ${stringifiedConfig},\n  data: ${stringifiedData.replaceAll(
+    '$',
+    '',
+  )}}`;
 
   return entries;
 };
