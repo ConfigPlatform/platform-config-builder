@@ -89,6 +89,7 @@ const pages: IPages = {
               {
                 type: 'form',
                 id: 'invoice_create_form',
+                className: 'space-y-3',
                 fields: [
                   {
                     name: 'product',
@@ -108,20 +109,21 @@ const pages: IPages = {
                 actions: [
                   {
                     type: 'button',
-                    style: 'primary',
+                    htmlType: 'submit',
                     label: 'Submit',
-                    className: 'btn btn-primary',
+                    className:
+                      'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg',
                     serverHandler: 'form_create_invoice_submit',
                   },
                   {
                     type: 'button',
-                    style: 'secondary',
+                    htmlType: 'submit',
                     label: 'Create and Add New',
-                    className: 'btn btn-primary',
+                    className:
+                      'btn btn-primary px-3 py-2 text-sm text-gray-700 duration-100 cursor-pointer border rounded hover:border-indigo-600 active:shadow-lg',
                     serverHandler: 'form_create_invoice_cancel',
                   },
                 ],
-                handlers: [{ name: 'onSubmit' }],
               },
             ],
           },
@@ -205,7 +207,7 @@ const pages: IPages = {
                 },
               },
             ],
-          }
+          },
         ],
       },
       {
@@ -264,6 +266,7 @@ const pages: IPages = {
               },
               {
                 type: 'form',
+                className: 'space-y-3',
                 id: 'product_create_form',
                 fields: [
                   {
@@ -278,9 +281,10 @@ const pages: IPages = {
                 actions: [
                   {
                     type: 'button',
-                    style: 'primary',
+                    htmlType: 'submit',
+                    className:
+                      'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg',
                     label: 'Pay',
-                    className: 'btn btn-primary',
                     serverHandler: 'form_create_product_submit',
                   },
                 ],
@@ -308,6 +312,7 @@ const pages: IPages = {
     content: [
       {
         type: 'form',
+        className: 'space-y-3',
         id: 'client_create_form',
         fields: [
           {
@@ -335,7 +340,9 @@ const pages: IPages = {
         actions: [
           {
             type: 'button',
-            style: 'primary',
+            htmlType: 'submit',
+            className:
+              'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg',
             label: 'Create',
             serverHandler: 'form_create_client_submit',
           },
@@ -358,6 +365,7 @@ const pages: IPages = {
             content: [
               {
                 type: 'form',
+                className: 'space-y-3',
                 id: 'product_create_form',
                 fields: [
                   {
@@ -384,20 +392,20 @@ const pages: IPages = {
                 actions: [
                   {
                     type: 'button',
-                    style: 'primary',
+                    htmlType: 'submit',
                     label: 'Submit',
-                    className: 'btn btn-primary',
+                    className:
+                      'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg',
                     serverHandler: 'form_create_product_submit',
                   },
                   {
-                    type: 'button',
-                    style: 'secondary',
-                    label: 'Create and Add New',
-                    className: 'btn btn-primary',
+                    type: 'reset',
+                    label: 'Cancel',
+                    className:
+                      'btn btn-primary px-3 py-2 text-sm text-gray-700 duration-100 cursor-pointer border rounded hover:border-indigo-600 active:shadow-lg',
                     serverHandler: 'form_create_product_cancel',
                   },
                 ],
-                handlers: [{ name: 'onSubmit' }],
               },
             ],
           },
