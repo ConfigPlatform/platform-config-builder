@@ -3,23 +3,9 @@ import { TCreateActionHandler } from './index';
 
 const returnActionHandler: TCreateActionHandler<IReturnAction> = ({
   data,
-  config,
-  pagination,
-  multiple,
+  config
 }) => {
   const stringifiedConfig = config ? JSON.stringify(config, null, 2) : 'null';
-
-  if (data) {
-    if (typeof data === 'string') {
-      data = data.replaceAll('$', '');
-    }
-
-    if (typeof data !== 'string') {
-      data.items = data.items.replaceAll('$', '');
-    }
-  } else {
-    data = 'null';
-  }
 
   let stringifiedData;
 

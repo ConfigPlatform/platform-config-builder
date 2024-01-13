@@ -228,12 +228,17 @@ const invoice_get_all: IHandler = {
         ['client', 'client'],
         ['products', 'product'],
       ],
+      itemsPerPage: 5,
       multiple: true,
       assignVar: 'products',
     },
     {
       type: 'return',
-      data: '$products',
+      data: {
+        items: '$products',
+        totalCount: '$productsCount',
+        pagination: { itemsPerPage: 5 },
+      },
       config: null,
     },
   ],
@@ -245,12 +250,17 @@ const product_get_all: IHandler = {
     {
       type: 'select',
       entityName: 'product',
+      itemsPerPage: 5,
       multiple: true,
       assignVar: 'products',
     },
     {
       type: 'return',
-      data: '$products',
+      data: {
+        items: '$products',
+        totalCount: '$productsCount',
+        pagination: { itemsPerPage: 5 },
+      },
       config: null,
     },
   ],
@@ -263,7 +273,7 @@ const client_get_all: IHandler = {
       type: 'select',
       entityName: 'client',
       leftJoinAndSelect: ['invoices', 'invoice'],
-      itemsPerPage: 4,
+      itemsPerPage: 5,
       assignVar: 'clients',
     },
     {
@@ -271,7 +281,7 @@ const client_get_all: IHandler = {
       data: {
         items: '$clients',
         totalCount: '$clientsCount',
-        pagination: { itemsPerPage: 4 },
+        pagination: { itemsPerPage: 5 },
       },
       config: null,
     },
