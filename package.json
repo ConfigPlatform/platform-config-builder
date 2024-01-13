@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "nodemon index.ts"
+    "start": "nodemon index.ts"
   },
   "nodemonConfig": {
     "ignore": ["generated"],
