@@ -6,7 +6,8 @@ import {
   IReturnAction,
   ISelectAction,
   TAction,
-  IVariableAction
+  IVariableAction,
+  IDeleteAction
 } from '_config/config.handler';
 import insertActionHandler from './insert';
 import mutateActionHandler from './mutate';
@@ -14,6 +15,7 @@ import selectActionHandler from './select';
 import returnActionHandler from './return';
 import relationActionHandler from './relation';
 import variableActionHandler from './variable';
+import deleteActionHandler from './delete';
 
 export interface IActionPayload {
   [key: string]: any;
@@ -31,6 +33,7 @@ export interface IActionHandler {
   removeRelation: TCreateActionHandler<IRemoveRelationAction>;
   return: TCreateActionHandler<IReturnAction>;
   variable: TCreateActionHandler<IVariableAction>;
+  delete: TCreateActionHandler<IDeleteAction>;
 }
 
 // action handler by action name
@@ -41,7 +44,8 @@ const actionHandler: IActionHandler = {
   addRelation: relationActionHandler,
   removeRelation: relationActionHandler,
   return: returnActionHandler,
-  variable: variableActionHandler
+  variable: variableActionHandler,
+  delete: deleteActionHandler
 };
 
 export default actionHandler;
