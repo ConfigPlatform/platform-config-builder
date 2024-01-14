@@ -43,7 +43,8 @@ export interface ISelectAction {
 
 export interface IMutateAction {
   type: 'mutate';
-  steps: { field: string; value: string }[];
+  field: string;
+  value: string;
 }
 
 export interface IRelationAction {
@@ -172,16 +173,13 @@ const form_create_client_submit: IHandler = {
   actions: [
     {
       type: 'mutate',
-      steps: [
-        {
-          field: '$data.firstName',
-          value: '$data.firstName.toUpperCase()',
-        },
-        {
-          field: '$data.lastName',
-          value: '$data.lastName.toUpperCase()',
-        },
-      ],
+      field: '$data.firstName',
+      value: '$data.firstName.toUpperCase()',
+    },
+    {
+      type: 'mutate',
+      field: '$data.lastName',
+      value: '$data.lastName.toUpperCase()',
     },
     {
       type: 'insert',
