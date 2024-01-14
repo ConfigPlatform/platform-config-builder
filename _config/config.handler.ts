@@ -5,7 +5,13 @@ export interface IField {
 }
 
 export type TRelation = 'addRelation' | 'removeRelation';
-export type TActionType = 'variable' | 'mutate' | 'select' | 'create' | 'return' | TRelation;
+export type TActionType =
+  | 'variable'
+  | 'mutate'
+  | 'select'
+  | 'create'
+  | 'return'
+  | TRelation;
 
 export interface IInsertAction {
   type: 'insert';
@@ -17,14 +23,37 @@ export interface IInsertAction {
 export interface IVariableAction {
   type: 'variable';
   name: string;
-  value: string
-  as: string
+  value: string;
+  as: string;
 }
+
+export interface IRedirectPageAction {
+  clientHandler: 'redirect_page';
+  path: string;
+}
+
+export type TMessageStatus = 'success' | 'info' | 'warning' | 'error';
+export type TMessagePlacement =
+  | 'top-left'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-right';
+
+export interface ISetMessageAction {
+  clientHandler: 'set_message';
+  id: string;
+  status: TMessageStatus;
+  duration: number;
+  placement: TMessagePlacement;
+  content: string;
+}
+
+export type TClientAction = IRedirectPageAction | ISetMessageAction;
 
 export interface IReturnAction {
   type: 'return';
   data?: any;
-  config?: any;
+  config?: TClientAction[];
   multiple?: boolean;
   pagination?: { itemsPerPage: number };
 }
@@ -64,18 +93,18 @@ export interface IRemoveRelationAction extends IRelationAction {
   removeId: string;
 }
 
-export type TAction =
+export type TServerAction =
   | IInsertAction
   | IReturnAction
   | ISelectAction
   | IMutateAction
   | IAddRelationAction
   | IRemoveRelationAction
-  | IVariableAction
+  | IVariableAction;
 
 export interface IHandler {
   name: string;
-  actions: TAction[];
+  actions: TServerAction[];
 }
 
 const form_create_product_submit: IHandler = {
@@ -104,8 +133,11 @@ const form_create_product_submit: IHandler = {
       config: [
         {
           clientHandler: 'set_message',
+          id: 'product_created',
           status: 'success',
-          name: 'Product was created',
+          duration: 3000,
+          placement: 'top-right',
+          content: 'Product was created',
         },
         {
           clientHandler: 'redirect_page',
@@ -156,8 +188,11 @@ const form_create_invoice_submit: IHandler = {
       config: [
         {
           clientHandler: 'set_message',
+          id: 'invoice_created',
           status: 'success',
-          name: 'Invoice was created',
+          duration: 3000,
+          placement: 'top-right',
+          content: 'Invoice was created',
         },
         {
           clientHandler: 'redirect_page',
@@ -204,8 +239,11 @@ const form_create_client_submit: IHandler = {
       config: [
         {
           clientHandler: 'set_message',
+          id: 'client_created',
           status: 'success',
-          name: 'Client was created',
+          duration: 3000,
+          placement: 'top-right',
+          content: 'Client was created',
         },
         {
           clientHandler: 'redirect_page',
@@ -297,9 +335,9 @@ const form_create_product_cancel: IHandler = {
           path: '/product',
         },
       ],
-    }
-  ]
-}
+    },
+  ],
+};
 
 const handlers: IHandler[] = [
   form_create_product_submit,

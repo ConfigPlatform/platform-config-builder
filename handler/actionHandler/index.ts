@@ -5,7 +5,7 @@ import {
   IRemoveRelationAction,
   IReturnAction,
   ISelectAction,
-  TAction,
+  TServerAction,
   IVariableAction
 } from '_config/config.handler';
 import insertActionHandler from './insert';
@@ -19,7 +19,7 @@ export interface IActionPayload {
   [key: string]: any;
 }
 
-export type TCreateActionHandler<TPayload extends TAction> = (
+export type TCreateActionHandler<TPayload extends TServerAction> = (
   payload: TPayload,
 ) => string;
 
