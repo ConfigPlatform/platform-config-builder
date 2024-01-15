@@ -6,7 +6,7 @@ import {
   IReturnAction,
   ISelectAction,
   IVariableAction,
-  IDeleteAction
+  IDeleteAction,
   TServerAction,
 } from '_config/config.handler';
 import insertActionHandler from './insert';
