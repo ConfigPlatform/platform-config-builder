@@ -17,7 +17,7 @@ const updateActionHandler: TCreateActionHandler<IUpdateAction> = ({
     .createQueryBuilder()
     .update(entities.${entityClassName})
     .set({ ${updateValues} })
-    .where(${JSON.stringify(where)})
+    .where(${JSON.stringify(where, null, 2)})
     .execute()`;
 
   return updateQuery;

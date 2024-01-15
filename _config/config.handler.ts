@@ -109,7 +109,7 @@ export type TServerAction =
   | IAddRelationAction
   | IRemoveRelationAction
   | IVariableAction
-  | IUpdateAction
+  | IUpdateAction;
 
 export interface IHandler {
   name: string;
@@ -337,7 +337,7 @@ const form_create_product_cancel: IHandler = {
   name: 'form_create_product_cancel',
   actions: [
     {
-      type: 'return',
+      type: 'return', 
       config: [
         {
           clientHandler: 'redirect_page',
@@ -355,7 +355,7 @@ const handlers: IHandler[] = [
   form_create_product_cancel,
   product_get_all,
   client_get_all,
-  invoice_get_all,
+  invoice_get_all
 ];
 
 export default handlers;
