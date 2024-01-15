@@ -5,8 +5,8 @@ import { TCreateActionHandler } from './index';
 const updateActionHandler: TCreateActionHandler<IUpdateAction> = ({
   entityName,
   fields,
-  where
-  }) => {
+  where,
+}) => {
   const entityClassName = createClassName(entityName);
 
   const updateValues = fields
@@ -17,7 +17,7 @@ const updateActionHandler: TCreateActionHandler<IUpdateAction> = ({
     .createQueryBuilder()
     .update(entities.${entityClassName})
     .set({ ${updateValues} })
-    .where(${JSON.stringify(where, null, 2)})
+    .where(${JSON.stringify(where, null, 2).replaceAll('$', '')})
     .execute()`;
 
   return updateQuery;
