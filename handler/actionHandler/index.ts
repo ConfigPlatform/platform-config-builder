@@ -5,9 +5,9 @@ import {
   IRemoveRelationAction,
   IReturnAction,
   ISelectAction,
-  TAction,
   IVariableAction,
   IDeleteAction
+  TServerAction,
 } from '_config/config.handler';
 import insertActionHandler from './insert';
 import mutateActionHandler from './mutate';
@@ -21,7 +21,7 @@ export interface IActionPayload {
   [key: string]: any;
 }
 
-export type TCreateActionHandler<TPayload extends TAction> = (
+export type TCreateActionHandler<TPayload extends TServerAction> = (
   payload: TPayload,
 ) => string;
 

@@ -23,14 +23,37 @@ export interface IDeleteAction {
 export interface IVariableAction {
   type: 'variable';
   name: string;
-  value: string
-  as: string
+  value: string;
+  as: string;
 }
+
+export interface IRedirectPageAction {
+  clientHandler: 'redirect_page';
+  path: string;
+}
+
+export type TMessageStatus = 'success' | 'info' | 'warning' | 'error';
+export type TMessagePlacement =
+  | 'top-left'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-right';
+
+export interface ISetMessageAction {
+  clientHandler: 'set_message';
+  id: string;
+  status: TMessageStatus;
+  duration: number;
+  placement: TMessagePlacement;
+  content: string;
+}
+
+export type TClientAction = IRedirectPageAction | ISetMessageAction;
 
 export interface IReturnAction {
   type: 'return';
   data?: any;
-  config?: any;
+  config?: TClientAction[];
   multiple?: boolean;
   pagination?: { itemsPerPage: number };
 }
@@ -49,7 +72,8 @@ export interface ISelectAction {
 
 export interface IMutateAction {
   type: 'mutate';
-  steps: { field: string; value: string }[];
+  field: string;
+  value: string;
 }
 
 export interface IRelationAction {
@@ -69,7 +93,7 @@ export interface IRemoveRelationAction extends IRelationAction {
   removeId: string;
 }
 
-export type TAction =
+export type TServerAction =
   | IInsertAction
   | IReturnAction
   | ISelectAction
@@ -81,7 +105,7 @@ export type TAction =
 
 export interface IHandler {
   name: string;
-  actions: TAction[];
+  actions: TServerAction[];
 }
 
 const form_create_product_submit: IHandler = {
@@ -110,8 +134,11 @@ const form_create_product_submit: IHandler = {
       config: [
         {
           clientHandler: 'set_message',
+          id: 'product_created',
           status: 'success',
-          name: 'Product was created',
+          duration: 3000,
+          placement: 'top-right',
+          content: 'Product was created',
         },
         {
           clientHandler: 'redirect_page',
@@ -162,8 +189,11 @@ const form_create_invoice_submit: IHandler = {
       config: [
         {
           clientHandler: 'set_message',
+          id: 'invoice_created',
           status: 'success',
-          name: 'Invoice was created',
+          duration: 3000,
+          placement: 'top-right',
+          content: 'Invoice was created',
         },
         {
           clientHandler: 'redirect_page',
@@ -179,16 +209,13 @@ const form_create_client_submit: IHandler = {
   actions: [
     {
       type: 'mutate',
-      steps: [
-        {
-          field: '$data.firstName',
-          value: '$data.firstName.toUpperCase()',
-        },
-        {
-          field: '$data.lastName',
-          value: '$data.lastName.toUpperCase()',
-        },
-      ],
+      field: '$data.firstName',
+      value: '$data.firstName.toUpperCase()',
+    },
+    {
+      type: 'mutate',
+      field: '$data.lastName',
+      value: '$data.lastName.toUpperCase()',
     },
     {
       type: 'insert',
@@ -213,8 +240,11 @@ const form_create_client_submit: IHandler = {
       config: [
         {
           clientHandler: 'set_message',
+          id: 'client_created',
           status: 'success',
-          name: 'Client was created',
+          duration: 3000,
+          placement: 'top-right',
+          content: 'Client was created',
         },
         {
           clientHandler: 'redirect_page',
@@ -306,9 +336,9 @@ const form_create_product_cancel: IHandler = {
           path: '/product',
         },
       ],
-    }
-  ]
-}
+    },
+  ],
+};
 
 const handlers: IHandler[] = [
   form_create_product_submit,

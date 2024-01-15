@@ -119,14 +119,12 @@ const pages: IPages = {
                     label: 'Product',
                     type: 'string',
                     required: true,
-                    defaultValue: '',
                   },
                   {
                     name: 'client',
                     label: 'Client',
                     type: 'string',
                     required: true,
-                    defaultValue: '',
                   },
                 ],
                 actions: [
@@ -259,76 +257,6 @@ const pages: IPages = {
     ],
   },
 
-  // PAYMENT LIST
-  '/payment': {
-    id: 2,
-    pageTitle: 'Payments',
-    content: [
-      {
-        type: 'row',
-        className: 'mt-2 grid grid-cols-12 gap-x-6 gap-y-2',
-        // 3 columns
-        content: [
-          {
-            type: 'column',
-            className: 'col-span-4',
-            content: [
-              {
-                type: 'text',
-                value: 'Hello world',
-              },
-            ],
-          },
-          {
-            type: 'column',
-            className: 'col-span-4',
-            content: [
-              {
-                type: 'text',
-                value: 'Hello world',
-              },
-              {
-                type: 'form',
-                className: 'space-y-3',
-                id: 'product_create_form',
-                fields: [
-                  {
-                    name: 'name',
-                    label: 'Name',
-                    type: 'string',
-                    required: true,
-                    defaultValue: 'Item',
-                    validation: 'min:3|max:10',
-                  },
-                ],
-                actions: [
-                  {
-                    type: 'button',
-                    htmlType: 'submit',
-                    className:
-                      'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg',
-                    label: 'Pay',
-                    serverHandler: 'form_create_product_submit',
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            type: 'column',
-            className: 'col-span-4',
-            content: [
-              {
-                type: 'text',
-                value: 'Hello world',
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-
   // CLIENT CREATE
   '/client/create': {
     pageTitle: 'Create Client',
@@ -343,21 +271,18 @@ const pages: IPages = {
             label: 'First Name',
             type: 'string',
             required: true,
-            defaultValue: '',
           },
           {
             name: 'lastName',
             label: 'Last Name',
             type: 'string',
             required: true,
-            defaultValue: '',
           },
           {
             name: 'phone',
             label: 'Phone',
             type: 'string',
             required: true,
-            defaultValue: '',
           },
         ],
         actions: [
@@ -403,7 +328,6 @@ const pages: IPages = {
                     label: 'Name',
                     type: 'string',
                     required: true,
-                    validation: 'min:3|max:10',
                   },
                   {
                     name: 'description',

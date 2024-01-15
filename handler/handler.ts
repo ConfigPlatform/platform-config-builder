@@ -1,4 +1,4 @@
-import { IHandler, TAction } from '_config/config.handler';
+import { IHandler, TServerAction } from '_config/config.handler';
 import { mergePaths } from '../helpers';
 import { HANDLERS_PATH } from '../paths';
 import actionHandler, { TCreateActionHandler } from './actionHandler/index';
@@ -21,7 +21,7 @@ export const updateHandler = (handler: IHandler): void => {
     const { type } = action;
 
     // define action handler
-    const handler = actionHandler[type] as TCreateActionHandler<TAction>;
+    const handler = actionHandler[type] as TCreateActionHandler<TServerAction>;
 
     // continue if handler wasn't found
     if (!handler) continue;
