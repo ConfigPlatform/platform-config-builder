@@ -5,13 +5,20 @@ export interface IField {
 }
 
 export type TRelation = 'addRelation' | 'removeRelation';
-export type TActionType = 'variable' | 'mutate' | 'select' | 'create' | 'return' | 'delete' | TRelation;
+export type TActionType = 'variable' | 'mutate' | 'select' | 'create' | 'return' | 'delete' | 'update' | TRelation;
 
 export interface IInsertAction {
   type: 'insert';
   entityName: string;
   fields: { value: string; entityField: string }[];
   assignVar?: string;
+}
+
+export interface IUpdateAction {
+  type: 'update';
+  entityName: string;
+  fields: { entityField: string; value: string }[];
+  where: { [key: string]: any };
 }
 
 export interface IDeleteAction {
@@ -101,6 +108,7 @@ export type TServerAction =
   | IAddRelationAction
   | IRemoveRelationAction
   | IVariableAction
+  | IUpdateAction
   | IDeleteAction
 
 export interface IHandler {
@@ -329,7 +337,7 @@ const form_create_product_cancel: IHandler = {
   name: 'form_create_product_cancel',
   actions: [
     {
-      type: 'return',
+      type: 'return', 
       config: [
         {
           clientHandler: 'redirect_page',
@@ -347,7 +355,7 @@ const handlers: IHandler[] = [
   form_create_product_cancel,
   product_get_all,
   client_get_all,
-  invoice_get_all,
+  invoice_get_all
 ];
 
 export default handlers;
