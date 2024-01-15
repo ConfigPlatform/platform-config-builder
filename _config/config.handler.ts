@@ -5,19 +5,19 @@ export interface IField {
 }
 
 export type TRelation = 'addRelation' | 'removeRelation';
-export type TActionType =
-  | 'variable'
-  | 'mutate'
-  | 'select'
-  | 'create'
-  | 'return'
-  | TRelation;
+export type TActionType = 'variable' | 'mutate' | 'select' | 'create' | 'return' | 'delete' | TRelation;
 
 export interface IInsertAction {
   type: 'insert';
   entityName: string;
   fields: { value: string; entityField: string }[];
   assignVar?: string;
+}
+
+export interface IDeleteAction {
+  type: 'delete'; 
+  entityName: string;
+  where: [string, string]; 
 }
 
 export interface IVariableAction {
@@ -100,7 +100,8 @@ export type TServerAction =
   | IMutateAction
   | IAddRelationAction
   | IRemoveRelationAction
-  | IVariableAction;
+  | IVariableAction
+  | IDeleteAction
 
 export interface IHandler {
   name: string;
