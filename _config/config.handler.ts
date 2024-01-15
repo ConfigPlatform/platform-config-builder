@@ -19,6 +19,7 @@ export interface IUpdateAction {
   entityName: string;
   fields: { entityField: string; value: string }[];
   where: { [key: string]: any };
+}
 
 export interface IDeleteAction {
   type: 'delete'; 
