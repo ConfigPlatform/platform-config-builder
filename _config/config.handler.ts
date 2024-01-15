@@ -7,6 +7,7 @@ export interface IField {
 export type TRelation = 'addRelation' | 'removeRelation';
 export type TActionType =
   | 'variable'
+  | 'update'
   | 'mutate'
   | 'select'
   | 'create'
@@ -18,6 +19,13 @@ export interface IInsertAction {
   entityName: string;
   fields: { value: string; entityField: string }[];
   assignVar?: string;
+}
+
+export interface IUpdateAction {
+  type: 'update';
+  entityName: string;
+  fields: { entityField: string; value: string }[];
+  where: { [key: string]: any };
 }
 
 export interface IVariableAction {
@@ -100,7 +108,8 @@ export type TServerAction =
   | IMutateAction
   | IAddRelationAction
   | IRemoveRelationAction
-  | IVariableAction;
+  | IVariableAction
+  | IUpdateAction
 
 export interface IHandler {
   name: string;
