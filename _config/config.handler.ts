@@ -5,7 +5,15 @@ export interface IField {
 }
 
 export type TRelation = 'addRelation' | 'removeRelation';
-export type TActionType = 'variable' | 'mutate' | 'select' | 'create' | 'return' | 'delete' | 'update' | TRelation;
+export type TActionType =
+  | 'variable'
+  | 'mutate'
+  | 'select'
+  | 'create'
+  | 'return'
+  | 'delete'
+  | 'update'
+  | TRelation;
 
 export interface IInsertAction {
   type: 'insert';
@@ -22,9 +30,9 @@ export interface IUpdateAction {
 }
 
 export interface IDeleteAction {
-  type: 'delete'; 
+  type: 'delete';
   entityName: string;
-  where: [string, string]; 
+  where: [string, string];
 }
 
 export interface IVariableAction {
@@ -55,7 +63,21 @@ export interface ISetMessageAction {
   content: string;
 }
 
-export type TClientAction = IRedirectPageAction | ISetMessageAction;
+export interface ICloseSidepanel {
+  clientHandler: 'close_sidepanel';
+  id: string;
+}
+
+export interface IOpenSidepanel {
+  clientHandler: 'open_sidepanel';
+  id: string;
+}
+
+export type TClientAction =
+  | IRedirectPageAction
+  | ISetMessageAction
+  | ICloseSidepanel
+  | IOpenSidepanel;
 
 export interface IReturnAction {
   type: 'return';
@@ -109,7 +131,7 @@ export type TServerAction =
   | IRemoveRelationAction
   | IVariableAction
   | IUpdateAction
-  | IDeleteAction
+  | IDeleteAction;
 
 export interface IHandler {
   name: string;
@@ -144,7 +166,7 @@ const form_create_product_submit: IHandler = {
           clientHandler: 'set_message',
           id: 'product_created',
           status: 'success',
-          duration: 3000,
+          duration: 2000,
           placement: 'top-right',
           content: 'Product was created',
         },
@@ -199,7 +221,7 @@ const form_create_invoice_submit: IHandler = {
           clientHandler: 'set_message',
           id: 'invoice_created',
           status: 'success',
-          duration: 3000,
+          duration: 2000,
           placement: 'top-right',
           content: 'Invoice was created',
         },
@@ -250,7 +272,7 @@ const form_create_client_submit: IHandler = {
           clientHandler: 'set_message',
           id: 'client_created',
           status: 'success',
-          duration: 3000,
+          duration: 2000,
           placement: 'top-right',
           content: 'Client was created',
         },
@@ -337,11 +359,82 @@ const form_create_product_cancel: IHandler = {
   name: 'form_create_product_cancel',
   actions: [
     {
-      type: 'return', 
+      type: 'return',
       config: [
         {
           clientHandler: 'redirect_page',
           path: '/product',
+        },
+      ],
+    },
+  ],
+};
+
+const open_product_create_sidepanel: IHandler = {
+  name: 'open_product_create_sidepanel',
+  actions: [
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'open_sidepanel',
+          id: 'create_product',
+        },
+      ],
+    },
+  ],
+}
+
+const close_product_create_sidepanel: IHandler = {
+  name: 'close_product_create_sidepanel',
+  actions: [
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'close_sidepanel',
+          id: 'create_product',
+        },
+      ],
+    },
+  ],
+}
+
+const product_create_sidepanel_submit: IHandler = {
+  name: 'product_create_sidepanel_submit',
+  actions: [
+    {
+      type: 'insert',
+      entityName: 'product',
+      fields: [
+        {
+          entityField: 'name',
+          value: '$data.name',
+        },
+        {
+          entityField: 'price',
+          value: '$data.price',
+        },
+        {
+          entityField: 'description',
+          value: '$data.description',
+        },
+      ],
+    },
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'close_sidepanel',
+          id: 'create_product',
+        },
+        {
+          clientHandler: 'set_message',
+          id: 'product_created',
+          status: 'success',
+          duration: 2000,
+          placement: 'top-right',
+          content: 'Product was created',
         },
       ],
     },
@@ -355,7 +448,10 @@ const handlers: IHandler[] = [
   form_create_product_cancel,
   product_get_all,
   client_get_all,
-  invoice_get_all
+  invoice_get_all,
+  open_product_create_sidepanel,
+  close_product_create_sidepanel,
+  product_create_sidepanel_submit 
 ];
 
 export default handlers;

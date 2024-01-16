@@ -18,6 +18,11 @@ export const MENU_CONFIG_PATH = mergePaths(
   '/_config/config.menu.ts',
 );
 
+export const SIDEPANEL_CONFIG_PATH = mergePaths(
+  ROOT_PATH,
+  '/_config/config.sidepanel.ts',
+);
+
 export const SERVER_ROOT_PATH = mergePaths(process.cwd(), '../platform-server');
 
 export const SERVER_ENTITIES_PATH = mergePaths(
@@ -43,4 +48,9 @@ export const SERVER_PAGE_CONFIG_PATH = mergePaths(
 export const SERVER_MENU_CONFIG_PATH = mergePaths(
   SERVER_ROOT_PATH,
   '/src/config/config.menu.ts',
+);
+
+export const SERVER_SIDEPANEL_CONFIG_PATH = mergePaths(
+  SERVER_ROOT_PATH,
+  '/src/config/config.sidepanel.ts',
 );

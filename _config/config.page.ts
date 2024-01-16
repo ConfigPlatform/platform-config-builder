@@ -366,6 +366,13 @@ const pages: IPages = {
     pageTitle: 'Products',
     content: [
       {
+        type: 'button',
+        label: 'Add product',
+        className:
+          'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg my-4',
+        serverHandler: 'open_product_create_sidepanel',
+      },
+      {
         type: 'table',
         id: 'product_table',
         className: 'min-w-full leading-normal',
