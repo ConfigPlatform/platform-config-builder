@@ -14,9 +14,9 @@ const whereOperationHandler = ({
   entityName,
   payload,
   operationKey,
-}: IOperationPayload<[string, string]>): string => {
-  const field = payload[0];
-  const value = payload[1].replaceAll('$', '');
+}: IOperationPayload<{[key: string]: any}>): string => {
+  const field = Object.keys(payload)[0];
+  const value = Object.values(payload)[0].replaceAll('$', '');
 
   const entries = `\n    .${operationKey}('${entityName}.${field} = :${field}', { ${field}: ${value} })`;
 
@@ -84,7 +84,6 @@ const selectActionHandler: TCreateActionHandler<ISelectAction> = (
     // define operation
     switch (operationKey as keyof Omit<ISelectAction, TIgnoredKey>) {
       case 'where':
-      case 'andWhere':
       case 'orWhere':
         operationsStr += whereOperationHandler(operationHandlerPayload);
         break;
