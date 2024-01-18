@@ -318,10 +318,7 @@ const product_get_all: IHandler = {
     {
       type: 'select',
       entityName: 'product',
-      orderBy: {
-        id: 'DESC',
-        name: 'ASC',
-      },
+      orderBy: { id: 'DESC' },
       itemsPerPage: 5,
       multiple: true,
       assignVar: 'products',
@@ -345,10 +342,7 @@ const client_get_all: IHandler = {
       type: 'select',
       entityName: 'client',
       leftJoinAndSelect: ['invoices', 'invoice'],
-      orderBy: {
-        id: 'DESC',
-        firstName: 'ASC',
-      },
+      orderBy: { id: 'DESC' },
       itemsPerPage: 5,
       assignVar: 'clients',
     },
@@ -392,7 +386,7 @@ const open_product_create_sidepanel: IHandler = {
       ],
     },
   ],
-}
+};
 
 const close_product_create_sidepanel: IHandler = {
   name: 'close_product_create_sidepanel',
@@ -407,7 +401,7 @@ const close_product_create_sidepanel: IHandler = {
       ],
     },
   ],
-}
+};
 
 const product_create_sidepanel_submit: IHandler = {
   name: 'product_create_sidepanel_submit',
@@ -460,7 +454,7 @@ const handlers: IHandler[] = [
   invoice_get_all,
   open_product_create_sidepanel,
   close_product_create_sidepanel,
-  product_create_sidepanel_submit
+  product_create_sidepanel_submit,
 ];
 
 export default handlers;
