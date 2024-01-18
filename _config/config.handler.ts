@@ -92,6 +92,7 @@ export interface ISelectAction {
   entityName: string;
   leftJoinAndSelect?: [string, string] | [string, string][];
   where?: [string, string];
+  orderBy?: { [key: string]: 'DESC' | 'ASC' };
   andWhere?: [string, string];
   orWhere?: [string, string];
   multiple?: boolean;
@@ -317,6 +318,10 @@ const product_get_all: IHandler = {
     {
       type: 'select',
       entityName: 'product',
+      orderBy: {
+        id: 'DESC',
+        name: 'ASC',
+      },
       itemsPerPage: 5,
       multiple: true,
       assignVar: 'products',
@@ -340,6 +345,10 @@ const client_get_all: IHandler = {
       type: 'select',
       entityName: 'client',
       leftJoinAndSelect: ['invoices', 'invoice'],
+      orderBy: {
+        id: 'DESC',
+        firstName: 'ASC',
+      },
       itemsPerPage: 5,
       assignVar: 'clients',
     },
@@ -451,7 +460,7 @@ const handlers: IHandler[] = [
   invoice_get_all,
   open_product_create_sidepanel,
   close_product_create_sidepanel,
-  product_create_sidepanel_submit 
+  product_create_sidepanel_submit
 ];
 
 export default handlers;

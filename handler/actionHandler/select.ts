@@ -44,6 +44,19 @@ const itemsPerPageOperationHandler = ({
   return entries;
 };
 
+const orderByOperationHandler = ({
+  entityName,
+  payload,
+  operationKey,
+}: IOperationPayload<{ [key: string]: 'DESC' | 'ASC' }>): string => {
+  let orderByStr = '';
+  for (const field in payload) {
+    const order = payload[field];
+    orderByStr += `\n    .${operationKey}('${entityName}.${field}', '${order}')`;
+  }
+  return orderByStr;
+};
+
 const selectActionHandler: TCreateActionHandler<ISelectAction> = (
   operations,
 ) => {
@@ -88,7 +101,9 @@ const selectActionHandler: TCreateActionHandler<ISelectAction> = (
       case 'orWhere':
         operationsStr += whereOperationHandler(operationHandlerPayload);
         break;
-
+      case 'orderBy':
+        entries += orderByOperationHandler(operationHandlerPayload);
+        break;
       case 'itemsPerPage':
         operationsStr += itemsPerPageOperationHandler(operationHandlerPayload);
         break;
