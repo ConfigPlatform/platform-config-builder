@@ -271,18 +271,21 @@ const pages: IPages = {
             label: 'First Name',
             type: 'string',
             required: true,
+            pattern:'^[a-zA-Z]+$'
           },
           {
             name: 'lastName',
             label: 'Last Name',
             type: 'string',
             required: true,
+            pattern:'^[a-zA-Z]+$'
           },
           {
             name: 'phone',
             label: 'Phone',
             type: 'string',
             required: true,
+            pattern: '^\d{3}-\d{3}-\d{4}$'
           },
         ],
         actions: [
@@ -322,6 +325,7 @@ const pages: IPages = {
                     type: 'number',
                     required: true,
                     defaultValue: 100,
+                    pattern: '^[0-9]+$'
                   },
                   {
                     name: 'name',
