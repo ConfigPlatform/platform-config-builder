@@ -32,7 +32,7 @@ export interface IUpdateAction {
 export interface IDeleteAction {
   type: 'delete';
   entityName: string;
-  where: [string, string];
+  where: { [key: string]: any };
 }
 
 export interface IVariableAction {
@@ -91,9 +91,8 @@ export interface ISelectAction {
   type: 'select';
   entityName: string;
   leftJoinAndSelect?: [string, string] | [string, string][];
-  where?: [string, string];
+  where?: { [key: string]: any };
   orderBy?: { [key: string]: 'DESC' | 'ASC' };
-  andWhere?: [string, string];
   orWhere?: [string, string];
   multiple?: boolean;
   itemsPerPage?: number;
@@ -186,13 +185,13 @@ const form_create_invoice_submit: IHandler = {
     {
       type: 'select',
       entityName: 'product',
-      where: ['name', '$data.product'],
+      where: { name: '$data.product' },
       assignVar: 'product',
     },
     {
       type: 'select',
       entityName: 'client',
-      where: ['lastName', '$data.client'],
+      where: { lastName: '$data.client' },
       assignVar: 'client',
     },
     {
