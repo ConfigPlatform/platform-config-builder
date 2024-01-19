@@ -158,6 +158,13 @@ const pages: IPages = {
     pageTitle: 'Clients',
     content: [
       {
+        type: 'button',
+        label: 'Add client',
+        className:
+          'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg my-4',
+        serverHandler: 'open_client_create_modal',
+      },
+      {
         type: 'table',
         id: 'client_table',
         className: 'min-w-full leading-normal',
