@@ -63,6 +63,16 @@ export interface ISetMessageAction {
   content: string;
 }
 
+export interface ICloseModal {
+  clientHandler: 'close_modal';
+  id: string;
+}
+
+export interface IOpenModal {
+  clientHandler: 'open_modal';
+  id: string;
+}
+
 export interface ICloseSidepanel {
   clientHandler: 'close_sidepanel';
   id: string;
@@ -77,7 +87,9 @@ export type TClientAction =
   | IRedirectPageAction
   | ISetMessageAction
   | ICloseSidepanel
-  | IOpenSidepanel;
+  | IOpenSidepanel
+  | ICloseModal
+  | IOpenModal;
 
 export interface IReturnAction {
   type: 'return';
@@ -441,6 +453,87 @@ const product_create_sidepanel_submit: IHandler = {
   ],
 };
 
+const open_client_create_modal: IHandler = {
+  name: 'open_client_create_modal',
+  actions: [
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'open_modal',
+          id: 'create_client',
+        },
+      ],
+    },
+  ],
+}
+
+const close_client_create_modal: IHandler = {
+  name: 'close_client_create_modal',
+  actions: [
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'close_modal',
+          id: 'create_client',
+        },
+      ],
+    },
+  ],
+}
+
+const client_create_modal_submit: IHandler = {
+  name: 'client_create_modal_submit',
+  actions: [
+    {
+      type: 'mutate',
+      field: '$data.firstName',
+      value: '$data.firstName.toUpperCase()',
+    },
+    {
+      type: 'mutate',
+      field: '$data.lastName',
+      value: '$data.lastName.toUpperCase()',
+    },
+    {
+      type: 'insert',
+      entityName: 'client',
+      fields: [
+        {
+          entityField: 'firstName',
+          value: '$data.firstName',
+        },
+        {
+          entityField: 'lastName',
+          value: '$data.lastName',
+        },
+        {
+          entityField: 'phone',
+          value: '$data.phone',
+        },
+      ],
+    },
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'close_modal',
+          id: 'create_client',
+        },
+        {
+          clientHandler: 'set_message',
+          id: 'client_created',
+          status: 'success',
+          duration: 2000,
+          placement: 'top-right',
+          content: 'Client was created',
+        },
+     ],
+    },
+  ],
+};
+
 const handlers: IHandler[] = [
   form_create_product_submit,
   form_create_client_submit,
@@ -451,7 +544,10 @@ const handlers: IHandler[] = [
   invoice_get_all,
   open_product_create_sidepanel,
   close_product_create_sidepanel,
-  product_create_sidepanel_submit 
+  product_create_sidepanel_submit,
+  open_client_create_modal,
+  close_client_create_modal,
+  client_create_modal_submit
 ];
 
 export default handlers;
