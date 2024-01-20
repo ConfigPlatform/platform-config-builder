@@ -1,16 +1,19 @@
 import actionHandler, { TCreateActionHandler } from './index';
-import { IParallelAction } from '../../_config/config.handler';
+import { IParallelAction, TServerAction } from '../../_config/config.handler';
 
 const parallelActionHandler: TCreateActionHandler<IParallelAction> = ({
   actions,
+  assignVar
 }) => {
-  const promises = actions.map(action => {
-    const handler = actionHandler[action.type];
-    return handler(action)
-  })
+  const promises = actions.map((action) => {
+    const handler = actionHandler[
+      action.type
+    ] as TCreateActionHandler<TServerAction>;
+    return handler(action);
+  });
 
   const parallelCode = `
-    const results = await Promise.all([
+    ${assignVar ? `const ${assignVar} = ` : ''}await Promise.all([
       ${promises.join(',')}
     ]);
   `;

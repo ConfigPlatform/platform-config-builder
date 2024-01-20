@@ -14,7 +14,7 @@ export type TActionType =
   | 'delete'
   | 'update'
   | TRelation
-  | 'parallel'
+  | 'parallel';
 
 export interface IInsertAction {
   type: 'insert';
@@ -97,7 +97,7 @@ export interface ISelectAction {
   orWhere?: [string, string];
   multiple?: boolean;
   itemsPerPage?: number;
-  assignVar: string;
+  assignVar?: string;
 }
 
 export interface IMutateAction {
@@ -126,6 +126,7 @@ export interface IRemoveRelationAction extends IRelationAction {
 export interface IParallelAction {
   type: 'parallel';
   actions: TServerAction[];
+  assignVar?: string; 
 }
 
 export type TServerAction =
@@ -138,8 +139,7 @@ export type TServerAction =
   | IVariableAction
   | IUpdateAction
   | IDeleteAction
-  | IParallelAction
-
+  | IParallelAction;
 
 export interface IHandler {
   name: string;
@@ -191,16 +191,20 @@ const form_create_invoice_submit: IHandler = {
   name: 'form_create_invoice_submit',
   actions: [
     {
-      type: 'select',
-      entityName: 'product',
-      where: ['name', '$data.product'],
-      assignVar: 'product',
-    },
-    {
-      type: 'select',
-      entityName: 'client',
-      where: ['lastName', '$data.client'],
-      assignVar: 'client',
+      type: 'parallel',
+      actions: [
+        {
+          type: 'select',
+          entityName: 'product',
+          where: ['name', '$data.product'],
+        },
+        {
+          type: 'select',
+          entityName: 'client',
+          where: ['lastName', '$data.client'],
+        },
+      ],
+      assignVar: '[product, client]',
     },
     {
       type: 'insert',
@@ -391,7 +395,7 @@ const open_product_create_sidepanel: IHandler = {
       ],
     },
   ],
-}
+};
 
 const close_product_create_sidepanel: IHandler = {
   name: 'close_product_create_sidepanel',
@@ -406,7 +410,7 @@ const close_product_create_sidepanel: IHandler = {
       ],
     },
   ],
-}
+};
 
 const product_create_sidepanel_submit: IHandler = {
   name: 'product_create_sidepanel_submit',
@@ -459,7 +463,7 @@ const handlers: IHandler[] = [
   invoice_get_all,
   open_product_create_sidepanel,
   close_product_create_sidepanel,
-  product_create_sidepanel_submit 
+  product_create_sidepanel_submit,
 ];
 
 export default handlers;
