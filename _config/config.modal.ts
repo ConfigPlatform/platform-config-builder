@@ -8,7 +8,7 @@ export interface IModal {
 const create_client_modal: IModal = {
   id: 'create_client',
   width: '30%',
-  placement: 'center-top',
+  placement: 'top-right',
   content: [
     {
       type: 'text',
