@@ -32,7 +32,7 @@ export interface IUpdateAction {
 export interface IDeleteAction {
   type: 'delete';
   entityName: string;
-  where: [string, string];
+  where: { [key: string]: any };
 }
 
 export interface IVariableAction {
@@ -103,8 +103,8 @@ export interface ISelectAction {
   type: 'select';
   entityName: string;
   leftJoinAndSelect?: [string, string] | [string, string][];
-  where?: [string, string];
-  andWhere?: [string, string];
+  where?: { [key: string]: any };
+  orderBy?: { [key: string]: 'DESC' | 'ASC' };
   orWhere?: [string, string];
   multiple?: boolean;
   itemsPerPage?: number;
@@ -197,13 +197,13 @@ const form_create_invoice_submit: IHandler = {
     {
       type: 'select',
       entityName: 'product',
-      where: ['name', '$data.product'],
+      where: { name: '$data.product' },
       assignVar: 'product',
     },
     {
       type: 'select',
       entityName: 'client',
-      where: ['lastName', '$data.client'],
+      where: { lastName: '$data.client' },
       assignVar: 'client',
     },
     {
@@ -329,6 +329,7 @@ const product_get_all: IHandler = {
     {
       type: 'select',
       entityName: 'product',
+      orderBy: { id: 'DESC' },
       itemsPerPage: 5,
       multiple: true,
       assignVar: 'products',
@@ -352,6 +353,7 @@ const client_get_all: IHandler = {
       type: 'select',
       entityName: 'client',
       leftJoinAndSelect: ['invoices', 'invoice'],
+      orderBy: { id: 'DESC' },
       itemsPerPage: 5,
       assignVar: 'clients',
     },
@@ -395,7 +397,7 @@ const open_product_create_sidepanel: IHandler = {
       ],
     },
   ],
-}
+};
 
 const close_product_create_sidepanel: IHandler = {
   name: 'close_product_create_sidepanel',
@@ -410,7 +412,7 @@ const close_product_create_sidepanel: IHandler = {
       ],
     },
   ],
-}
+};
 
 const product_create_sidepanel_submit: IHandler = {
   name: 'product_create_sidepanel_submit',

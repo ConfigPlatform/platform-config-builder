@@ -6,16 +6,14 @@ const deleteActionHandler: TCreateActionHandler<IDeleteAction> = ({
   entityName,
   where,
 }) => {
-  const field = where[0];
-  const value = where[1].replaceAll('$', '');
-
+  
   const entityClassName = createClassName(entityName);
 
   const entries = `await dataSource
     .createQueryBuilder()
     .delete()
     .from(entities.${entityClassName}) 
-    .where('${field} = :${field}', { ${field}: ${value} })
+    .where(${JSON.stringify(where, null, 2).replaceAll('$', '')})
     .execute()`;
 
   return entries;
