@@ -13,7 +13,8 @@ export type TActionType =
   | 'return'
   | 'delete'
   | 'update'
-  | TRelation;
+  | TRelation
+  | 'parallel'
 
 export interface IInsertAction {
   type: 'insert';
@@ -122,6 +123,11 @@ export interface IRemoveRelationAction extends IRelationAction {
   removeId: string;
 }
 
+export interface IParallelAction {
+  type: 'parallel';
+  actions: TServerAction[];
+}
+
 export type TServerAction =
   | IInsertAction
   | IReturnAction
@@ -131,7 +137,9 @@ export type TServerAction =
   | IRemoveRelationAction
   | IVariableAction
   | IUpdateAction
-  | IDeleteAction;
+  | IDeleteAction
+  | IParallelAction
+
 
 export interface IHandler {
   name: string;
