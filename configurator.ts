@@ -12,8 +12,11 @@ const {
   HANDLERS_PATH,
   SERVER_HANDLERS_PATH,
   SERVER_SIDEPANEL_CONFIG_PATH,
+  SERVER_MODAL_CONFIG_PATH,
   SIDEPANEL_CONFIG_PATH,
+  MODAL_CONFIG_PATH
 } = require('./paths');
+
 import entities from './_config/config.entity';
 import handlers from './_config/config.handler';
 import {
@@ -184,6 +187,7 @@ export const moveToServer = (): void => {
     [PAGE_CONFIG_PATH, SERVER_PAGE_CONFIG_PATH],
     [MENU_CONFIG_PATH, SERVER_MENU_CONFIG_PATH],
     [SIDEPANEL_CONFIG_PATH, SERVER_SIDEPANEL_CONFIG_PATH],
+    [MODAL_CONFIG_PATH, SERVER_MODAL_CONFIG_PATH]
   ];
 
   // copy files & dirs
