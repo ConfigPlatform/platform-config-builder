@@ -9,12 +9,13 @@ const parallelActionHandler: TCreateActionHandler<IParallelAction> = ({
     const handler = actionHandler[
       action.type
     ] as TCreateActionHandler<TServerAction>;
-    return handler(action);
+    const formatCode = `${handler(action)},`;
+    return formatCode.replace(/\n/g, '\n      ');
   });
 
   const parallelCode = `
     ${assignVar ? `const ${assignVar} = ` : ''}await Promise.all([
-      ${promises.join(',')}
+      ${promises.join('\n      ')}
     ]);
   `;
 
