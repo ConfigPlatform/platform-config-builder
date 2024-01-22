@@ -33,7 +33,7 @@ export interface IUpdateAction {
 export interface IDeleteAction {
   type: 'delete';
   entityName: string;
-  where: [string, string];
+  where: { [key: string]: any };
 }
 
 export interface IVariableAction {
@@ -64,6 +64,16 @@ export interface ISetMessageAction {
   content: string;
 }
 
+export interface ICloseModal {
+  clientHandler: 'close_modal';
+  id: string;
+}
+
+export interface IOpenModal {
+  clientHandler: 'open_modal';
+  id: string;
+}
+
 export interface ICloseSidepanel {
   clientHandler: 'close_sidepanel';
   id: string;
@@ -74,11 +84,19 @@ export interface IOpenSidepanel {
   id: string;
 }
 
+export interface IRefreshData {
+  clientHandler: 'refresh_data',
+  select: string;
+}
+
 export type TClientAction =
   | IRedirectPageAction
   | ISetMessageAction
   | ICloseSidepanel
-  | IOpenSidepanel;
+  | IOpenSidepanel
+  | ICloseModal
+  | IOpenModal
+  | IRefreshData;
 
 export interface IReturnAction {
   type: 'return';
@@ -92,8 +110,8 @@ export interface ISelectAction {
   type: 'select';
   entityName: string;
   leftJoinAndSelect?: [string, string] | [string, string][];
-  where?: [string, string];
-  andWhere?: [string, string];
+  where?: { [key: string]: any };
+  orderBy?: { [key: string]: 'DESC' | 'ASC' };
   orWhere?: [string, string];
   multiple?: boolean;
   itemsPerPage?: number;
@@ -329,6 +347,7 @@ const product_get_all: IHandler = {
     {
       type: 'select',
       entityName: 'product',
+      orderBy: { id: 'DESC' },
       itemsPerPage: 5,
       multiple: true,
       assignVar: 'products',
@@ -352,6 +371,7 @@ const client_get_all: IHandler = {
       type: 'select',
       entityName: 'client',
       leftJoinAndSelect: ['invoices', 'invoice'],
+      orderBy: { id: 'DESC' },
       itemsPerPage: 5,
       assignVar: 'clients',
     },
@@ -441,6 +461,10 @@ const product_create_sidepanel_submit: IHandler = {
           id: 'create_product',
         },
         {
+          clientHandler: 'refresh_data',
+          select: 'product_get_all',
+        },
+        {
           clientHandler: 'set_message',
           id: 'product_created',
           status: 'success',
@@ -449,6 +473,87 @@ const product_create_sidepanel_submit: IHandler = {
           content: 'Product was created',
         },
       ],
+    },
+  ],
+};
+
+const open_client_create_modal: IHandler = {
+  name: 'open_client_create_modal',
+  actions: [
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'open_modal',
+          id: 'create_client',
+        },
+      ],
+    },
+  ],
+}
+
+const close_client_create_modal: IHandler = {
+  name: 'close_client_create_modal',
+  actions: [
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'close_modal',
+          id: 'create_client',
+        },
+      ],
+    },
+  ],
+}
+
+const client_create_modal_submit: IHandler = {
+  name: 'client_create_modal_submit',
+  actions: [
+    {
+      type: 'mutate',
+      field: '$data.firstName',
+      value: '$data.firstName.toUpperCase()',
+    },
+    {
+      type: 'mutate',
+      field: '$data.lastName',
+      value: '$data.lastName.toUpperCase()',
+    },
+    {
+      type: 'insert',
+      entityName: 'client',
+      fields: [
+        {
+          entityField: 'firstName',
+          value: '$data.firstName',
+        },
+        {
+          entityField: 'lastName',
+          value: '$data.lastName',
+        },
+        {
+          entityField: 'phone',
+          value: '$data.phone',
+        },
+      ],
+    },
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'close_modal',
+          id: 'create_client',
+        },
+        {
+          clientHandler: 'set_message',
+          id: 'client_created',
+          status: 'success',
+          duration: 2000,
+          placement: 'top-right',
+          content: 'Client was created',
+        },
+     ],
     },
   ],
 };
@@ -464,6 +569,9 @@ const handlers: IHandler[] = [
   open_product_create_sidepanel,
   close_product_create_sidepanel,
   product_create_sidepanel_submit,
+  open_client_create_modal,
+  close_client_create_modal,
+  client_create_modal_submit,
 ];
 
 export default handlers;

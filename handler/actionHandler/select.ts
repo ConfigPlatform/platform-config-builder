@@ -14,9 +14,9 @@ const whereOperationHandler = ({
   entityName,
   payload,
   operationKey,
-}: IOperationPayload<[string, string]>): string => {
-  const field = payload[0];
-  const value = payload[1].replaceAll('$', '');
+}: IOperationPayload<{[key: string]: any}>): string => {
+  const field = Object.keys(payload)[0];
+  const value = Object.values(payload)[0].replaceAll('$', '');
 
   const entries = `\n    .${operationKey}('${entityName}.${field} = :${field}', { ${field}: ${value} })`;
 
@@ -41,6 +41,19 @@ const itemsPerPageOperationHandler = ({
   const entries = `\n    .skip(((data.page || 1) - 1) * ${payload})\n    .take(${payload})`;
 
   return entries;
+};
+
+const orderByOperationHandler = ({
+  entityName,
+  payload,
+  operationKey,
+}: IOperationPayload<{ [key: string]: 'DESC' | 'ASC' }>): string => {
+  let orderByStr = '';
+  for (const field in payload) {
+    const order = payload[field];
+    orderByStr += `\n    .${operationKey}('${entityName}.${field}', '${order}')`;
+  }
+  return orderByStr;
 };
 
 const selectActionHandler: TCreateActionHandler<ISelectAction> = (
@@ -85,11 +98,12 @@ const selectActionHandler: TCreateActionHandler<ISelectAction> = (
     // define operation
     switch (operationKey as keyof Omit<ISelectAction, TIgnoredKey>) {
       case 'where':
-      case 'andWhere':
       case 'orWhere':
         operationsStr += whereOperationHandler(operationHandlerPayload);
         break;
-
+      case 'orderBy':
+        entries += orderByOperationHandler(operationHandlerPayload);
+        break;
       case 'itemsPerPage':
         operationsStr += itemsPerPageOperationHandler(operationHandlerPayload);
         break;

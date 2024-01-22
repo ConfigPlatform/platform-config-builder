@@ -158,6 +158,13 @@ const pages: IPages = {
     pageTitle: 'Clients',
     content: [
       {
+        type: 'button',
+        label: 'Add client',
+        className:
+          'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg my-4',
+        serverHandler: 'open_client_create_modal',
+      },
+      {
         type: 'table',
         id: 'client_table',
         className: 'min-w-full leading-normal',
@@ -271,18 +278,21 @@ const pages: IPages = {
             label: 'First Name',
             type: 'string',
             required: true,
+            pattern:'^[a-zA-Z]+$'
           },
           {
             name: 'lastName',
             label: 'Last Name',
             type: 'string',
             required: true,
+            pattern:'^[a-zA-Z]+$'
           },
           {
             name: 'phone',
             label: 'Phone',
             type: 'string',
             required: true,
+            pattern: '^\d{3}-\d{3}-\d{4}$'
           },
         ],
         actions: [
@@ -322,6 +332,7 @@ const pages: IPages = {
                     type: 'number',
                     required: true,
                     defaultValue: 100,
+                    pattern: '^[0-9]+$'
                   },
                   {
                     name: 'name',

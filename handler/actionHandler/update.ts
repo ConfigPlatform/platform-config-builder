@@ -1,5 +1,5 @@
 import { IUpdateAction } from '_config/config.handler';
-import { createClassName } from '../../helpers';
+import { createClassName, defineValueFormat } from '../../helpers';
 import { TCreateActionHandler } from './index';
 
 const updateActionHandler: TCreateActionHandler<IUpdateAction> = ({
@@ -10,7 +10,7 @@ const updateActionHandler: TCreateActionHandler<IUpdateAction> = ({
   const entityClassName = createClassName(entityName);
 
   const updateValues = fields
-    .map((field) => `${field.entityField}: ${field.value.replaceAll('$', '')}`)
+    .map((field) => `${field.entityField}: ${defineValueFormat(field.value)}`)
     .join(', ');
 
   const updateQuery = `await dataSource

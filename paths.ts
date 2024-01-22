@@ -18,6 +18,11 @@ export const MENU_CONFIG_PATH = mergePaths(
   '/_config/config.menu.ts',
 );
 
+export const MODAL_CONFIG_PATH = mergePaths(
+  ROOT_PATH,
+  '/_config/config.modal.ts',
+);
+
 export const SIDEPANEL_CONFIG_PATH = mergePaths(
   ROOT_PATH,
   '/_config/config.sidepanel.ts',
@@ -48,6 +53,11 @@ export const SERVER_PAGE_CONFIG_PATH = mergePaths(
 export const SERVER_MENU_CONFIG_PATH = mergePaths(
   SERVER_ROOT_PATH,
   '/src/config/config.menu.ts',
+);
+
+export const SERVER_MODAL_CONFIG_PATH = mergePaths(
+  SERVER_ROOT_PATH,
+  '/src/config/config.modal.ts',
 );
 
 export const SERVER_SIDEPANEL_CONFIG_PATH = mergePaths(
