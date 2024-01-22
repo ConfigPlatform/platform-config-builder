@@ -38,7 +38,6 @@ const leftJoinAndSelectOperationHandler = ({
 const itemsPerPageOperationHandler = ({
   payload,
 }: IOperationPayload<number>): string => {
-
   const entries = `\n    .skip(((data.page || 1) - 1) * ${payload})\n    .take(${payload})`;
 
   return entries;
@@ -68,7 +67,9 @@ const selectActionHandler: TCreateActionHandler<ISelectAction> = (
     ? `[${assignVar}, ${assignVar}Count]`
     : `${assignVar}`;
 
-  let entries = `  const ${response} = await dataSource\n    .createQueryBuilder()\n    .select('${entityName}')\n    .from(entities.${entityClassName}, '${entityName}')`;
+  let entries = `  ${
+    assignVar ? `const ${response} = ` : ''
+  }await dataSource\n    .createQueryBuilder()\n    .select('${entityName}')\n    .from(entities.${entityClassName}, '${entityName}')`;
 
   const ignoredKeys: TIgnoredKey[] = [
     'entityName',
@@ -143,7 +144,7 @@ const selectActionHandler: TCreateActionHandler<ISelectAction> = (
   // return data operation
   const getDataOperation = `\n    .get${
     itemsPerPage ? 'ManyAndCount' : multiple ? 'Many' : 'One'
-  }();`;
+  }()`;
 
   entries += getDataOperation;
 

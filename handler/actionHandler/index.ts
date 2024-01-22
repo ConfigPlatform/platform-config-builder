@@ -8,7 +8,8 @@ import {
   IVariableAction,
   IDeleteAction,
   TServerAction,
-  IUpdateAction
+  IUpdateAction,
+  IParallelAction
 } from '_config/config.handler';
 import insertActionHandler from './insert';
 import mutateActionHandler from './mutate';
@@ -18,6 +19,7 @@ import relationActionHandler from './relation';
 import variableActionHandler from './variable';
 import updateActionHandler from './update';
 import deleteActionHandler from './delete';
+import parallelActionHandler from './parallel';
 
 export interface IActionPayload {
   [key: string]: any;
@@ -37,6 +39,7 @@ export interface IActionHandler {
   variable: TCreateActionHandler<IVariableAction>;
   update: TCreateActionHandler<IUpdateAction>;
   delete: TCreateActionHandler<IDeleteAction>;
+  parallel: TCreateActionHandler<IParallelAction>;
 }
 
 // action handler by action name
@@ -49,7 +52,8 @@ const actionHandler: IActionHandler = {
   return: returnActionHandler,
   variable: variableActionHandler,
   update: updateActionHandler,
-  delete: deleteActionHandler
+  delete: deleteActionHandler,
+  parallel: parallelActionHandler
 };
 
 export default actionHandler;

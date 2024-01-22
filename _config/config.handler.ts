@@ -13,7 +13,8 @@ export type TActionType =
   | 'return'
   | 'delete'
   | 'update'
-  | TRelation;
+  | TRelation
+  | 'parallel';
 
 export interface IInsertAction {
   type: 'insert';
@@ -114,7 +115,7 @@ export interface ISelectAction {
   orWhere?: [string, string];
   multiple?: boolean;
   itemsPerPage?: number;
-  assignVar: string;
+  assignVar?: string;
 }
 
 export interface IMutateAction {
@@ -140,6 +141,12 @@ export interface IRemoveRelationAction extends IRelationAction {
   removeId: string;
 }
 
+export interface IParallelAction {
+  type: 'parallel';
+  actions: TServerAction[];
+  assignVar?: string; 
+}
+
 export type TServerAction =
   | IInsertAction
   | IReturnAction
@@ -149,7 +156,8 @@ export type TServerAction =
   | IRemoveRelationAction
   | IVariableAction
   | IUpdateAction
-  | IDeleteAction;
+  | IDeleteAction
+  | IParallelAction;
 
 export interface IHandler {
   name: string;
@@ -201,16 +209,20 @@ const form_create_invoice_submit: IHandler = {
   name: 'form_create_invoice_submit',
   actions: [
     {
-      type: 'select',
-      entityName: 'product',
-      where: { name: '$data.product' },
-      assignVar: 'product',
-    },
-    {
-      type: 'select',
-      entityName: 'client',
-      where: { lastName: '$data.client' },
-      assignVar: 'client',
+      type: 'parallel',
+      actions: [
+        {
+          type: 'select',
+          entityName: 'product',
+          where: ['name', '$data.product'],
+        },
+        {
+          type: 'select',
+          entityName: 'client',
+          where: ['lastName', '$data.client'],
+        },
+      ],
+      assignVar: '[product, client]',
     },
     {
       type: 'insert',
