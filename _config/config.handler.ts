@@ -559,7 +559,7 @@ const handlers: IHandler[] = [
   product_create_sidepanel_submit,
   open_client_create_modal,
   close_client_create_modal,
-  client_create_modal_submit
+  client_create_modal_submit,
 ];
 
 export default handlers;

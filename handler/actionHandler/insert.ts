@@ -1,5 +1,5 @@
 import { IInsertAction } from '_config/config.handler';
-import { createClassName } from '../../helpers';
+import { createClassName, defineValueFormat } from '../../helpers';
 import { TCreateActionHandler } from './index';
 
 const insertActionHandler: TCreateActionHandler<IInsertAction> = ({
@@ -10,7 +10,7 @@ const insertActionHandler: TCreateActionHandler<IInsertAction> = ({
   const entityClassName = createClassName(entityName);
 
   const values = fields
-    .map((el) => `${el.entityField}: ${el.value.replaceAll('$', '')}`)
+    .map((el) => `${el.entityField}: ${defineValueFormat(el.value)}`)
     .join(', ');
 
   const entries = `  ${
