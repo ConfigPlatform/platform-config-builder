@@ -83,13 +83,19 @@ export interface IOpenSidepanel {
   id: string;
 }
 
+export interface IRefreshData {
+  clientHandler: 'refresh_data',
+  select: string;
+}
+
 export type TClientAction =
   | IRedirectPageAction
   | ISetMessageAction
   | ICloseSidepanel
   | IOpenSidepanel
   | ICloseModal
-  | IOpenModal;
+  | IOpenModal
+  | IRefreshData;
 
 export interface IReturnAction {
   type: 'return';
@@ -441,6 +447,10 @@ const product_create_sidepanel_submit: IHandler = {
         {
           clientHandler: 'close_sidepanel',
           id: 'create_product',
+        },
+        {
+          clientHandler: 'refresh_data',
+          select: 'product_get_all',
         },
         {
           clientHandler: 'set_message',
