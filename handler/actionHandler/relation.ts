@@ -8,12 +8,19 @@ import { TCreateActionHandler } from './index';
 const relationActionHandler: TCreateActionHandler<
   IAddRelationAction | IRemoveRelationAction
 > = (payload) => {
-  const { type, entityName, field } = payload;
+  const { type, entityName, field, awaitResult } = payload;
 
   const entityClassName = createClassName(entityName);
   const entityId = payload.entityId.replaceAll('$', '');
 
-  let entries = `  await dataSource\n    .createQueryBuilder()\n    .relation(entities.${entityClassName}, '${field}')\n    .of(${entityId})`;
+  let entries = ``;
+
+  // check if we should await result
+  if (awaitResult) {
+    entries += 'await ';
+  }
+
+  entries += `dataSource\n    .createQueryBuilder()\n    .relation(entities.${entityClassName}, '${field}')\n    .of(${entityId})`;
 
   // define relation fn
   if (type === 'addRelation') {

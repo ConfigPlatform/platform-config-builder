@@ -20,7 +20,8 @@ export interface IInsertAction {
   type: 'insert';
   entityName: string;
   fields: { value: string; entityField: string }[];
-  assignVar?: string;
+  assignToVar?: string;
+  awaitResult?: boolean;
 }
 
 export interface IUpdateAction {
@@ -28,12 +29,14 @@ export interface IUpdateAction {
   entityName: string;
   fields: { entityField: string; value: string }[];
   where: { [key: string]: any };
+  awaitResult?: boolean;
 }
 
 export interface IDeleteAction {
   type: 'delete';
   entityName: string;
   where: { [key: string]: any };
+  awaitResult?: boolean;
 }
 
 export interface IVariableAction {
@@ -85,7 +88,7 @@ export interface IOpenSidepanel {
 }
 
 export interface IRefreshData {
-  clientHandler: 'refresh_data',
+  clientHandler: 'refresh_data';
   select: string;
 }
 
@@ -115,7 +118,8 @@ export interface ISelectAction {
   orWhere?: [string, string];
   multiple?: boolean;
   itemsPerPage?: number;
-  assignVar?: string;
+  assignToVar?: string;
+  awaitResult?: boolean;
 }
 
 export interface IMutateAction {
@@ -129,6 +133,7 @@ export interface IRelationAction {
   entityName: string;
   entityId: string;
   field: string;
+  awaitResult?: boolean;
 }
 
 export interface IAddRelationAction extends IRelationAction {
@@ -144,7 +149,8 @@ export interface IRemoveRelationAction extends IRelationAction {
 export interface IParallelAction {
   type: 'parallel';
   actions: TServerAction[];
-  assignVar?: string; 
+  assignToVar?: string;
+  awaitResult?: boolean;
 }
 
 export type TServerAction =
@@ -184,6 +190,7 @@ const form_create_product_submit: IHandler = {
           value: '$data.description',
         },
       ],
+      awaitResult: true,
     },
     {
       type: 'return',
@@ -209,40 +216,66 @@ const form_create_invoice_submit: IHandler = {
   name: 'form_create_invoice_submit',
   actions: [
     {
+      type: 'variable',
+      name: 'dataPromiseResults',
+      value: 'null',
+      as: 'let',
+    },
+    {
+      type: 'variable',
+      name: 'invoice',
+      value: 'null',
+      as: 'let',
+    },
+    {
       type: 'parallel',
       actions: [
         {
           type: 'select',
           entityName: 'product',
-          where: ['name', '$data.product'],
+          where: { name: '$data.product' },
         },
         {
           type: 'select',
           entityName: 'client',
-          where: ['lastName', '$data.client'],
+          where: { lastName: '$data.client' },
         },
       ],
-      assignVar: '[product, client]',
+      assignToVar: 'dataPromiseResults',
+      awaitResult: true,
+    },
+    {
+      type: 'variable',
+      name: '[product, client]',
+      value: '$dataPromiseResults',
+      as: 'let',
     },
     {
       type: 'insert',
       entityName: 'invoice',
       fields: [{ entityField: 'client', value: '$client.id' }],
-      assignVar: 'invoice',
+      assignToVar: 'invoice',
+      awaitResult: true,
     },
     {
-      type: 'addRelation',
-      entityName: 'client',
-      entityId: '$client.id',
-      field: 'invoices',
-      addId: '$invoice.identifiers[0].id',
-    },
-    {
-      type: 'addRelation',
-      entityName: 'invoice',
-      entityId: '$invoice.identifiers[0].id',
-      field: 'products',
-      addId: '$product.id',
+      type: 'parallel',
+      actions: [
+        {
+          type: 'addRelation',
+          entityName: 'client',
+          entityId: '$client.id',
+          field: 'invoices',
+          addId: '$invoice.identifiers[0].id',
+        },
+        {
+          type: 'addRelation',
+          entityName: 'invoice',
+          entityId: '$invoice.identifiers[0].id',
+          field: 'products',
+          addId: '$product.id',
+        },
+      ],
+      awaitResult: true,
     },
     {
       type: 'return',
@@ -294,6 +327,7 @@ const form_create_client_submit: IHandler = {
           value: '$data.phone',
         },
       ],
+      awaitResult: true,
     },
     {
       type: 'return',
@@ -319,6 +353,12 @@ const invoice_get_all: IHandler = {
   name: 'invoice_get_all',
   actions: [
     {
+      type: 'variable',
+      name: 'invoicesGetRes',
+      value: 'null',
+      as: 'let',
+    },
+    {
       type: 'select',
       entityName: 'invoice',
       leftJoinAndSelect: [
@@ -327,13 +367,14 @@ const invoice_get_all: IHandler = {
       ],
       itemsPerPage: 5,
       multiple: true,
-      assignVar: 'products',
+      awaitResult: true,
+      assignToVar: 'invoicesGetRes',
     },
     {
       type: 'return',
       data: {
-        items: '$products',
-        totalCount: '$productsCount',
+        items: '$invoicesGetRes[0]',
+        totalCount: '$invoicesGetRes[1]',
         pagination: { itemsPerPage: 5 },
       },
       config: null,
@@ -345,18 +386,25 @@ const product_get_all: IHandler = {
   name: 'product_get_all',
   actions: [
     {
+      type: 'variable',
+      name: 'productsGetRes',
+      value: 'null',
+      as: 'let',
+    },
+    {
       type: 'select',
       entityName: 'product',
       orderBy: { id: 'DESC' },
       itemsPerPage: 5,
       multiple: true,
-      assignVar: 'products',
+      awaitResult: true,
+      assignToVar: 'productsGetRes',
     },
     {
       type: 'return',
       data: {
-        items: '$products',
-        totalCount: '$productsCount',
+        items: '$productsGetRes[0]',
+        totalCount: '$productsGetRes[1]',
         pagination: { itemsPerPage: 5 },
       },
       config: null,
@@ -368,18 +416,25 @@ const client_get_all: IHandler = {
   name: 'client_get_all',
   actions: [
     {
+      type: 'variable',
+      name: 'clientsGetRes',
+      value: 'null',
+      as: 'let',
+    },
+    {
       type: 'select',
       entityName: 'client',
       leftJoinAndSelect: ['invoices', 'invoice'],
       orderBy: { id: 'DESC' },
       itemsPerPage: 5,
-      assignVar: 'clients',
+      awaitResult: true,
+      assignToVar: 'clientsGetRes',
     },
     {
       type: 'return',
       data: {
-        items: '$clients',
-        totalCount: '$clientsCount',
+        items: '$clientsGetRes[0]',
+        totalCount: '$clientsGetRes[1]',
         pagination: { itemsPerPage: 5 },
       },
       config: null,
@@ -452,6 +507,7 @@ const product_create_sidepanel_submit: IHandler = {
           value: '$data.description',
         },
       ],
+      awaitResult: true,
     },
     {
       type: 'return',
@@ -490,7 +546,7 @@ const open_client_create_modal: IHandler = {
       ],
     },
   ],
-}
+};
 
 const close_client_create_modal: IHandler = {
   name: 'close_client_create_modal',
@@ -505,7 +561,7 @@ const close_client_create_modal: IHandler = {
       ],
     },
   ],
-}
+};
 
 const client_create_modal_submit: IHandler = {
   name: 'client_create_modal_submit',
@@ -537,6 +593,7 @@ const client_create_modal_submit: IHandler = {
           value: '$data.phone',
         },
       ],
+      awaitResult: true,
     },
     {
       type: 'return',
@@ -553,7 +610,7 @@ const client_create_modal_submit: IHandler = {
           placement: 'top-right',
           content: 'Client was created',
         },
-     ],
+      ],
     },
   ],
 };

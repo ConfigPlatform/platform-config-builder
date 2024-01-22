@@ -14,7 +14,7 @@ const whereOperationHandler = ({
   entityName,
   payload,
   operationKey,
-}: IOperationPayload<{[key: string]: any}>): string => {
+}: IOperationPayload<{ [key: string]: any }>): string => {
   const field = Object.keys(payload)[0];
   const value = Object.values(payload)[0].replaceAll('$', '');
 
@@ -59,17 +59,24 @@ const orderByOperationHandler = ({
 const selectActionHandler: TCreateActionHandler<ISelectAction> = (
   operations,
 ) => {
-  const { entityName, multiple, itemsPerPage, assignVar } = operations;
+  const { entityName, multiple, itemsPerPage, assignToVar, awaitResult } =
+    operations;
 
   const entityClassName = createClassName(operations.entityName);
 
-  const response = itemsPerPage
-    ? `[${assignVar}, ${assignVar}Count]`
-    : `${assignVar}`;
+  let entries = ``;
 
-  let entries = `  ${
-    assignVar ? `const ${response} = ` : ''
-  }await dataSource\n    .createQueryBuilder()\n    .select('${entityName}')\n    .from(entities.${entityClassName}, '${entityName}')`;
+  // check if we should assign result to var
+  if (assignToVar) {
+    entries += `${assignToVar} = `;
+  }
+
+  // check if we should await result
+  if (awaitResult) {
+    entries += 'await ';
+  }
+
+  entries += `dataSource\n    .createQueryBuilder()\n    .select('${entityName}')\n    .from(entities.${entityClassName}, '${entityName}')`;
 
   const ignoredKeys: TIgnoredKey[] = [
     'entityName',

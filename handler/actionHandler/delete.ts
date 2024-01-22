@@ -5,16 +5,23 @@ import { TCreateActionHandler } from './index';
 const deleteActionHandler: TCreateActionHandler<IDeleteAction> = ({
   entityName,
   where,
+  awaitResult,
 }) => {
-  
   const entityClassName = createClassName(entityName);
 
-  const entries = `await dataSource
-    .createQueryBuilder()
-    .delete()
-    .from(entities.${entityClassName}) 
-    .where(${JSON.stringify(where, null, 2).replaceAll('$', '')})
-    .execute()`;
+  let entries = ``;
+
+  // check if we should await result
+  if (awaitResult) {
+    entries += 'await ';
+  }
+
+  entries += `dataSource
+  .createQueryBuilder()
+  .delete()
+  .from(entities.${entityClassName}) 
+  .where(${JSON.stringify(where, null, 2).replaceAll('$', '')})
+  .execute()`;
 
   return entries;
 };

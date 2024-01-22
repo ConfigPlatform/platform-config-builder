@@ -6,6 +6,7 @@ const updateActionHandler: TCreateActionHandler<IUpdateAction> = ({
   entityName,
   fields,
   where,
+  awaitResult,
 }) => {
   const entityClassName = createClassName(entityName);
 
@@ -13,14 +14,21 @@ const updateActionHandler: TCreateActionHandler<IUpdateAction> = ({
     .map((field) => `${field.entityField}: ${defineValueFormat(field.value)}`)
     .join(', ');
 
-  const updateQuery = `await dataSource
-    .createQueryBuilder()
-    .update(entities.${entityClassName})
-    .set({ ${updateValues} })
-    .where(${JSON.stringify(where, null, 2).replaceAll('$', '')})
-    .execute()`;
+  let entries = ``;
 
-  return updateQuery;
+  // check if we should await result
+  if (awaitResult) {
+    entries += 'await ';
+  }
+
+  entries += `dataSource
+  .createQueryBuilder()
+  .update(entities.${entityClassName})
+  .set({ ${updateValues} })
+  .where(${JSON.stringify(where, null, 2).replaceAll('$', '')})
+  .execute()`;
+
+  return entries;
 };
 
 export default updateActionHandler;

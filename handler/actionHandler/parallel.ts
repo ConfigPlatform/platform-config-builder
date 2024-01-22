@@ -3,7 +3,7 @@ import { IParallelAction, TServerAction } from '../../_config/config.handler';
 
 const parallelActionHandler: TCreateActionHandler<IParallelAction> = ({
   actions,
-  assignVar
+  assignToVar,
 }) => {
   const promises = actions.map((action) => {
     const handler = actionHandler[
@@ -13,13 +13,19 @@ const parallelActionHandler: TCreateActionHandler<IParallelAction> = ({
     return formatCode.replace(/\n/g, '\n      ');
   });
 
-  const parallelCode = `
-    ${assignVar ? `const ${assignVar} = ` : ''}await Promise.all([
-      ${promises.join('\n      ')}
-    ]);
-  `;
+  let entries = '';
 
-  return parallelCode;
+  // check if we should assign result to var
+  if (assignToVar) {
+    entries += `${assignToVar} = `;
+  }
+
+  entries += `await Promise.all([
+    ${promises.join('\n      ')}
+  ]);
+`;
+
+  return entries;
 };
 
 export default parallelActionHandler;
