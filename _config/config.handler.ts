@@ -16,6 +16,12 @@ export type TActionType =
   | TRelation
   | 'parallel';
 
+export interface IFilter {
+  field: string;
+  value: any;
+}
+
+
 export interface IInsertAction {
   type: 'insert';
   entityName: string;
@@ -120,6 +126,7 @@ export interface ISelectAction {
   itemsPerPage?: number;
   assignToVar?: string;
   awaitResult?: boolean;
+  filter?: IFilter;
 }
 
 export interface IMutateAction {
@@ -412,6 +419,42 @@ const product_get_all: IHandler = {
   ],
 };
 
+const client_get_filtered: IHandler = {
+  name: 'client_get_filtered',
+  actions: [
+    {
+      type: 'variable',
+      name: 'filter',
+      value: '$filter',
+      as: 'let',
+    },
+    {
+      type: 'select',
+      entityName: 'client',
+      leftJoinAndSelect: ['invoices', 'invoice'],
+      where: {
+        [`${'$filter.field'}`]: {
+          type: 'like',
+          value: `%${'$filter.value'}%`
+        }
+      },
+      orderBy: { id: 'DESC' },
+      itemsPerPage: 5,
+      awaitResult: true,
+      assignToVar: 'clientsGetRes',
+    },
+    {
+      type: 'return',
+      data: {
+        items: '$clientsGetRes[0]',
+        totalCount: '$clientsGetRes[1]',
+        pagination: { itemsPerPage: 5 },
+      },
+      config: null,
+    },
+  ],
+};
+
 const client_get_all: IHandler = {
   name: 'client_get_all',
   actions: [
@@ -629,6 +672,7 @@ const handlers: IHandler[] = [
   open_client_create_modal,
   close_client_create_modal,
   client_create_modal_submit,
+  client_get_filtered
 ];
 
 export default handlers;

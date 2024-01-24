@@ -158,6 +158,12 @@ const pages: IPages = {
     pageTitle: 'Clients',
     content: [
       {
+        type: 'filter',
+        field: 'firstName',
+        value: '',
+        onChange: 'invoice_get_filtered',
+      },
+      {
         type: 'button',
         label: 'Add client',
         className:
