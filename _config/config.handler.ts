@@ -286,7 +286,7 @@ const form_create_invoice_submit: IHandler = {
           status: 'success',
           duration: 2000,
           placement: 'top-right',
-          content: 'Invoice was created',
+          content: 'Invoice has been created',
         },
         {
           clientHandler: 'redirect_page',
@@ -457,6 +457,21 @@ const form_create_product_cancel: IHandler = {
   ],
 };
 
+const form_create_invoice_cancel: IHandler = {
+  name: 'form_create_invoice_cancel',
+  actions: [
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'redirect_page',
+          path: '/invoice',
+        },
+      ],
+    },
+  ],
+};
+
 const open_product_create_sidepanel: IHandler = {
   name: 'open_product_create_sidepanel',
   actions: [
@@ -527,6 +542,82 @@ const product_create_sidepanel_submit: IHandler = {
           duration: 2000,
           placement: 'top-right',
           content: 'Product was created',
+        },
+      ],
+    },
+  ],
+};
+
+const open_invoice_create_sidepanel: IHandler = {
+  name: 'open_invoice_create_sidepanel',
+  actions: [
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'open_sidepanel',
+          id: 'create_invoice',
+        },
+      ],
+    },
+  ],
+};
+
+const close_invoice_create_sidepanel: IHandler = {
+  name: 'close_invoice_create_sidepanel',
+  actions: [
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'close_sidepanel',
+          id: 'create_invoice',
+        },
+      ],
+    },
+  ],
+};
+
+const invoice_create_sidepanel_submit: IHandler = {
+  name: 'invoice_create_sidepanel_submit',
+  actions: [
+    {
+      type: 'insert',
+      entityName: 'invoice',
+      fields: [
+        {
+          entityField: 'name',
+          value: '$data.name',
+        },
+        {
+          entityField: 'price',
+          value: '$data.price',
+        },
+        {
+          entityField: 'description',
+          value: '$data.description',
+        },
+      ],
+      awaitResult: true,
+    },
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'close_sidepanel',
+          id: 'create_invoice',
+        },
+        {
+          clientHandler: 'refresh_data',
+          select: 'invoice_get_all',
+        },
+        {
+          clientHandler: 'set_message',
+          id: 'invoice_created',
+          status: 'success',
+          duration: 2000,
+          placement: 'top-right',
+          content: 'Invoice has been created',
         },
       ],
     },
@@ -620,12 +711,16 @@ const handlers: IHandler[] = [
   form_create_client_submit,
   form_create_invoice_submit,
   form_create_product_cancel,
+  form_create_invoice_cancel,
   product_get_all,
   client_get_all,
   invoice_get_all,
   open_product_create_sidepanel,
   close_product_create_sidepanel,
   product_create_sidepanel_submit,
+  open_invoice_create_sidepanel,
+  close_invoice_create_sidepanel,
+  invoice_create_sidepanel_submit,
   open_client_create_modal,
   close_client_create_modal,
   client_create_modal_submit,

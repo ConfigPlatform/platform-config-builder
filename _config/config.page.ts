@@ -9,6 +9,13 @@ const pages: IPages = {
     pageTitle: 'Invoices',
     content: [
       {
+        type: 'button',
+        label: 'Add Invoice',
+        className:
+          'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg my-4',
+        serverHandler: 'open_invoice_create_sidepanel',
+      },
+      {
         type: 'table',
         id: 'invoice_table',
         className: 'min-w-full leading-normal',
@@ -137,9 +144,8 @@ const pages: IPages = {
                     serverHandler: 'form_create_invoice_submit',
                   },
                   {
-                    type: 'button',
-                    htmlType: 'submit',
-                    label: 'Create and Add New',
+                    type: 'reset',
+                    label: 'Cancel',
                     className:
                       'btn btn-primary px-3 py-2 text-sm text-gray-700 duration-100 cursor-pointer border rounded hover:border-indigo-600 active:shadow-lg',
                     serverHandler: 'form_create_invoice_cancel',
