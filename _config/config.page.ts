@@ -1,5 +1,5 @@
 export interface IPages {
-  [path: string]: object;
+  [path: string]: any;
 }
 
 // pages config
@@ -23,25 +23,15 @@ const pages: IPages = {
                   'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
                 name: 'ID',
                 cell: {
-                  data: '$id',
                   className:
                     'px-5 py-5 border-b border-gray-200 bg-white text-sm',
-                },
-              },
-              {
-                type: 'tableHeading',
-                className:
-                  'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
-                name: 'Products',
-                cell: {
-                  data: '$products',
-                  className:
-                    'px-5 py-5 border-b border-gray-200 bg-white text-sm',
-                  listElem: {
-                    className: '',
-                    data: '$name',
-                  },
-                  separator: ', ',
+                  content: [
+                    {
+                      type: 'text',
+                      value: '$id',
+                      vars: { id: '$id' },
+                    },
+                  ],
                 },
               },
               {
@@ -50,21 +40,39 @@ const pages: IPages = {
                   'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
                 name: 'Client',
                 cell: {
-                  data: '$client.lastName',
                   className:
                     'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                  content: [
+                    {
+                      type: 'text',
+                      value: '$name',
+                      vars: { 'client.lastName': '$name' },
+                    },
+                  ],
                 },
               },
               {
                 type: 'tableHeading',
                 className:
                   'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
-                name: 'Total',
+                name: 'Products',
                 cell: {
-                  data: '$products[0].price',
                   className:
                     'px-5 py-5 border-b border-gray-200 bg-white text-sm',
-                  prefix: '$',
+                  content: [
+                    {
+                      type: 'list',
+                      data: 'products',
+                      separator: ', ',
+                      content: [
+                        {
+                          type: 'text',
+                          value: '$name',
+                          vars: { name: '$name' },
+                        },
+                      ],
+                    },
+                  ],
                 },
               },
             ],
@@ -179,9 +187,15 @@ const pages: IPages = {
                   'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
                 name: 'ID',
                 cell: {
-                  data: '$id',
                   className:
                     'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                  content: [
+                    {
+                      type: 'text',
+                      value: '$id',
+                      vars: { id: '$id' },
+                    },
+                  ],
                 },
               },
               {
@@ -190,9 +204,15 @@ const pages: IPages = {
                   'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
                 name: 'First Name',
                 cell: {
-                  data: '$firstName',
                   className:
                     'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                  content: [
+                    {
+                      type: 'text',
+                      value: '$firstName',
+                      vars: { firstName: '$firstName' },
+                    },
+                  ],
                 },
               },
               {
@@ -201,9 +221,15 @@ const pages: IPages = {
                   'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
                 name: 'Last Name',
                 cell: {
-                  data: '$lastName',
                   className:
                     'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                  content: [
+                    {
+                      type: 'text',
+                      value: '$lastName',
+                      vars: { lastName: '$lastName' },
+                    },
+                  ],
                 },
               },
               {
@@ -212,9 +238,15 @@ const pages: IPages = {
                   'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
                 name: 'Phone',
                 cell: {
-                  data: '$phone',
                   className:
                     'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                  content: [
+                    {
+                      type: 'text',
+                      value: '$phone',
+                      vars: { phone: '$phone' },
+                    },
+                  ],
                 },
               },
               {
@@ -223,15 +255,48 @@ const pages: IPages = {
                   'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
                 name: 'Invoices',
                 cell: {
-                  data: '$invoices',
                   className:
                     'px-5 py-5 border-b border-gray-200 bg-white text-sm',
-                  listElem: {
-                    className: '',
-                    data: '$id',
-                  },
-                  prefix: '#',
-                  separator: ', ',
+                  content: [
+                    {
+                      type: 'list',
+                      data: 'invoices',
+                      separator: ', ',
+                      content: [
+                        {
+                          type: 'text',
+                          value: '$id',
+                          vars: { id: '$id' },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+              {
+                type: 'tableHeading',
+                className:
+                  'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
+                name: 'Controls',
+                cell: {
+                  className:
+                    'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                  content: [
+                    {
+                      type: 'button',
+                      label: 'Edit',
+                      className:
+                        'text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-3 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 me-2',
+                      serverHandler: '',
+                    },
+                    {
+                      type: 'button',
+                      label: 'Delete',
+                      className:
+                        'focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-xs px-3 py-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900',
+                      serverHandler: '',
+                    },
+                  ],
                 },
               },
             ],
@@ -278,21 +343,21 @@ const pages: IPages = {
             label: 'First Name',
             type: 'string',
             required: true,
-            pattern:'^[a-zA-Z]+$'
+            pattern: '^[a-zA-Z]+$',
           },
           {
             name: 'lastName',
             label: 'Last Name',
             type: 'string',
             required: true,
-            pattern:'^[a-zA-Z]+$'
+            pattern: '^[a-zA-Z]+$',
           },
           {
             name: 'phone',
             label: 'Phone',
             type: 'string',
             required: true,
-            pattern: '^\d{3}-\d{3}-\d{4}$'
+            pattern: '^d{3}-d{3}-d{4}$',
           },
         ],
         actions: [
@@ -332,7 +397,7 @@ const pages: IPages = {
                     type: 'number',
                     required: true,
                     defaultValue: 100,
-                    pattern: '^[0-9]+$'
+                    pattern: '^[0-9]+$',
                   },
                   {
                     name: 'name',
@@ -398,9 +463,15 @@ const pages: IPages = {
                   'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
                 name: 'ID',
                 cell: {
-                  data: '$id',
                   className:
                     'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                  content: [
+                    {
+                      type: 'text',
+                      value: '$id',
+                      vars: { id: '$id' },
+                    },
+                  ],
                 },
               },
               {
@@ -409,9 +480,15 @@ const pages: IPages = {
                   'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
                 name: 'Name',
                 cell: {
-                  data: '$name',
                   className:
                     'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                  content: [
+                    {
+                      type: 'text',
+                      value: '$name',
+                      vars: { name: '$name' },
+                    },
+                  ],
                 },
               },
               {
@@ -420,10 +497,15 @@ const pages: IPages = {
                   'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
                 name: 'Price',
                 cell: {
-                  data: '$price',
                   className:
                     'px-5 py-5 border-b border-gray-200 bg-white text-sm',
-                  prefix: '$',
+                  content: [
+                    {
+                      type: 'text',
+                      value: '$$price',
+                      vars: { price: '$price' },
+                    },
+                  ],
                 },
               },
               {
@@ -432,13 +514,19 @@ const pages: IPages = {
                   'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
                 name: 'Description',
                 cell: {
-                  data: '$description',
                   className:
                     'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+                  content: [
+                    {
+                      type: 'text',
+                      value: '$description',
+                      vars: { description: '$description' },
+                    },
+                  ],
                 },
               },
             ],
-          }
+          },
         ],
       },
       {

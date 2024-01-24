@@ -361,6 +361,7 @@ const invoice_get_all: IHandler = {
     {
       type: 'select',
       entityName: 'invoice',
+      orderBy: { id: 'DESC' },
       leftJoinAndSelect: [
         ['client', 'client'],
         ['products', 'product'],
