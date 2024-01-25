@@ -1,3 +1,6 @@
+import * as path from 'path';
+import * as prettier from 'prettier';
+
 const fs = require('fs-extra');
 const {
   ENTITIES_PATH,
@@ -14,7 +17,7 @@ const {
   SERVER_SIDEPANEL_CONFIG_PATH,
   SERVER_MODAL_CONFIG_PATH,
   SIDEPANEL_CONFIG_PATH,
-  MODAL_CONFIG_PATH
+  MODAL_CONFIG_PATH,
 } = require('./paths');
 
 import entities from './_config/config.entity';
@@ -97,6 +100,8 @@ export const updateEntityMap = (): void => {
   fs.writeFileSync(entityMapPath, entityMapEntries);
 };
 
+const prettierConfig = JSON.parse(fs.readFileSync('./.prettierrc', 'utf8'));
+
 // function generates handlers
 export const updateHandlers = (): void => {
   // if /generated/handlers path isn't valid, we should create dirs recursively
@@ -125,6 +130,22 @@ export const updateHandlers = (): void => {
     // update handler
     updateHandler(handler);
   }
+
+  const handlerFiles = fs.readdirSync('generated/handlers');
+  handlerFiles.forEach((file) => {
+    const filePath = path.join('generated/handlers', file);
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+
+    try {
+      const formatted = prettier.format(fileContents, {
+        ...prettierConfig,
+        parser: 'typescript',
+      });
+      fs.writeFileSync(filePath, formatted);
+    } catch (error) {
+      console.error(`Error formatting file ${filePath}: `, error);
+    }
+  });
 };
 
 // function cleanups server: removes not actual components
@@ -187,7 +208,7 @@ export const moveToServer = (): void => {
     [PAGE_CONFIG_PATH, SERVER_PAGE_CONFIG_PATH],
     [MENU_CONFIG_PATH, SERVER_MENU_CONFIG_PATH],
     [SIDEPANEL_CONFIG_PATH, SERVER_SIDEPANEL_CONFIG_PATH],
-    [MODAL_CONFIG_PATH, SERVER_MODAL_CONFIG_PATH]
+    [MODAL_CONFIG_PATH, SERVER_MODAL_CONFIG_PATH],
   ];
 
   // copy files & dirs
