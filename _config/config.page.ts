@@ -75,23 +75,23 @@ const pages: IPages = {
         type: 'pagination',
         select: 'invoice_get_all',
         className:
-          'md:w-2/5 w-full  flex items-center justify-between  py-5 lg:px-0 sm:px-6 px-4',
+          'md:w-2/5 w-full flex items-center justify-center py-5 lg:px-0 sm:px-6 px-4',
         previousButton: {
           className:
-            'text-sm font-medium leading-none cursor-pointer text-gray-600 hover:text-indigo-700 border-t border-transparent pt-3 mr-4 px-2',
+            'text-sm font-medium cursor-pointer text-gray-600 bg-gray-100 hover:text-indigo-700 border border-e-0 border-gray-300 p-2 rounded-s-md',
         },
         nextButton: {
           className:
-            'text-sm font-medium leading-none cursor-pointer text-gray-600 hover:text-indigo-700 pt-3 mr-4 px-2',
+            'text-sm font-medium cursor-pointer text-gray-600 bg-gray-100 hover:text-indigo-700 border border-gray-300 p-2 rounded-e-md',
         },
         pagesWrapper: { className: 'flex items-center' },
         page: {
           className:
-            'text-sm font-medium leading-none cursor-pointer text-gray-600 hover:text-indigo-700 border-t border-transparent hover:border-indigo-400 pt-3 mr-4 px-2',
+            'text-sm font-medium cursor-pointer text-gray-600 bg-gray-100 hover:text-indigo-700 hover:border-indigo-400 border border-e-0 border-gray-300 p-2',
         },
         pageActive: {
           className:
-            'text-lg font-medium leading-none cursor-pointer text-gray-600 hover:text-indigo-700 border-t border-transparent hover:border-indigo-400 pt-3 mr-4 px-2',
+            'text-sm font-medium cursor-pointer text-gray-600 bg-gray-300 hover:text-indigo-700 hover:border-indigo-400 border border-e-0 border-gray-300 p-2',
         },
       },
     ],
@@ -242,23 +242,23 @@ const pages: IPages = {
         type: 'pagination',
         select: 'client_get_all',
         className:
-          'md:w-2/5 w-full  flex items-center justify-between  py-5 lg:px-0 sm:px-6 px-4',
+          'md:w-2/5 w-full flex items-center justify-center py-5 lg:px-0 sm:px-6 px-4',
         previousButton: {
           className:
-            'text-sm font-medium leading-none cursor-pointer text-gray-600 hover:text-indigo-700 border-t border-transparent pt-3 mr-4 px-2',
+            'text-sm font-medium cursor-pointer text-gray-600 bg-gray-100 hover:text-indigo-700 border border-e-0 border-gray-300 p-2 rounded-s-md',
         },
         nextButton: {
           className:
-            'text-sm font-medium leading-none cursor-pointer text-gray-600 hover:text-indigo-700 pt-3 mr-4 px-2',
+            'text-sm font-medium cursor-pointer text-gray-600 bg-gray-100 hover:text-indigo-700 border border-gray-300 p-2 rounded-e-md',
         },
         pagesWrapper: { className: 'flex items-center' },
         page: {
           className:
-            'text-sm font-medium leading-none cursor-pointer text-gray-600 hover:text-indigo-700 border-t border-transparent hover:border-indigo-400 pt-3 mr-4 px-2',
+            'text-sm font-medium cursor-pointer text-gray-600 bg-gray-100 hover:text-indigo-700 hover:border-indigo-400 border border-e-0 border-gray-300 p-2',
         },
         pageActive: {
           className:
-            'text-lg font-medium leading-none cursor-pointer text-gray-600 hover:text-indigo-700 border-t border-transparent hover:border-indigo-400 pt-3 mr-4 px-2',
+            'text-sm font-medium cursor-pointer text-gray-600 bg-gray-300 hover:text-indigo-700 hover:border-indigo-400 border border-e-0 border-gray-300 p-2',
         },
       },
     ],
@@ -445,23 +445,23 @@ const pages: IPages = {
         type: 'pagination',
         select: 'product_get_all',
         className:
-          'md:w-2/5 w-full  flex items-center justify-between  py-5 lg:px-0 sm:px-6 px-4',
+          'md:w-2/5 w-full flex items-center justify-center py-5 lg:px-0 sm:px-6 px-4',
         previousButton: {
           className:
-            'text-sm font-medium leading-none cursor-pointer text-gray-600 hover:text-indigo-700 border-t border-transparent pt-3 mr-4 px-2',
+            'text-sm font-medium cursor-pointer text-gray-600 bg-gray-100 hover:text-indigo-700 border border-e-0 border-gray-300 p-2 rounded-s-md',
         },
         nextButton: {
           className:
-            'text-sm font-medium leading-none cursor-pointer text-gray-600 hover:text-indigo-700 pt-3 mr-4 px-2',
+            'text-sm font-medium cursor-pointer text-gray-600 bg-gray-100 hover:text-indigo-700 border border-gray-300 p-2 rounded-e-md',
         },
         pagesWrapper: { className: 'flex items-center' },
         page: {
           className:
-            'text-sm font-medium leading-none cursor-pointer text-gray-600 hover:text-indigo-700 border-t border-transparent hover:border-indigo-400 pt-3 mr-4 px-2',
+            'text-sm font-medium cursor-pointer text-gray-600 bg-gray-100 hover:text-indigo-700 hover:border-indigo-400 border border-e-0 border-gray-300 p-2',
         },
         pageActive: {
           className:
-            'text-lg font-medium leading-none cursor-pointer text-gray-600 hover:text-indigo-700 border-t border-transparent hover:border-indigo-400 pt-3 mr-4 px-2',
+            'text-sm font-medium cursor-pointer text-gray-600 bg-gray-300 hover:text-indigo-700 hover:border-indigo-400 border border-e-0 border-gray-300 p-2',
         },
       },
     ],
