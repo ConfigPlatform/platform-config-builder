@@ -14,7 +14,8 @@ export type TActionType =
   | 'delete'
   | 'update'
   | TRelation
-  | 'parallel';
+  | 'parallel'
+  | 'condition';
 
 export interface IInsertAction {
   type: 'insert';
@@ -44,6 +45,13 @@ export interface IVariableAction {
   name: string;
   value: string;
   as: string;
+}
+
+export interface IConditionAction {
+  type: 'condition';
+  condition: string;
+  onMatch: TServerAction[];
+  onNotMatch: TServerAction[];
 }
 
 export interface IRedirectPageAction {
@@ -163,7 +171,8 @@ export type TServerAction =
   | IVariableAction
   | IUpdateAction
   | IDeleteAction
-  | IParallelAction;
+  | IParallelAction
+  | IConditionAction;
 
 export interface IHandler {
   name: string;
@@ -417,28 +426,60 @@ const client_get_all: IHandler = {
   name: 'client_get_all',
   actions: [
     {
-      type: 'variable',
-      name: 'clientsGetRes',
-      value: 'null',
-      as: 'let',
-    },
-    {
-      type: 'select',
-      entityName: 'client',
-      leftJoinAndSelect: ['invoices', 'invoice'],
-      orderBy: { id: 'DESC' },
-      itemsPerPage: 5,
-      awaitResult: true,
-      assignToVar: 'clientsGetRes',
-    },
-    {
-      type: 'return',
-      data: {
-        items: '$clientsGetRes[0]',
-        totalCount: '$clientsGetRes[1]',
-        pagination: { itemsPerPage: 5 },
-      },
-      config: null,
+      type: 'condition',
+      condition: "$data.sort === 'ASC'",
+      onMatch: [
+        {
+          type: 'variable',
+          name: 'clientsGetRes',
+          value: 'null',
+          as: 'let',
+        },   
+        {
+          type: 'select',
+          entityName: 'client',
+          leftJoinAndSelect: ['invoices', 'invoice'],
+          orderBy: { id: 'ASC' },
+          itemsPerPage: 5,
+          awaitResult: true,
+          assignToVar: 'clientsGetRes',
+        },
+        {
+          type: 'return',
+          data: {
+            items: '$clientsGetRes[0]',
+            totalCount: '$clientsGetRes[1]',
+            pagination: { itemsPerPage: 5 },
+          },
+          config: null,
+        }
+      ],
+      onNotMatch: [
+        {
+          type: 'variable',
+          name: 'clientsGetRes',
+          value: 'null',
+          as: 'let',
+        },   
+        {
+          type: 'select',
+          entityName: 'client',
+          leftJoinAndSelect: ['invoices', 'invoice'],
+          orderBy: { id: 'DESC' },
+          itemsPerPage: 5,
+          awaitResult: true,
+          assignToVar: 'clientsGetRes',
+        },
+        {
+          type: 'return',
+          data: {
+            items: '$clientsGetRes[0]',
+            totalCount: '$clientsGetRes[1]',
+            pagination: { itemsPerPage: 5 },
+          },
+          config: null,
+        }
+      ],
     },
   ],
 };
