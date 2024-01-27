@@ -28,7 +28,7 @@ export const updateHandler = async (handler: IHandler): Promise<void> => {
     if (!handler) continue;
 
     // execute action handler with data to receive content for performing action
-    const actionContent = await handler(action);
+    const actionContent = handler(action);
 
     // add action to other actions
     actionsStr += `\n\n${actionContent}`;
@@ -37,7 +37,7 @@ export const updateHandler = async (handler: IHandler): Promise<void> => {
   // file entries
   const entries = `const ${handlerName} = async ({ data, entities, dataSource }) => {${actionsStr}\n}\n\nmodule.exports = ${handlerName}`;
 
-  const formattedEntries = prettier.format(entries, {
+  const formattedEntries = await prettier.format(entries, {
     ...prettierConfig,
     parser: 'typescript',
   });
