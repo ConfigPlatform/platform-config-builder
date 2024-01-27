@@ -46,7 +46,7 @@ export const updateHandler = async (handler: IHandler): Promise<void> => {
   const handlerFilePath = mergePaths(HANDLERS_PATH, `${handlerName}.ts`);
 
   // update handler file
-  fs.writeFileSync(handlerFilePath, entries);
+  fs.writeFileSync(handlerFilePath, formattedEntries);
 };
 
 // function deletes handler

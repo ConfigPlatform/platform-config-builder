@@ -98,7 +98,7 @@ export const updateEntityMap = (): void => {
 };
 
 // function generates handlers
-export const updateHandlers = (): void => {
+export const updateHandlers = async (): Promise<void> => {
   // if /generated/handlers path isn't valid, we should create dirs recursively
   if (!fs.ensureDirSync(HANDLERS_PATH)) {
     fs.mkdirSync(HANDLERS_PATH, { recursive: true });
@@ -123,7 +123,7 @@ export const updateHandlers = (): void => {
   // loop through handlers in config to refresh
   for (const handler of handlers) {
     // update handler
-    updateHandler(handler);
+    await updateHandler(handler);
   }
 };
 
