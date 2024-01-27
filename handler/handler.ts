@@ -3,6 +3,8 @@ import { mergePaths } from '../helpers';
 import { HANDLERS_PATH } from '../paths';
 import actionHandler, { TCreateActionHandler } from './actionHandler/index';
 const fs = require('fs-extra');
+import * as prettier from 'prettier';
+const prettierConfig = JSON.parse(fs.readFileSync('./.prettierrc', 'utf8'));
 
 export interface IDeleteHandlerPayload {
   handlerName: string;
@@ -10,14 +12,13 @@ export interface IDeleteHandlerPayload {
 }
 
 // function updates handler file
-export const updateHandler = (handler: IHandler): void => {
+export const updateHandler = async (handler: IHandler): Promise<void> => {
   const { actions, name: handlerName } = handler;
 
   let actionsStr = '';
 
   // loop through actions to fill actionsStr
   for (const action of actions) {
-
     const { type } = action;
 
     // define action handler
@@ -27,7 +28,7 @@ export const updateHandler = (handler: IHandler): void => {
     if (!handler) continue;
 
     // execute action handler with data to receive content for performing action
-    const actionContent = handler(action);
+    const actionContent = await handler(action);
 
     // add action to other actions
     actionsStr += `\n\n${actionContent}`;
@@ -35,6 +36,11 @@ export const updateHandler = (handler: IHandler): void => {
 
   // file entries
   const entries = `const ${handlerName} = async ({ data, entities, dataSource }) => {${actionsStr}\n}\n\nmodule.exports = ${handlerName}`;
+
+  const formattedEntries = prettier.format(entries, {
+    ...prettierConfig,
+    parser: 'typescript',
+  });
 
   // entity file path
   const handlerFilePath = mergePaths(HANDLERS_PATH, `${handlerName}.ts`);
