@@ -533,60 +533,51 @@ const product_create_sidepanel_submit: IHandler = {
   ],
 };
 
-const open_client_create_modal: IHandler = {
-  name: 'open_client_create_modal',
+//nash;
+const open_client_create_sidepanel: IHandler = {
+  name: 'open_client_create_sidepanel',
   actions: [
     {
       type: 'return',
       config: [
         {
-          clientHandler: 'open_modal',
+          clientHandler: 'open_sidepanel',
           id: 'create_client',
         },
       ],
     },
   ],
 };
-
-const close_client_create_modal: IHandler = {
-  name: 'close_client_create_modal',
+//nash;
+const close_client_create_sidepanel: IHandler = {
+  name: 'close_client_create_sidepanel',
   actions: [
     {
       type: 'return',
       config: [
         {
-          clientHandler: 'close_modal',
+          clientHandler: 'close_sidepanel',
           id: 'create_client',
         },
       ],
     },
   ],
 };
-
-const client_create_modal_submit: IHandler = {
-  name: 'client_create_modal_submit',
+//nash;
+const client_create_sidepanel_submit: IHandler = {
+  name: 'client_create_sidepanel_submit',
   actions: [
-    {
-      type: 'mutate',
-      field: '$data.firstName',
-      value: '$data.firstName.toUpperCase()',
-    },
-    {
-      type: 'mutate',
-      field: '$data.lastName',
-      value: '$data.lastName.toUpperCase()',
-    },
     {
       type: 'insert',
       entityName: 'client',
       fields: [
         {
-          entityField: 'firstName',
-          value: '$data.firstName',
+          entityField: 'name',
+          value: '$data.name',
         },
         {
-          entityField: 'lastName',
-          value: '$data.lastName',
+          entityField: 'email',
+          value: '$data.email',
         },
         {
           entityField: 'phone',
@@ -599,8 +590,12 @@ const client_create_modal_submit: IHandler = {
       type: 'return',
       config: [
         {
-          clientHandler: 'close_modal',
+          clientHandler: 'close_sidepanel',
           id: 'create_client',
+        },
+        {
+          clientHandler: 'refresh_data',
+          select: 'client_get_all',
         },
         {
           clientHandler: 'set_message',
@@ -615,6 +610,88 @@ const client_create_modal_submit: IHandler = {
   ],
 };
 
+// const open_client_create_modal: IHandler = {
+//   name: 'open_client_create_modal',
+//   actions: [
+//     {
+//       type: 'return',
+//       config: [
+//         {
+//           clientHandler: 'open_modal',
+//           id: 'create_client',
+//         },
+//       ],
+//     },
+//   ],
+// };
+
+// const close_client_create_modal: IHandler = {
+//   name: 'close_client_create_modal',
+//   actions: [
+//     {
+//       type: 'return',
+//       config: [
+//         {
+//           clientHandler: 'close_modal',
+//           id: 'create_client',
+//         },
+//       ],
+//     },
+//   ],
+// };
+
+// const client_create_modal_submit: IHandler = {
+//   name: 'client_create_modal_submit',
+//   actions: [
+//     {
+//       type: 'mutate',
+//       field: '$data.firstName',
+//       value: '$data.firstName.toUpperCase()',
+//     },
+//     {
+//       type: 'mutate',
+//       field: '$data.lastName',
+//       value: '$data.lastName.toUpperCase()',
+//     },
+//     {
+//       type: 'insert',
+//       entityName: 'client',
+//       fields: [
+//         {
+//           entityField: 'firstName',
+//           value: '$data.firstName',
+//         },
+//         {
+//           entityField: 'lastName',
+//           value: '$data.lastName',
+//         },
+//         {
+//           entityField: 'phone',
+//           value: '$data.phone',
+//         },
+//       ],
+//       awaitResult: true,
+//     },
+//     {
+//       type: 'return',
+//       config: [
+//         {
+//           clientHandler: 'close_modal',
+//           id: 'create_client',
+//         },
+//         {
+//           clientHandler: 'set_message',
+//           id: 'client_created',
+//           status: 'success',
+//           duration: 2000,
+//           placement: 'top-right',
+//           content: 'Client was created',
+//         },
+//       ],
+//     },
+//   ],
+// };
+
 const handlers: IHandler[] = [
   form_create_product_submit,
   form_create_client_submit,
@@ -626,9 +703,12 @@ const handlers: IHandler[] = [
   open_product_create_sidepanel,
   close_product_create_sidepanel,
   product_create_sidepanel_submit,
-  open_client_create_modal,
-  close_client_create_modal,
-  client_create_modal_submit,
+  // open_client_create_modal,
+  // close_client_create_modal,
+  // client_create_modal_submit,
+  open_client_create_sidepanel,
+  close_client_create_sidepanel,
+  client_create_sidepanel_submit,
 ];
 
 export default handlers;
