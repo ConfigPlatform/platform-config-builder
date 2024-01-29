@@ -176,7 +176,7 @@ const pages: IPages = {
         label: 'Add client',
         className:
           'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg my-4',
-        serverHandler: 'open_client_create_modal',
+        serverHandler: 'open_client_create_sidepanel',
       },
       {
         type: 'table',

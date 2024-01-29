@@ -434,7 +434,7 @@ const client_get_all: IHandler = {
           name: 'clientsGetRes',
           value: 'null',
           as: 'let',
-        },   
+        },
         {
           type: 'select',
           entityName: 'client',
@@ -452,7 +452,7 @@ const client_get_all: IHandler = {
             pagination: { itemsPerPage: 5 },
           },
           config: null,
-        }
+        },
       ],
       onNotMatch: [
         {
@@ -460,7 +460,7 @@ const client_get_all: IHandler = {
           name: 'clientsGetRes',
           value: 'null',
           as: 'let',
-        },   
+        },
         {
           type: 'select',
           entityName: 'client',
@@ -478,7 +478,7 @@ const client_get_all: IHandler = {
             pagination: { itemsPerPage: 5 },
           },
           config: null,
-        }
+        },
       ],
     },
   ],
@@ -748,6 +748,96 @@ const client_create_modal_submit: IHandler = {
   ],
 };
 
+const form_create_client_cancel: IHandler = {
+  name: 'form_create_client_cancel',
+  actions: [
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'redirect_page',
+          path: '/client',
+        },
+      ],
+    },
+  ],
+};
+const open_client_create_sidepanel: IHandler = {
+  name: 'open_client_create_sidepanel',
+  actions: [
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'open_sidepanel',
+          id: 'create_client',
+        },
+      ],
+    },
+  ],
+};
+
+const close_client_create_sidepanel: IHandler = {
+  name: 'close_client_create_sidepanel',
+  actions: [
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'close_sidepanel',
+          id: 'create_client',
+        },
+      ],
+    },
+  ],
+};
+
+const client_create_sidepanel_submit: IHandler = {
+  name: 'client_create_sidepanel_submit',
+  actions: [
+    {
+      type: 'insert',
+      entityName: 'client',
+      fields: [
+        {
+          entityField: 'firstName',
+          value: '$data.firstName.toUpperCase()',
+        },
+        {
+          entityField: 'lastName',
+          value: '$data.lastName.toUpperCase()',
+        },
+        {
+          entityField: 'phone',
+          value: '$data.phone',
+        },
+      ],
+      awaitResult: true,
+    },
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'close_sidepanel',
+          id: 'create_client',
+        },
+        {
+          clientHandler: 'refresh_data',
+          select: 'client_get_all',
+        },
+        {
+          clientHandler: 'set_message',
+          id: 'client_created',
+          status: 'success',
+          duration: 2000,
+          placement: 'top-right',
+          content: 'Client was created',
+        },
+      ],
+    },
+  ],
+};
+
 const handlers: IHandler[] = [
   form_create_product_submit,
   form_create_client_submit,
@@ -766,6 +856,10 @@ const handlers: IHandler[] = [
   open_client_create_modal,
   close_client_create_modal,
   client_create_modal_submit,
+  open_client_create_sidepanel,
+  close_client_create_sidepanel,
+  client_create_sidepanel_submit,
+  form_create_client_cancel,
 ];
 
 export default handlers;
