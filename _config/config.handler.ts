@@ -117,12 +117,16 @@ export interface IReturnAction {
   pagination?: { itemsPerPage: number };
 }
 
+export type ISortingOptions = {
+  [field: string]: 'ASC' | 'DESC';
+};
+
 export interface ISelectAction {
   type: 'select';
   entityName: string;
   leftJoinAndSelect?: [string, string] | [string, string][];
   where?: { [key: string]: any };
-  orderBy?: { [key: string]: 'DESC' | 'ASC' };
+  orderBy?: ISortingOptions;
   orWhere?: [string, string];
   multiple?: boolean;
   itemsPerPage?: number;
@@ -427,14 +431,14 @@ const client_get_all: IHandler = {
   actions: [
     {
       type: 'condition',
-      condition: "$data.sort === 'ASC'",
+      condition: '$data.sort === \'ASC\'',
       onMatch: [
         {
           type: 'variable',
           name: 'clientsGetRes',
           value: 'null',
           as: 'let',
-        },   
+        },
         {
           type: 'select',
           entityName: 'client',
@@ -452,7 +456,7 @@ const client_get_all: IHandler = {
             pagination: { itemsPerPage: 5 },
           },
           config: null,
-        }
+        },
       ],
       onNotMatch: [
         {
@@ -460,12 +464,12 @@ const client_get_all: IHandler = {
           name: 'clientsGetRes',
           value: 'null',
           as: 'let',
-        },   
+        },
         {
           type: 'select',
           entityName: 'client',
           leftJoinAndSelect: ['invoices', 'invoice'],
-          orderBy: { id: 'DESC' },
+          orderBy: { id: 'DESC', field2: 'ASC' },
           itemsPerPage: 5,
           awaitResult: true,
           assignToVar: 'clientsGetRes',
@@ -478,7 +482,7 @@ const client_get_all: IHandler = {
             pagination: { itemsPerPage: 5 },
           },
           config: null,
-        }
+        },
       ],
     },
   ],

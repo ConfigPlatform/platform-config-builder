@@ -1,4 +1,4 @@
-import { ISelectAction } from '_config/config.handler';
+import { ISelectAction, ISortingOptions } from '_config/config.handler';
 import { createClassName } from '../../helpers';
 import { TCreateActionHandler } from './index';
 
@@ -47,9 +47,10 @@ const orderByOperationHandler = ({
   entityName,
   payload,
   operationKey,
-}: IOperationPayload<{ [key: string]: 'DESC' | 'ASC' }>): string => {
+}: IOperationPayload<ISortingOptions>): string => {
   let orderByStr = '';
-  for (const field in payload) {
+
+    for (const field in payload) {
     const order = payload[field];
     orderByStr += `\n    .${operationKey}('${entityName}.${field}', '${order}')`;
   }
