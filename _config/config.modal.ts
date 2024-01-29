@@ -29,18 +29,21 @@ const create_client_modal: IModal = {
               label: 'First Name',
               type: 'string',
               required: true,
+              pattern: '^[a-zA-Z]+$',
             },
             {
               name: 'lastName',
               label: 'Last Name',
               type: 'string',
               required: true,
+              pattern: '^[a-zA-Z]+$',
             },
             {
               name: 'phone',
               label: 'Phone',
-              type: 'number',
+              type: 'string',
               required: true,
+              pattern: '^\\d{3}-\\d{3}-\\d{4}$',
             },
           ],
           actions: [
