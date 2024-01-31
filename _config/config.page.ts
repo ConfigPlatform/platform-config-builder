@@ -172,6 +172,11 @@ const pages: IPages = {
     pageTitle: 'Clients',
     content: [
       {
+        type: 'filter',
+        placeholder: 'Search by First Name...',
+        filterField: 'firstName',
+      },
+      {
         type: 'button',
         label: 'Add client',
         className:

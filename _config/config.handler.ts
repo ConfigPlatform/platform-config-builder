@@ -15,7 +15,15 @@ export type TActionType =
   | 'update'
   | TRelation
   | 'parallel'
-  | 'condition';
+  | 'condition'
+  | 'filter';
+
+export interface IFilterAction {
+  type: 'filter';
+  entityName: string;
+  filterField: string;
+  value: string;
+}
 
 export interface IInsertAction {
   type: 'insert';
@@ -434,12 +442,13 @@ const client_get_all: IHandler = {
           name: 'clientsGetRes',
           value: 'null',
           as: 'let',
-        },   
+        },
         {
           type: 'select',
           entityName: 'client',
           leftJoinAndSelect: ['invoices', 'invoice'],
           orderBy: { id: 'ASC' },
+          where: value ? `filterField LIKE '${value}` : '',
           itemsPerPage: 5,
           awaitResult: true,
           assignToVar: 'clientsGetRes',
@@ -452,7 +461,7 @@ const client_get_all: IHandler = {
             pagination: { itemsPerPage: 5 },
           },
           config: null,
-        }
+        },
       ],
       onNotMatch: [
         {
@@ -460,7 +469,7 @@ const client_get_all: IHandler = {
           name: 'clientsGetRes',
           value: 'null',
           as: 'let',
-        },   
+        },
         {
           type: 'select',
           entityName: 'client',
@@ -478,7 +487,7 @@ const client_get_all: IHandler = {
             pagination: { itemsPerPage: 5 },
           },
           config: null,
-        }
+        },
       ],
     },
   ],
