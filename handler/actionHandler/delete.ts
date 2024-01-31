@@ -9,6 +9,16 @@ const deleteActionHandler: TCreateActionHandler<IDeleteAction> = ({
 }) => {
   const entityClassName = createClassName(entityName);
 
+  const whereOperationHandler = (payload) => {
+    // console.log(payload)
+    const key = Object.keys(payload)[0];
+    const value = (Object.values(payload)[0] as string).replaceAll('$', '');
+    const result = `{ ${key}: ${value} }`;
+    return result;
+  };
+
+  //.where(${JSON.stringify(where, null, 2).replaceAll('$', '')})
+
   let entries = ``;
 
   // check if we should await result
@@ -20,7 +30,7 @@ const deleteActionHandler: TCreateActionHandler<IDeleteAction> = ({
   .createQueryBuilder()
   .delete()
   .from(entities.${entityClassName}) 
-  .where(${JSON.stringify(where, null, 2).replaceAll('$', '')})
+  .where(${whereOperationHandler(where)})
   .execute()`;
 
   return entries;

@@ -748,6 +748,36 @@ const client_create_modal_submit: IHandler = {
   ],
 };
 
+const client_delete_one: IHandler = {
+  name: 'client_delete_one',
+  actions: [
+    {
+      type: 'delete',
+      entityName: 'client',
+      where: { id: '$data.client', name: '$data.client'},
+      awaitResult: true,
+    },
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'setMessage',
+          id: 'client_deleted',
+          status: 'success',
+          duration: 2000,
+          placement: 'top-right',
+          content: 'Client was deleted',
+        },
+        {
+          clientHandler: 'redirectPage',
+          path: '/client',
+        },
+      ],
+    },
+  ],
+};
+
+
 const handlers: IHandler[] = [
   form_create_product_submit,
   form_create_client_submit,
@@ -766,6 +796,7 @@ const handlers: IHandler[] = [
   open_client_create_modal,
   close_client_create_modal,
   client_create_modal_submit,
+  client_delete_one,
 ];
 
 export default handlers;
