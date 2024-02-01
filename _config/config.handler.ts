@@ -16,14 +16,6 @@ export type TActionType =
   | TRelation
   | 'parallel'
   | 'condition'
-  | 'filter';
-
-export interface IFilterAction {
-  type: 'filter';
-  entityName: string;
-  filterField: string;
-  value: string;
-}
 
 export interface IInsertAction {
   type: 'insert';
@@ -448,7 +440,7 @@ const client_get_all: IHandler = {
           entityName: 'client',
           leftJoinAndSelect: ['invoices', 'invoice'],
           orderBy: { id: 'ASC' },
-          where: value ? `filterField LIKE '${value}` : '',
+          // where: value ? `filterField LIKE '${value}` : '',
           itemsPerPage: 5,
           awaitResult: true,
           assignToVar: 'clientsGetRes',

@@ -174,7 +174,8 @@ const pages: IPages = {
       {
         type: 'filter',
         placeholder: 'Search by First Name...',
-        filterField: 'firstName',
+        filterBy: 'firstName',
+        select: 'client_get_all'
       },
       {
         type: 'button',
