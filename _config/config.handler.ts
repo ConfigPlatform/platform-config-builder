@@ -117,16 +117,13 @@ export interface IReturnAction {
   pagination?: { itemsPerPage: number };
 }
 
-export type ISortingOptions = {
-  [field: string]: 'ASC' | 'DESC';
-};
 
 export interface ISelectAction {
   type: 'select';
   entityName: string;
   leftJoinAndSelect?: [string, string] | [string, string][];
   where?: { [key: string]: any };
-  orderBy?: ISortingOptions;
+  orderBy?: { [key: string]: 'ASC' | 'DESC' };
   orWhere?: [string, string];
   multiple?: boolean;
   itemsPerPage?: number;
