@@ -434,7 +434,7 @@ const client_get_all: IHandler = {
           name: 'clientsGetRes',
           value: 'null',
           as: 'let',
-        },   
+        },
         {
           type: 'select',
           entityName: 'client',
@@ -452,7 +452,7 @@ const client_get_all: IHandler = {
             pagination: { itemsPerPage: 5 },
           },
           config: null,
-        }
+        },
       ],
       onNotMatch: [
         {
@@ -460,7 +460,7 @@ const client_get_all: IHandler = {
           name: 'clientsGetRes',
           value: 'null',
           as: 'let',
-        },   
+        },
         {
           type: 'select',
           entityName: 'client',
@@ -478,7 +478,7 @@ const client_get_all: IHandler = {
             pagination: { itemsPerPage: 5 },
           },
           config: null,
-        }
+        },
       ],
     },
   ],
@@ -754,7 +754,7 @@ const client_delete_one: IHandler = {
     {
       type: 'delete',
       entityName: 'client',
-      where: { id: '$data.client', name: '$data.client'},
+      where: { id: '$data.id' },
       awaitResult: true,
     },
     {
@@ -776,7 +776,6 @@ const client_delete_one: IHandler = {
     },
   ],
 };
-
 
 const handlers: IHandler[] = [
   form_create_product_submit,

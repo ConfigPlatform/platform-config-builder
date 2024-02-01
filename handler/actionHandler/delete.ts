@@ -9,8 +9,8 @@ const deleteActionHandler: TCreateActionHandler<IDeleteAction> = ({
 }) => {
   const entityClassName = createClassName(entityName);
 
+  //this function needs to be improved or replaced
   const whereOperationHandler = (payload) => {
-    // console.log(payload)
     const key = Object.keys(payload)[0];
     const value = (Object.values(payload)[0] as string).replaceAll('$', '');
     const result = `{ ${key}: ${value} }`;
