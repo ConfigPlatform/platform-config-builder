@@ -761,16 +761,16 @@ const client_delete_one: IHandler = {
       type: 'return',
       config: [
         {
+          clientHandler: 'refreshData',
+          select: 'client_get_all',
+        },
+        {
           clientHandler: 'setMessage',
           id: 'client_deleted',
           status: 'success',
           duration: 2000,
           placement: 'top-right',
           content: 'Client was deleted',
-        },
-        {
-          clientHandler: 'redirectPage',
-          path: '/client',
         },
       ],
     },
