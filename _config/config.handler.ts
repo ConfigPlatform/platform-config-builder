@@ -15,7 +15,7 @@ export type TActionType =
   | 'update'
   | TRelation
   | 'parallel'
-  | 'condition'
+  | 'condition';
 
 export interface IInsertAction {
   type: 'insert';
@@ -436,14 +436,32 @@ const client_get_all: IHandler = {
           as: 'let',
         },
         {
-          type: 'select',
-          entityName: 'client',
-          leftJoinAndSelect: ['invoices', 'invoice'],
-          orderBy: { id: 'ASC' },
-          // where: value ? `filterField LIKE '${value}` : '',
-          itemsPerPage: 5,
-          awaitResult: true,
-          assignToVar: 'clientsGetRes',
+          type: 'condition',
+          condition: '$data.filters',
+          onMatch: [
+            {
+              type: 'select',
+              entityName: 'client',
+              leftJoinAndSelect: ['invoices', 'invoice'],
+              orderBy: { id: 'ASC' },
+              // where: {Object.keys('$data.filters') = Object.values('$data.filters') },
+              where: { "$data.filters"},
+              itemsPerPage: 5,
+              awaitResult: true,
+              assignToVar: 'clientsGetRes',
+            },
+          ],
+          onNotMatch: [
+            {
+              type: 'select',
+              entityName: 'client',
+              leftJoinAndSelect: ['invoices', 'invoice'],
+              orderBy: { id: 'ASC' },
+              itemsPerPage: 5,
+              awaitResult: true,
+              assignToVar: 'clientsGetRes',
+            },
+          ],
         },
         {
           type: 'return',
