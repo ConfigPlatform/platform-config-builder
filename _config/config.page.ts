@@ -10,7 +10,7 @@ const pages: IPages = {
     content: [
       {
         type: 'button',
-        label: 'Add Invoice',
+        content: [{ type: 'text', value: 'Add Invoice' }],
         className:
           'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg my-4',
         serverHandler: 'open_invoice_create_sidepanel',
@@ -146,14 +146,14 @@ const pages: IPages = {
                   {
                     type: 'button',
                     htmlType: 'submit',
-                    label: 'Submit',
+                    content: [{ type: 'text', value: 'Submit' }],
                     className:
                       'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg',
                     serverHandler: 'form_create_invoice_submit',
                   },
                   {
                     type: 'reset',
-                    label: 'Cancel',
+                    content: [{ type: 'text', value: 'Cancel' }],
                     className:
                       'btn btn-primary px-3 py-2 text-sm text-gray-700 duration-100 cursor-pointer border rounded hover:border-indigo-600 active:shadow-lg',
                     serverHandler: 'form_create_invoice_cancel',
@@ -173,7 +173,7 @@ const pages: IPages = {
     content: [
       {
         type: 'button',
-        label: 'Add client',
+        content: [{ type: 'text', value: 'Add Client' }],
         className:
           'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg my-4',
         serverHandler: 'open_client_create_modal',
@@ -290,15 +290,15 @@ const pages: IPages = {
                   content: [
                     {
                       type: 'button',
-                      label: 'Edit',
+                      content: [{ type: 'text', value: 'Edit' }],
                       className:
                         'text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-3 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 me-2',
-                        serverHandler: 'client_update_one',
-                        data: { id: '$id' },
+                      serverHandler: 'client_update_one',
+                      data: { id: '$id' },
                     },
                     {
                       type: 'button',
-                      label: 'Delete',
+                      content: [{ type: 'text', value: 'Delete' }],
                       className:
                         'focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-xs px-3 py-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900',
                       serverHandler: 'client_delete_one',
@@ -374,7 +374,7 @@ const pages: IPages = {
             htmlType: 'submit',
             className:
               'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg',
-            label: 'Create',
+            content: [{ type: 'text', value: 'Create' }],
             serverHandler: 'form_create_client_submit',
           },
         ],
@@ -424,14 +424,14 @@ const pages: IPages = {
                   {
                     type: 'button',
                     htmlType: 'submit',
-                    label: 'Submit',
+                    content: [{ type: 'text', value: 'Submit' }],
                     className:
                       'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg',
                     serverHandler: 'form_create_product_submit',
                   },
                   {
                     type: 'reset',
-                    label: 'Cancel',
+                    content: [{ type: 'text', value: 'Cancel' }],
                     className:
                       'btn btn-primary px-3 py-2 text-sm text-gray-700 duration-100 cursor-pointer border rounded hover:border-indigo-600 active:shadow-lg',
                     serverHandler: 'form_create_product_cancel',
@@ -451,7 +451,7 @@ const pages: IPages = {
     content: [
       {
         type: 'button',
-        label: 'Add product',
+        content: [{ type: 'text', value: 'Add Product' }],
         className:
           'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg my-4',
         serverHandler: 'open_product_create_sidepanel',

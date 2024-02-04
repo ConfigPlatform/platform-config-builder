@@ -48,14 +48,14 @@ const create_product_sidepanel: ISidepanel = {
             {
               type: 'button',
               htmlType: 'submit',
-              label: 'Submit',
+              content: [{ type: 'text', value: 'Submit' }],
               className:
                 'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg',
               serverHandler: 'product_create_sidepanel_submit',
             },
             {
               type: 'button',
-              label: 'Cancel',
+              content: [{ type: 'text', value: 'Cancel' }],
               className:
                 'btn btn-primary px-3 py-2 text-sm text-gray-700 duration-100 cursor-pointer border rounded hover:border-indigo-600 active:shadow-lg',
               serverHandler: 'close_product_create_sidepanel',
@@ -103,14 +103,14 @@ const create_invoice_sidepanel: ISidepanel = {
             {
               type: 'button',
               htmlType: 'submit',
-              label: 'Submit',
+              content: [{ type: 'text', value: 'Submit' }],
               className:
                 'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg',
               serverHandler: 'invoice_create_sidepanel_submit',
             },
             {
               type: 'button',
-              label: 'Cancel',
+              content: [{ type: 'text', value: 'Cancel' }],
               className:
                 'btn btn-primary px-3 py-2 text-sm text-gray-700 duration-100 cursor-pointer border rounded hover:border-indigo-600 active:shadow-lg',
               serverHandler: 'close_invoice_create_sidepanel',
