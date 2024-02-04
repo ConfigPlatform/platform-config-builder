@@ -19,6 +19,9 @@ const whereOperationHandler = ({
     const whereConditions = {};
     for (const [key, value] of Object.entries(payload)) {
       whereConditions[key] = value;
+      const entries = `\n    .${operationKey}('${entityName}.${whereConditions[key]} = :${whereConditions[key]}', { ${whereConditions[key]}: ${value} })`;
+
+      return entries;
     }
     return whereConditions;
   } else {
@@ -26,7 +29,6 @@ const whereOperationHandler = ({
     const value = Object.values(payload)[0].replaceAll('$', '');
 
     const entries = `\n    .${operationKey}('${entityName}.${field} = :${field}', { ${field}: ${value} })`;
-
     return entries;
   }
 };
