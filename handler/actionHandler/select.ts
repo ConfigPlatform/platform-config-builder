@@ -14,13 +14,21 @@ const whereOperationHandler = ({
   entityName,
   payload,
   operationKey,
-}: IOperationPayload<{ [key: string]: any }>): string => {
-  const field = Object.keys(payload)[0];
-  const value = Object.values(payload)[0].replaceAll('$', '');
+}: IOperationPayload<{ [key: string]: any } | string>): {} => {
+  if (typeof payload === 'string') {
+    const whereConditions = {};
+    for (const [key, value] of Object.entries(payload)) {
+      whereConditions[key] = value;
+    }
+    return whereConditions;
+  } else {
+    const field = Object.keys(payload)[0];
+    const value = Object.values(payload)[0].replaceAll('$', '');
 
-  const entries = `\n    .${operationKey}('${entityName}.${field} = :${field}', { ${field}: ${value} })`;
+    const entries = `\n    .${operationKey}('${entityName}.${field} = :${field}', { ${field}: ${value} })`;
 
-  return entries;
+    return entries;
+  }
 };
 
 const leftJoinAndSelectOperationHandler = ({
