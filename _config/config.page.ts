@@ -10,7 +10,7 @@ const pages: IPages = {
     content: [
       {
         type: 'button',
-        label: 'Add Invoice',
+        content: [{ type: 'text', value: 'Add Invoice' }],
         className:
           'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg my-4',
         serverHandler: 'open_invoice_create_sidepanel',
@@ -146,14 +146,14 @@ const pages: IPages = {
                   {
                     type: 'button',
                     htmlType: 'submit',
-                    label: 'Submit',
+                    content: [{ type: 'text', value: 'Submit' }],
                     className:
                       'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg',
                     serverHandler: 'form_create_invoice_submit',
                   },
                   {
                     type: 'reset',
-                    label: 'Cancel',
+                    content: [{ type: 'text', value: 'Cancel' }],
                     className:
                       'btn btn-primary px-3 py-2 text-sm text-gray-700 duration-100 cursor-pointer border rounded hover:border-indigo-600 active:shadow-lg',
                     serverHandler: 'form_create_invoice_cancel',
@@ -173,7 +173,7 @@ const pages: IPages = {
     content: [
       {
         type: 'button',
-        label: 'Add client',
+        content: [{ type: 'text', value: 'Add Client' }],
         className:
           'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg my-4',
         serverHandler: 'open_client_create_modal',
@@ -379,7 +379,7 @@ const pages: IPages = {
             htmlType: 'submit',
             className:
               'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg',
-            label: 'Create',
+            content: [{ type: 'text', value: 'Create' }],
             serverHandler: 'form_create_client_submit',
           },
         ],
@@ -429,14 +429,14 @@ const pages: IPages = {
                   {
                     type: 'button',
                     htmlType: 'submit',
-                    label: 'Submit',
+                    content: [{ type: 'text', value: 'Submit' }],
                     className:
                       'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg',
                     serverHandler: 'form_create_product_submit',
                   },
                   {
                     type: 'reset',
-                    label: 'Cancel',
+                    content: [{ type: 'text', value: 'Cancel' }],
                     className:
                       'btn btn-primary px-3 py-2 text-sm text-gray-700 duration-100 cursor-pointer border rounded hover:border-indigo-600 active:shadow-lg',
                     serverHandler: 'form_create_product_cancel',
@@ -456,7 +456,7 @@ const pages: IPages = {
     content: [
       {
         type: 'button',
-        label: 'Add product',
+        content: [{ type: 'text', value: 'Add Product' }],
         className:
           'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg my-4',
         serverHandler: 'open_product_create_sidepanel',

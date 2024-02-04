@@ -434,7 +434,7 @@ const client_get_all: IHandler = {
           name: 'clientsGetRes',
           value: 'null',
           as: 'let',
-        },   
+        },
         {
           type: 'select',
           entityName: 'client',
@@ -452,7 +452,7 @@ const client_get_all: IHandler = {
             pagination: { itemsPerPage: 5 },
           },
           config: null,
-        }
+        },
       ],
       onNotMatch: [
         {
@@ -460,7 +460,7 @@ const client_get_all: IHandler = {
           name: 'clientsGetRes',
           value: 'null',
           as: 'let',
-        },   
+        },
         {
           type: 'select',
           entityName: 'client',
@@ -478,7 +478,7 @@ const client_get_all: IHandler = {
             pagination: { itemsPerPage: 5 },
           },
           config: null,
-        }
+        },
       ],
     },
   ],
@@ -748,6 +748,35 @@ const client_create_modal_submit: IHandler = {
   ],
 };
 
+const client_delete_one: IHandler = {
+  name: 'client_delete_one',
+  actions: [
+    {
+      type: 'delete',
+      entityName: 'client',
+      where: { id: '$data.id' },
+      awaitResult: true,
+    },
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'refreshData',
+          select: 'client_get_all',
+        },
+        {
+          clientHandler: 'setMessage',
+          id: 'client_deleted',
+          status: 'success',
+          duration: 2000,
+          placement: 'top-right',
+          content: 'Client was deleted',
+        },
+      ],
+    },
+  ],
+};
+
 const handlers: IHandler[] = [
   form_create_product_submit,
   form_create_client_submit,
@@ -766,6 +795,7 @@ const handlers: IHandler[] = [
   open_client_create_modal,
   close_client_create_modal,
   client_create_modal_submit,
+  client_delete_one,
 ];
 
 export default handlers;
