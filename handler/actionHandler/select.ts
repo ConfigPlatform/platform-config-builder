@@ -14,16 +14,9 @@ const whereOperationHandler = ({
   entityName,
   payload,
   operationKey,
-}: IOperationPayload<{ [key: string]: any } | string>): {} => {
+}: IOperationPayload<{ [key: string]: any } | string>) => {
   if (typeof payload === 'string') {
-    const whereConditions = {};
-    for (const [key, value] of Object.entries(payload)) {
-      whereConditions[key] = value;
-      const entries = `\n    .${operationKey}('${entityName}.${whereConditions[key]} = :${whereConditions[key]}', { ${whereConditions[key]}: ${value} })`;
-
-      return entries;
-    }
-    return whereConditions;
+    return `\n    .${operationKey}(${payload.slice(1)})`;
   } else {
     const field = Object.keys(payload)[0];
     const value = Object.values(payload)[0].replaceAll('$', '');

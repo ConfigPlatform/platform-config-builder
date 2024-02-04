@@ -121,7 +121,7 @@ export interface ISelectAction {
   type: 'select';
   entityName: string;
   leftJoinAndSelect?: [string, string] | [string, string][];
-  where?: { [key: string]: any };
+  where?: { [key: string]: any } | string;
   orderBy?: { [key: string]: 'DESC' | 'ASC' };
   orWhere?: [string, string];
   multiple?: boolean;
@@ -426,59 +426,27 @@ const client_get_all: IHandler = {
   name: 'client_get_all',
   actions: [
     {
+      type: 'variable',
+      name: 'clientsGetRes',
+      value: 'null',
+      as: 'let',
+    },
+    {
       type: 'condition',
-      condition: "$data.sort === 'ASC'",
+      condition: '$data.filters',
       onMatch: [
         {
-          type: 'variable',
-          name: 'clientsGetRes',
-          value: 'null',
-          as: 'let',
-        },
-        {
-          type: 'condition',
-          condition: '$data.filters',
-          onMatch: [
-            {
-              type: 'select',
-              entityName: 'client',
-              leftJoinAndSelect: ['invoices', 'invoice'],
-              orderBy: { id: 'ASC' },
-              where: '$data.filters',
-              itemsPerPage: 5,
-              awaitResult: true,
-              assignToVar: 'clientsGetRes',
-            },
-          ],
-          onNotMatch: [
-            {
-              type: 'select',
-              entityName: 'client',
-              leftJoinAndSelect: ['invoices', 'invoice'],
-              orderBy: { id: 'ASC' },
-              itemsPerPage: 5,
-              awaitResult: true,
-              assignToVar: 'clientsGetRes',
-            },
-          ],
-        },
-        {
-          type: 'return',
-          data: {
-            items: '$clientsGetRes[0]',
-            totalCount: '$clientsGetRes[1]',
-            pagination: { itemsPerPage: 5 },
-          },
-          config: null,
+          type: 'select',
+          entityName: 'client',
+          leftJoinAndSelect: ['invoices', 'invoice'],
+          orderBy: { id: 'DESC' },
+          where: '$data.filters',
+          itemsPerPage: 5,
+          awaitResult: true,
+          assignToVar: 'clientsGetRes',
         },
       ],
       onNotMatch: [
-        {
-          type: 'variable',
-          name: 'clientsGetRes',
-          value: 'null',
-          as: 'let',
-        },
         {
           type: 'select',
           entityName: 'client',
@@ -488,16 +456,16 @@ const client_get_all: IHandler = {
           awaitResult: true,
           assignToVar: 'clientsGetRes',
         },
-        {
-          type: 'return',
-          data: {
-            items: '$clientsGetRes[0]',
-            totalCount: '$clientsGetRes[1]',
-            pagination: { itemsPerPage: 5 },
-          },
-          config: null,
-        },
       ],
+    },
+    {
+      type: 'return',
+      data: {
+        items: '$clientsGetRes[0]',
+        totalCount: '$clientsGetRes[1]',
+        pagination: { itemsPerPage: 5 },
+      },
+      config: null,
     },
   ],
 };
