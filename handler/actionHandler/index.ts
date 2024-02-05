@@ -9,7 +9,8 @@ import {
   IDeleteAction,
   TServerAction,
   IUpdateAction,
-  IParallelAction
+  IParallelAction,
+  IConditionAction,
 } from '_config/config.handler';
 import insertActionHandler from './insert';
 import mutateActionHandler from './mutate';
@@ -20,6 +21,7 @@ import variableActionHandler from './variable';
 import updateActionHandler from './update';
 import deleteActionHandler from './delete';
 import parallelActionHandler from './parallel';
+import conditionActionHandler from './condition';
 
 export interface IActionPayload {
   [key: string]: any;
@@ -40,6 +42,7 @@ export interface IActionHandler {
   update: TCreateActionHandler<IUpdateAction>;
   delete: TCreateActionHandler<IDeleteAction>;
   parallel: TCreateActionHandler<IParallelAction>;
+  condition: TCreateActionHandler<IConditionAction>;
 }
 
 // action handler by action name
@@ -53,7 +56,8 @@ const actionHandler: IActionHandler = {
   variable: variableActionHandler,
   update: updateActionHandler,
   delete: deleteActionHandler,
-  parallel: parallelActionHandler
+  parallel: parallelActionHandler,
+  condition: conditionActionHandler,
 };
 
 export default actionHandler;

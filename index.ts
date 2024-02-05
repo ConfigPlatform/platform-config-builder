@@ -5,7 +5,9 @@ import {
   updateHandlers,
 } from './configurator';
 
-updateEntities();
-updateEntityMap();
-updateHandlers();
-moveToServer();
+(async () => {
+  updateEntities();
+  updateEntityMap();
+  await updateHandlers();
+  moveToServer();
+})()

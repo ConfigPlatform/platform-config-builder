@@ -49,7 +49,8 @@ const orderByOperationHandler = ({
   operationKey,
 }: IOperationPayload<{ [key: string]: 'DESC' | 'ASC' }>): string => {
   let orderByStr = '';
-  for (const field in payload) {
+
+    for (const field in payload) {
     const order = payload[field];
     orderByStr += `\n    .${operationKey}('${entityName}.${field}', '${order}')`;
   }

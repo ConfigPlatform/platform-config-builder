@@ -1,7 +1,16 @@
 export interface IModal {
   id: string;
   width: string;
-  placement: 'top-left' | 'top-center' | 'top-right' | 'center-left' | 'center-top' | 'center-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
+  placement:
+    | 'top-left'
+    | 'top-center'
+    | 'top-right'
+    | 'center-left'
+    | 'center-top'
+    | 'center-right'
+    | 'bottom-left'
+    | 'bottom-center'
+    | 'bottom-right';
   content: any[];
 }
 
@@ -29,32 +38,35 @@ const create_client_modal: IModal = {
               label: 'First Name',
               type: 'string',
               required: true,
+              pattern: '^[a-zA-Z]+$',
             },
             {
               name: 'lastName',
               label: 'Last Name',
               type: 'string',
               required: true,
+              pattern: '^[a-zA-Z]+$',
             },
             {
               name: 'phone',
               label: 'Phone',
-              type: 'number',
+              type: 'string',
               required: true,
+              pattern: '^\\d{3}-\\d{3}-\\d{4}$',
             },
           ],
           actions: [
             {
               type: 'button',
               htmlType: 'submit',
-              label: 'Submit',
+              content: [{ type: 'text', value: 'Submit' }],
               className:
                 'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg',
               serverHandler: 'client_create_modal_submit',
             },
             {
               type: 'button',
-              label: 'Cancel',
+              content: [{ type: 'text', value: 'Cancel' }],
               className:
                 'btn btn-primary px-3 py-2 text-sm text-gray-700 duration-100 cursor-pointer border rounded hover:border-indigo-600 active:shadow-lg',
               serverHandler: 'close_client_create_modal',
