@@ -117,12 +117,13 @@ export interface IReturnAction {
   pagination?: { itemsPerPage: number };
 }
 
+
 export interface ISelectAction {
   type: 'select';
   entityName: string;
   leftJoinAndSelect?: [string, string] | [string, string][];
   where?: { [key: string]: any };
-  orderBy?: { [key: string]: 'DESC' | 'ASC' };
+  orderBy?: { [key: string]: 'ASC' | 'DESC' };
   orWhere?: [string, string];
   multiple?: boolean;
   itemsPerPage?: number;
@@ -426,60 +427,28 @@ const client_get_all: IHandler = {
   name: 'client_get_all',
   actions: [
     {
-      type: 'condition',
-      condition: "$data.sort === 'ASC'",
-      onMatch: [
-        {
-          type: 'variable',
-          name: 'clientsGetRes',
-          value: 'null',
-          as: 'let',
-        },
-        {
-          type: 'select',
-          entityName: 'client',
-          leftJoinAndSelect: ['invoices', 'invoice'],
-          orderBy: { id: 'ASC' },
-          itemsPerPage: 5,
-          awaitResult: true,
-          assignToVar: 'clientsGetRes',
-        },
-        {
-          type: 'return',
-          data: {
-            items: '$clientsGetRes[0]',
-            totalCount: '$clientsGetRes[1]',
-            pagination: { itemsPerPage: 5 },
-          },
-          config: null,
-        },
-      ],
-      onNotMatch: [
-        {
-          type: 'variable',
-          name: 'clientsGetRes',
-          value: 'null',
-          as: 'let',
-        },
-        {
-          type: 'select',
-          entityName: 'client',
-          leftJoinAndSelect: ['invoices', 'invoice'],
-          orderBy: { id: 'DESC' },
-          itemsPerPage: 5,
-          awaitResult: true,
-          assignToVar: 'clientsGetRes',
-        },
-        {
-          type: 'return',
-          data: {
-            items: '$clientsGetRes[0]',
-            totalCount: '$clientsGetRes[1]',
-            pagination: { itemsPerPage: 5 },
-          },
-          config: null,
-        },
-      ],
+      type: 'variable',
+      name: 'clientsGetRes',
+      value: 'null',
+      as: 'let',
+    },
+    {
+      type: 'select',
+      entityName: 'client',
+      leftJoinAndSelect: ['invoices', 'invoice'],
+      orderBy: { id: 'DESC' },
+      itemsPerPage: 5,
+      awaitResult: true,
+      assignToVar: 'clientsGetRes',
+    },
+    {
+      type: 'return',
+      data: {
+        items: '$clientsGetRes[0]',
+        totalCount: '$clientsGetRes[1]',
+        pagination: { itemsPerPage: 5 },
+      },
+      config: null,
     },
   ],
 };
