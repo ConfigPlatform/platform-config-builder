@@ -427,60 +427,28 @@ const client_get_all: IHandler = {
   name: 'client_get_all',
   actions: [
     {
-      type: 'condition',
-      condition: '$data.sort === \'ASC\'',
-      onMatch: [
-        {
-          type: 'variable',
-          name: 'clientsGetRes',
-          value: 'null',
-          as: 'let',
-        },
-        {
-          type: 'select',
-          entityName: 'client',
-          leftJoinAndSelect: ['invoices', 'invoice'],
-          orderBy: { id: 'ASC' },
-          itemsPerPage: 5,
-          awaitResult: true,
-          assignToVar: 'clientsGetRes',
-        },
-        {
-          type: 'return',
-          data: {
-            items: '$clientsGetRes[0]',
-            totalCount: '$clientsGetRes[1]',
-            pagination: { itemsPerPage: 5 },
-          },
-          config: null,
-        },
-      ],
-      onNotMatch: [
-        {
-          type: 'variable',
-          name: 'clientsGetRes',
-          value: 'null',
-          as: 'let',
-        },
-        {
-          type: 'select',
-          entityName: 'client',
-          leftJoinAndSelect: ['invoices', 'invoice'],
-          orderBy: { id: 'DESC', field2: 'ASC' },
-          itemsPerPage: 5,
-          awaitResult: true,
-          assignToVar: 'clientsGetRes',
-        },
-        {
-          type: 'return',
-          data: {
-            items: '$clientsGetRes[0]',
-            totalCount: '$clientsGetRes[1]',
-            pagination: { itemsPerPage: 5 },
-          },
-          config: null,
-        },
-      ],
+      type: 'variable',
+      name: 'clientsGetRes',
+      value: 'null',
+      as: 'let',
+    },
+    {
+      type: 'select',
+      entityName: 'client',
+      leftJoinAndSelect: ['invoices', 'invoice'],
+      orderBy: { id: 'DESC' },
+      itemsPerPage: 5,
+      awaitResult: true,
+      assignToVar: 'clientsGetRes',
+    },
+    {
+      type: 'return',
+      data: {
+        items: '$clientsGetRes[0]',
+        totalCount: '$clientsGetRes[1]',
+        pagination: { itemsPerPage: 5 },
+      },
+      config: null,
     },
   ],
 };

@@ -21,65 +21,62 @@ const pages: IPages = {
         className: 'min-w-full leading-normal',
         select: 'invoice_get_all',
         columns: [
-              {
-                type: 'tableHeading',
-                className:
-                  'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
-                name: 'ID',
-                sortBy: 'id',
-                cell: {
-                  className:
-                    'px-5 py-5 border-b border-gray-200 bg-white text-sm',
-                  content: [
-                    {
-                      type: 'text',
-                      value: '$id',
-                      vars: { id: '$id' },
-                    },
-                  ],
+          {
+            type: 'column',
+            className:
+              'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
+            name: 'ID',
+            sortBy: 'id',
+            cell: {
+              className: 'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+              content: [
+                {
+                  type: 'text',
+                  value: '$id',
+                  vars: { id: '$id' },
                 },
-              },
-              {
-                type: 'tableHeading',
-                className:
-                  'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
-                name: 'Client',
-                cell: {
-                  className:
-                    'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+              ],
+            },
+          },
+          {
+            type: 'column',
+            className:
+              'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
+            name: 'Client',
+            cell: {
+              className: 'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+              content: [
+                {
+                  type: 'text',
+                  value: '$name',
+                  vars: { 'client.lastName': '$name' },
+                },
+              ],
+            },
+          },
+          {
+            type: 'column',
+            className:
+              'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
+            name: 'Products',
+            cell: {
+              className: 'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+              content: [
+                {
+                  type: 'list',
+                  data: 'products',
+                  separator: ', ',
                   content: [
                     {
                       type: 'text',
                       value: '$name',
-                      vars: { 'client.lastName': '$name' },
+                      vars: { name: '$name' },
                     },
                   ],
                 },
-              },
-              {
-                type: 'tableHeading',
-                className:
-                  'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
-                name: 'Products',
-                cell: {
-                  className:
-                    'px-5 py-5 border-b border-gray-200 bg-white text-sm',
-                  content: [
-                    {
-                      type: 'list',
-                      data: 'products',
-                      separator: ', ',
-                      content: [
-                        {
-                          type: 'text',
-                          value: '$name',
-                          vars: { name: '$name' },
-                        },
-                      ],
-                    },
-                  ],
-                },
-              },
+              ],
+            },
+          },
         ],
       },
       {
@@ -181,14 +178,13 @@ const pages: IPages = {
         select: 'client_get_all',
         columns: [
           {
-            type: 'tableHeading',
+            type: 'column',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'ID',
             sortable: true,
             cell: {
-              className:
-                'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+              className: 'px-5 py-5 border-b border-gray-200 bg-white text-sm',
               content: [
                 {
                   type: 'text',
@@ -199,14 +195,13 @@ const pages: IPages = {
             },
           },
           {
-            type: 'tableHeading',
+            type: 'column',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'First Name',
             sortable: true,
             cell: {
-              className:
-                'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+              className: 'px-5 py-5 border-b border-gray-200 bg-white text-sm',
               content: [
                 {
                   type: 'text',
@@ -217,14 +212,13 @@ const pages: IPages = {
             },
           },
           {
-            type: 'tableHeading',
+            type: 'column',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Last Name',
             sortable: true,
             cell: {
-              className:
-                'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+              className: 'px-5 py-5 border-b border-gray-200 bg-white text-sm',
               content: [
                 {
                   type: 'text',
@@ -235,13 +229,12 @@ const pages: IPages = {
             },
           },
           {
-            type: 'tableHeading',
+            type: 'column',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Phone',
             cell: {
-              className:
-                'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+              className: 'px-5 py-5 border-b border-gray-200 bg-white text-sm',
               content: [
                 {
                   type: 'text',
@@ -252,13 +245,12 @@ const pages: IPages = {
             },
           },
           {
-            type: 'tableHeading',
+            type: 'column',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Invoices',
             cell: {
-              className:
-                'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+              className: 'px-5 py-5 border-b border-gray-200 bg-white text-sm',
               content: [
                 {
                   type: 'list',
@@ -276,13 +268,12 @@ const pages: IPages = {
             },
           },
           {
-            type: 'tableHeading',
+            type: 'column',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Controls',
             cell: {
-              className:
-                'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+              className: 'px-5 py-5 border-b border-gray-200 bg-white text-sm',
               content: [
                 {
                   type: 'button',
@@ -454,77 +445,73 @@ const pages: IPages = {
         className: 'min-w-full leading-normal',
         select: 'product_get_all',
         columns: [
-              {
-                type: 'tableHeading',
-                className:
-                  'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
-                name: 'ID',
-                sortable: true,
-                cell: {
-                  className:
-                    'px-5 py-5 border-b border-gray-200 bg-white text-sm',
-                  content: [
-                    {
-                      type: 'text',
-                      value: '$id',
-                      vars: { id: '$id' },
-                    },
-                  ],
+          {
+            type: 'column',
+            className:
+              'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
+            name: 'ID',
+            sortable: true,
+            cell: {
+              className: 'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+              content: [
+                {
+                  type: 'text',
+                  value: '$id',
+                  vars: { id: '$id' },
                 },
-              },
-              {
-                type: 'tableHeading',
-                className:
-                  'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
-                name: 'Name',
-                sortable: true,
-                cell: {
-                  className:
-                    'px-5 py-5 border-b border-gray-200 bg-white text-sm',
-                  content: [
-                    {
-                      type: 'text',
-                      value: '$name',
-                      vars: { name: '$name' },
-                    },
-                  ],
+              ],
+            },
+          },
+          {
+            type: 'column',
+            className:
+              'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
+            name: 'Name',
+            sortable: true,
+            cell: {
+              className: 'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+              content: [
+                {
+                  type: 'text',
+                  value: '$name',
+                  vars: { name: '$name' },
                 },
-              },
-              {
-                type: 'tableHeading',
-                className:
-                  'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
-                name: 'Price',
-                sortable: true,
-                cell: {
-                  className:
-                    'px-5 py-5 border-b border-gray-200 bg-white text-sm',
-                  content: [
-                    {
-                      type: 'text',
-                      value: '$$price',
-                      vars: { price: '$price' },
-                    },
-                  ],
+              ],
+            },
+          },
+          {
+            type: 'column',
+            className:
+              'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
+            name: 'Price',
+            sortable: true,
+            cell: {
+              className: 'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+              content: [
+                {
+                  type: 'text',
+                  value: '$$price',
+                  vars: { price: '$price' },
                 },
-              },
-              {
-                type: 'tableHeading',
-                className:
-                  'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
-                name: 'Description',
-                cell: {
-                  className:
-                    'px-5 py-5 border-b border-gray-200 bg-white text-sm',
-                  content: [
-                    {
-                      type: 'text',
-                      value: '$description',
-                      vars: { description: '$description' },
-                    },
-                  ],
+              ],
+            },
+          },
+          {
+            type: 'column',
+            className:
+              'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
+            name: 'Description',
+            cell: {
+              className: 'px-5 py-5 border-b border-gray-200 bg-white text-sm',
+              content: [
+                {
+                  type: 'text',
+                  value: '$description',
+                  vars: { description: '$description' },
                 },
-              },
+              ],
+            },
+          },
         ],
       },
       {
