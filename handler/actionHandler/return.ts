@@ -1,10 +1,29 @@
-import { IReturnAction } from '_config/config.handler';
+import { IRedirectPageAction, IReturnAction } from '_config/config.handler';
 import { TCreateActionHandler } from './index';
+
 
 const returnActionHandler: TCreateActionHandler<IReturnAction> = ({
   data,
-  config,
+  config
 }) => {
+   // const stringifiedConfig = config ? JSON.stringify(config, null, 2) : 'null';
+   let stringifiedConfig;
+
+   if (!config) {
+     stringifiedConfig = 'null';
+   } else if (config.length >= 2 && config[1].clientHandler === 'redirect_page' && config[1].path) {
+     const redirectAction = { ...config[1] } as IRedirectPageAction;
+     if (data) {
+       redirectAction.path = redirectAction.path.replace(/\$\w+/g, match => {
+         const variableName = match.substring(1);
+         return data[variableName] ? `\$${variableName}` : '';
+       });
+     }
+     stringifiedConfig = JSON.stringify([config[0], redirectAction], null, 2);
+     console.log('Redirect Action:', redirectAction);
+   } else {
+     stringifiedConfig = JSON.stringify(config, null, 2);
+   }
 
   let stringifiedData;
 
@@ -23,19 +42,6 @@ const returnActionHandler: TCreateActionHandler<IReturnAction> = ({
 
     stringifiedData = `{ items: ${items}, totalCount: ${totalCount}, pagination: ${stringifiedPagination} }`;
   }
-
-  const modifiedConfig = config ? config.map((action) => {
-    if(action.clientHandler === 'redirect_page'){
-      const productId = {productId: '123'};
-      return {
-        ...action,
-        path: action.path.replace(/\$productId/g, productId.productId)
-      }
-    }
-    return action;
-  }) : null
-
-  const stringifiedConfig = config ? JSON.stringify(modifiedConfig, null, 2) : 'null';
 
   const entries = `  return {\n  config: ${stringifiedConfig},\n  data: ${stringifiedData.replaceAll(
     '$',
