@@ -55,7 +55,7 @@ export interface IConditionAction {
 }
 
 export interface IRedirectPageAction {
-  clientHandler: 'redirect_page';
+  clientHandler: 'redirectPage';
   path: string;
 }
 
@@ -67,7 +67,7 @@ export type TMessagePlacement =
   | 'bottom-right';
 
 export interface ISetMessageAction {
-  clientHandler: 'set_message';
+  clientHandler: 'setMessage';
   id: string;
   status: TMessageStatus;
   duration: number;
@@ -76,27 +76,27 @@ export interface ISetMessageAction {
 }
 
 export interface ICloseModal {
-  clientHandler: 'close_modal';
+  clientHandler: 'closeModal';
   id: string;
 }
 
 export interface IOpenModal {
-  clientHandler: 'open_modal';
+  clientHandler: 'openModal';
   id: string;
 }
 
 export interface ICloseSidepanel {
-  clientHandler: 'close_sidepanel';
+  clientHandler: 'closeSidepanel';
   id: string;
 }
 
 export interface IOpenSidepanel {
-  clientHandler: 'open_sidepanel';
+  clientHandler: 'openSidepanel';
   id: string;
 }
 
 export interface IRefreshData {
-  clientHandler: 'refresh_data';
+  clientHandler: 'refreshData';
   select: string;
 }
 
@@ -206,7 +206,7 @@ const form_create_product_submit: IHandler = {
       type: 'return',
       config: [
         {
-          clientHandler: 'set_message',
+          clientHandler: 'setMessage',
           id: 'product_created',
           status: 'success',
           duration: 2000,
@@ -214,7 +214,7 @@ const form_create_product_submit: IHandler = {
           content: 'Product was created',
         },
         {
-          clientHandler: 'redirect_page',
+          clientHandler: 'redirectPage',
           path: '/product',
         },
       ],
@@ -291,7 +291,7 @@ const form_create_invoice_submit: IHandler = {
       type: 'return',
       config: [
         {
-          clientHandler: 'set_message',
+          clientHandler: 'setMessage',
           id: 'invoice_created',
           status: 'success',
           duration: 2000,
@@ -299,7 +299,7 @@ const form_create_invoice_submit: IHandler = {
           content: 'Invoice has been created',
         },
         {
-          clientHandler: 'redirect_page',
+          clientHandler: 'redirectPage',
           path: '/invoice',
         },
       ],
@@ -343,7 +343,7 @@ const form_create_client_submit: IHandler = {
       type: 'return',
       config: [
         {
-          clientHandler: 'set_message',
+          clientHandler: 'setMessage',
           id: 'client_created',
           status: 'success',
           duration: 2000,
@@ -351,7 +351,7 @@ const form_create_client_submit: IHandler = {
           content: 'Client was created',
         },
         {
-          clientHandler: 'redirect_page',
+          clientHandler: 'redirectPage',
           path: '/client',
         },
       ],
@@ -460,7 +460,7 @@ const form_create_product_cancel: IHandler = {
       type: 'return',
       config: [
         {
-          clientHandler: 'redirect_page',
+          clientHandler: 'redirectPage',
           path: '/product',
         },
       ],
@@ -475,7 +475,7 @@ const form_create_invoice_cancel: IHandler = {
       type: 'return',
       config: [
         {
-          clientHandler: 'redirect_page',
+          clientHandler: 'redirectPage',
           path: '/invoice',
         },
       ],
@@ -490,7 +490,7 @@ const open_product_create_sidepanel: IHandler = {
       type: 'return',
       config: [
         {
-          clientHandler: 'open_sidepanel',
+          clientHandler: 'openSidepanel',
           id: 'create_product',
         },
       ],
@@ -505,7 +505,7 @@ const close_product_create_sidepanel: IHandler = {
       type: 'return',
       config: [
         {
-          clientHandler: 'close_sidepanel',
+          clientHandler: 'closeSidepanel',
           id: 'create_product',
         },
       ],
@@ -539,15 +539,15 @@ const product_create_sidepanel_submit: IHandler = {
       type: 'return',
       config: [
         {
-          clientHandler: 'close_sidepanel',
+          clientHandler: 'closeSidepanel',
           id: 'create_product',
         },
         {
-          clientHandler: 'refresh_data',
+          clientHandler: 'refreshData',
           select: 'product_get_all',
         },
         {
-          clientHandler: 'set_message',
+          clientHandler: 'setMessage',
           id: 'product_created',
           status: 'success',
           duration: 2000,
@@ -566,7 +566,7 @@ const open_invoice_create_sidepanel: IHandler = {
       type: 'return',
       config: [
         {
-          clientHandler: 'open_sidepanel',
+          clientHandler: 'openSidepanel',
           id: 'create_invoice',
         },
       ],
@@ -581,7 +581,7 @@ const close_invoice_create_sidepanel: IHandler = {
       type: 'return',
       config: [
         {
-          clientHandler: 'close_sidepanel',
+          clientHandler: 'closeSidepanel',
           id: 'create_invoice',
         },
       ],
@@ -615,15 +615,15 @@ const invoice_create_sidepanel_submit: IHandler = {
       type: 'return',
       config: [
         {
-          clientHandler: 'close_sidepanel',
+          clientHandler: 'closeSidepanel',
           id: 'create_invoice',
         },
         {
-          clientHandler: 'refresh_data',
+          clientHandler: 'refreshData',
           select: 'invoice_get_all',
         },
         {
-          clientHandler: 'set_message',
+          clientHandler: 'setMessage',
           id: 'invoice_created',
           status: 'success',
           duration: 2000,
@@ -642,7 +642,7 @@ const open_client_create_modal: IHandler = {
       type: 'return',
       config: [
         {
-          clientHandler: 'open_modal',
+          clientHandler: 'openModal',
           id: 'create_client',
         },
       ],
@@ -657,7 +657,7 @@ const close_client_create_modal: IHandler = {
       type: 'return',
       config: [
         {
-          clientHandler: 'close_modal',
+          clientHandler: 'closeModal',
           id: 'create_client',
         },
       ],
@@ -701,16 +701,45 @@ const client_create_modal_submit: IHandler = {
       type: 'return',
       config: [
         {
-          clientHandler: 'close_modal',
+          clientHandler: 'closeModal',
           id: 'create_client',
         },
         {
-          clientHandler: 'set_message',
+          clientHandler: 'setMessage',
           id: 'client_created',
           status: 'success',
           duration: 2000,
           placement: 'top-right',
           content: 'Client was created',
+        },
+      ],
+    },
+  ],
+};
+
+const client_delete_one: IHandler = {
+  name: 'client_delete_one',
+  actions: [
+    {
+      type: 'delete',
+      entityName: 'client',
+      where: { id: '$data.id' },
+      awaitResult: true,
+    },
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'refreshData',
+          select: 'client_get_all',
+        },
+        {
+          clientHandler: 'setMessage',
+          id: 'client_deleted',
+          status: 'success',
+          duration: 2000,
+          placement: 'top-right',
+          content: 'Client was deleted',
         },
       ],
     },
@@ -735,6 +764,7 @@ const handlers: IHandler[] = [
   open_client_create_modal,
   close_client_create_modal,
   client_create_modal_submit,
+  client_delete_one,
 ];
 
 export default handlers;
