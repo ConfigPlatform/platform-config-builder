@@ -6,8 +6,12 @@ export interface IPages {
 const pages: IPages = {
   // INVOICE LIST
   '/invoice': {
-    pageTitle: 'Invoices',
     content: [
+      {
+        type: 'text',
+        value: 'Invoices',
+        className: 'text-3xl text-gray-900 font-medium',
+      },
       {
         type: 'button',
         content: [{ type: 'text', value: 'Add Invoice' }],
@@ -107,8 +111,12 @@ const pages: IPages = {
 
   // INVOICE CREATE
   '/invoice/create': {
-    pageTitle: 'Create Invoice',
     content: [
+      {
+        type: 'text',
+        value: 'Create Invoice',
+        className: 'text-3xl text-gray-900 font-medium',
+      },
       {
         type: 'row',
         className: 'mt-2 grid grid-cols-12 gap-x-6 gap-y-2',
@@ -162,8 +170,12 @@ const pages: IPages = {
 
   // CLIENT LIST
   '/client': {
-    pageTitle: 'Clients',
     content: [
+      {
+        type: 'text',
+        value: 'Clients',
+        className: 'text-3xl text-gray-900 font-medium',
+      },
       {
         type: 'button',
         content: [{ type: 'text', value: 'Add Client' }],
@@ -349,8 +361,12 @@ const pages: IPages = {
 
   // CLIENT CREATE
   '/client/create': {
-    pageTitle: 'Create Client',
     content: [
+      {
+        type: 'text',
+        value: 'Create Client',
+        className: 'text-3xl text-gray-900 font-medium',
+      },
       {
         type: 'form',
         className: 'space-y-3',
@@ -394,8 +410,12 @@ const pages: IPages = {
 
   // PRODUCT CREATE
   '/product/create': {
-    pageTitle: 'Create Product',
     content: [
+      {
+        type: 'text',
+        value: 'Create Product',
+        className: 'text-3xl text-gray-900 font-medium',
+      },
       {
         type: 'row',
         className: 'mt-2 grid grid-cols-12 gap-x-6 gap-y-2',
@@ -457,8 +477,12 @@ const pages: IPages = {
 
   // PRODUCT LIST
   '/product': {
-    pageTitle: 'Products',
     content: [
+      {
+        type: 'text',
+        value: 'Products',
+        className: 'text-3xl text-gray-900 font-medium',
+      },
       {
         type: 'button',
         content: [{ type: 'text', value: 'Add Product' }],
@@ -569,8 +593,16 @@ const pages: IPages = {
 
   // USER LIST
   '/user': {
-    pageTitle: 'User List',
-    contentType: 'table',
+    content: [
+      {
+        type: 'text',
+        value: 'User List',
+        className: 'text-3xl text-gray-900 font-medium',
+      },
+      {
+        type: 'table',
+      },
+    ],
   },
 };
 
