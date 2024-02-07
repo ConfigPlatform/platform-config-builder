@@ -117,7 +117,6 @@ export interface IReturnAction {
   pagination?: { itemsPerPage: number };
 }
 
-
 export interface ISelectAction {
   type: 'select';
   entityName: string;
@@ -745,6 +744,95 @@ const client_delete_one: IHandler = {
     },
   ],
 };
+const form_create_client_cancel: IHandler = {
+  name: 'form_create_client_cancel',
+  actions: [
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'redirectPage',
+          path: '/client',
+        },
+      ],
+    },
+  ],
+};
+const open_client_create_sidepanel: IHandler = {
+  name: 'open_client_create_sidepanel',
+  actions: [
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'openSidepanel',
+          id: 'create_client',
+        },
+      ],
+    },
+  ],
+};
+
+const close_client_create_sidepanel: IHandler = {
+  name: 'close_client_create_sidepanel',
+  actions: [
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'closeSidepanel',
+          id: 'create_client',
+        },
+      ],
+    },
+  ],
+};
+
+const client_create_sidepanel_submit: IHandler = {
+  name: 'client_create_sidepanel_submit',
+  actions: [
+    {
+      type: 'insert',
+      entityName: 'client',
+      fields: [
+        {
+          entityField: 'firstName',
+          value: '$data.firstName.toUpperCase()',
+        },
+        {
+          entityField: 'lastName',
+          value: '$data.lastName.toUpperCase()',
+        },
+        {
+          entityField: 'phone',
+          value: '$data.phone',
+        },
+      ],
+      awaitResult: true,
+    },
+    {
+      type: 'return',
+      config: [
+        {
+          clientHandler: 'closeSidepanel',
+          id: 'create_client',
+        },
+        {
+          clientHandler: 'refreshData',
+          select: 'client_get_all',
+        },
+        {
+          clientHandler: 'setMessage',
+          id: 'client_created',
+          status: 'success',
+          duration: 2000,
+          placement: 'top-right',
+          content: 'Client was created',
+        },
+      ],
+    },
+  ],
+};
 
 const handlers: IHandler[] = [
   form_create_product_submit,
@@ -765,6 +853,10 @@ const handlers: IHandler[] = [
   close_client_create_modal,
   client_create_modal_submit,
   client_delete_one,
+  open_client_create_sidepanel,
+  close_client_create_sidepanel,
+  client_create_sidepanel_submit,
+  form_create_client_cancel,
 ];
 
 export default handlers;
