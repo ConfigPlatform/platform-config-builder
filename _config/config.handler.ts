@@ -115,6 +115,7 @@ export interface IReturnAction {
   config?: TClientAction[];
   multiple?: boolean;
   pagination?: { itemsPerPage: number };
+  varId?: string;
 }
 
 
@@ -201,9 +202,11 @@ const form_create_product_submit: IHandler = {
         },
       ],
       awaitResult: true,
+      
     },
     {
       type: 'return',
+      varId: 'productId',
       config: [
         {
           clientHandler: 'setMessage',
