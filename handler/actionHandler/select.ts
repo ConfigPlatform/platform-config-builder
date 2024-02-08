@@ -44,16 +44,17 @@ const itemsPerPageOperationHandler = ({
 };
 
 const orderByOperationHandler = ({
-  entityName,
-  payload,
-  operationKey,
-}: IOperationPayload<{ [key: string]: 'DESC' | 'ASC' }>): string => {
+                                   entityName,
+                                   payload, // payload is sortingOptions from client
+                                   operationKey,
+                                 }: IOperationPayload<{[key: string]: 'DESC' | 'ASC'}>): string => {
   let orderByStr = '';
 
-    for (const field in payload) {
-    const order = payload[field];
+  // Loop over the payload keys and values
+  for (const [field, order] of Object.entries(payload)) {
     orderByStr += `\n    .${operationKey}('${entityName}.${field}', '${order}')`;
   }
+
   return orderByStr;
 };
 
