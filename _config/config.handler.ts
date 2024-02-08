@@ -115,7 +115,6 @@ export interface IReturnAction {
   config?: TClientAction[];
   multiple?: boolean;
   pagination?: { itemsPerPage: number };
-  varId?: string;
 }
 
 
@@ -206,7 +205,6 @@ const form_create_product_submit: IHandler = {
     },
     {
       type: 'return',
-      varId: 'productId',
       config: [
         {
           clientHandler: 'setMessage',
@@ -218,7 +216,7 @@ const form_create_product_submit: IHandler = {
         },
         {
           clientHandler: 'redirectPage',
-          path: '/product',
+          path: '/product/$productId',
         },
       ],
     },
@@ -303,7 +301,7 @@ const form_create_invoice_submit: IHandler = {
         },
         {
           clientHandler: 'redirectPage',
-          path: '/invoice',
+          path: '/invoice/$invoiceList',
         },
       ],
     },
@@ -355,7 +353,7 @@ const form_create_client_submit: IHandler = {
         },
         {
           clientHandler: 'redirectPage',
-          path: '/client',
+          path: '/client/$clientId',
         },
       ],
     },
