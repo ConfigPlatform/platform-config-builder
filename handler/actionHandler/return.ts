@@ -19,7 +19,7 @@ const returnActionHandler: TCreateActionHandler<IReturnAction> = ({
         return value;
       },
       2,
-    ).replace(/"\$\{/g, "`$/").replace(/\}"/g, "`");
+    ).replace(/"\$\{/g, "`").replace(/\}"/g, "`");
   };
   
   if (!config) {

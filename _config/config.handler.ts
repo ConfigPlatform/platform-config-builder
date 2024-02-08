@@ -301,7 +301,7 @@ const form_create_invoice_submit: IHandler = {
         },
         {
           clientHandler: 'redirectPage',
-          path: '/invoice/$invoiceList',
+          path: '/invoice/$invoiceList/$invoiceId',
         },
       ],
     },
