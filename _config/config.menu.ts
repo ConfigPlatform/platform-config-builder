@@ -1,18 +1,11 @@
-export interface INavbarItem {
-  type: string;
-  id?: number;
-  className: string;
-  value: string;
-  path: string;
-  content: any[];
-}
-
 export interface INavbar {
+  className: string;
   content: any[];
 }
 
 // menu config
 const menu: INavbar = {
+  className: 'border-gray-200 bg-gray-50 max-w-screen flex flex-wrap flex-row p-2',
   content: [
     {
       type: 'link',
@@ -22,7 +15,7 @@ const menu: INavbar = {
           type: 'text',
           value: 'Clients',
           className:
-            'block text-xl text-grey-900 mb-4 py-2 px-3 hover:bg-gray-300 rounded',
+            'block text-lg text-grey-900 py-2 px-3 hover:bg-gray-300 rounded',
         },
       ],
     },
@@ -34,7 +27,7 @@ const menu: INavbar = {
           type: 'text',
           value: 'Products',
           className:
-            'block text-xl text-grey-900 mb-4 py-2 px-3 hover:bg-gray-300 rounded',
+            'bblock text-lg text-grey-900 py-2 px-3 hover:bg-gray-300 rounded',
         },
       ],
     },
@@ -46,7 +39,7 @@ const menu: INavbar = {
           type: 'text',
           value: 'Invoices',
           className:
-            'block text-xl text-grey-900 mb-4 py-2 px-3 hover:bg-gray-300 rounded',
+            'block text-lg text-grey-900 py-2 px-3 hover:bg-gray-300 rounded',
         },
       ],
     },
@@ -58,7 +51,7 @@ const menu: INavbar = {
           type: 'text',
           value: 'Create Client',
           className:
-            'block text-xl text-grey-900 mb-4 py-2 px-3 hover:bg-gray-300 rounded',
+            'block text-lg text-grey-900 py-2 px-3 hover:bg-gray-300 rounded',
         },
       ],
     },
@@ -70,7 +63,7 @@ const menu: INavbar = {
           type: 'text',
           value: 'Create Product',
           className:
-            'block text-xl text-grey-900 mb-4 py-2 px-3 hover:bg-gray-300 rounded',
+            'block text-lg text-grey-900 py-2 px-3 hover:bg-gray-300 rounded',
         },
       ],
     },
@@ -82,7 +75,7 @@ const menu: INavbar = {
           type: 'text',
           value: 'Create Invoice',
           className:
-            'block text-xl text-grey-900 mb-4 py-2 px-3 hover:bg-gray-300 rounded',
+            'block text-lg text-grey-900 py-2 px-3 hover:bg-gray-300 rounded',
         },
       ],
     },
