@@ -155,8 +155,9 @@ const create_client_sidepanel: ISidepanel = {
             {
               name: 'phone',
               label: 'Phone',
-              type: 'number',
+              type: 'string',
               required: true,
+              pattern: '^\\d{3}-\\d{3}-\\d{4}$',
             },
           ],
           actions: [
