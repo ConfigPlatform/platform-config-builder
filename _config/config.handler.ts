@@ -216,7 +216,7 @@ const form_create_product_submit: IHandler = {
         },
         {
           clientHandler: 'redirectPage',
-          path: '/product/$productId',
+          path: '/product',
         },
       ],
     },
@@ -301,7 +301,7 @@ const form_create_invoice_submit: IHandler = {
         },
         {
           clientHandler: 'redirectPage',
-          path: '/invoice/$invoiceList/$invoiceId',
+          path: '/invoice',
         },
       ],
     },
@@ -353,7 +353,7 @@ const form_create_client_submit: IHandler = {
         },
         {
           clientHandler: 'redirectPage',
-          path: '/client/$clientId',
+          path: '/client',
         },
       ],
     },
