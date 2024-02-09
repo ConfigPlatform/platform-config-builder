@@ -3,10 +3,33 @@ import { TCreateActionHandler } from './index';
 
 const returnActionHandler: TCreateActionHandler<IReturnAction> = ({
   data,
-  config
+  config,
 }) => {
-  const stringifiedConfig = config ? JSON.stringify(config, null, 2) : 'null';
+  let stringifiedConfig;
+  
+  const stringifyConfig = (config) => {
+    return JSON.stringify(
+      config,
+      (key, value) => {
+        if (key === 'path') {
+          return `\${${value.replace(/\$([\w\d]+)/g, (_, variableName) => {
+          return variableName ? `\${${variableName}}` : '';
+          })}}`;
+        }
+        return value;
+      },
+      2,
+    ).replace(/"\$\{/g, "`").replace(/\}"/g, "`");
+  };
+  
+  if (!config) {
+    stringifiedConfig = 'null';
+  }
 
+  if (config && Array.isArray(config)) {
+    stringifiedConfig = stringifyConfig(config);
+  }
+  
   let stringifiedData;
 
   if (!data) {

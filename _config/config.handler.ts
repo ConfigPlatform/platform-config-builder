@@ -200,6 +200,7 @@ const form_create_product_submit: IHandler = {
         },
       ],
       awaitResult: true,
+      
     },
     {
       type: 'return',
