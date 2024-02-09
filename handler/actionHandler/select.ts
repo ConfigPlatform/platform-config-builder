@@ -1,6 +1,7 @@
 import { ISelectAction } from '_config/config.handler';
-import { createClassName } from '../../helpers';
+import { checkIfRegexp, createClassName } from '../../helpers';
 import { TCreateActionHandler } from './index';
+import { isEmpty } from 'lodash';
 
 type TIgnoredKey = 'entityName' | 'type' | 'assignVar' | 'multiple';
 
@@ -14,13 +15,34 @@ const whereOperationHandler = ({
   entityName,
   payload,
   operationKey,
-}: IOperationPayload<{ [key: string]: any }>): string => {
-  const field = Object.keys(payload)[0];
-  const value = Object.values(payload)[0].replaceAll('$', '');
+}: IOperationPayload<{ [key: string]: any } | string>): string => {
+  if (typeof payload === 'string') {
+    return `\n    .${operationKey}(${payload.slice(1)})`;
+  } else {
+    let schema = '';
 
-  const entries = `\n    .${operationKey}('${entityName}.${field} = :${field}', { ${field}: ${value} })`;
+    for (const field in payload) {
+      const value = payload[field];
 
-  return entries;
+      // add separator before next field
+      if (!isEmpty(schema)) {
+        schema += ' AND ';
+      }
+
+      const isValueRegexp = checkIfRegexp(value);
+
+      const sign = isValueRegexp ? '~*' : '=';
+
+      // field schema is different for regexp and string filters
+      schema += `${entityName}.${field} ${sign} :${field}`;
+    }
+
+    const strigifiedPayload = JSON.stringify(payload, null, 2);
+
+    const entries = `\n    .${operationKey}('${schema}', ${strigifiedPayload})`;
+
+    return entries;
+  }
 };
 
 const leftJoinAndSelectOperationHandler = ({
@@ -50,7 +72,7 @@ const orderByOperationHandler = ({
 }: IOperationPayload<{ [key: string]: 'DESC' | 'ASC' }>): string => {
   let orderByStr = '';
 
-    for (const field in payload) {
+  for (const field in payload) {
     const order = payload[field];
     orderByStr += `\n    .${operationKey}('${entityName}.${field}', '${order}')`;
   }
