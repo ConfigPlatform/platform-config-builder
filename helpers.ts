@@ -37,11 +37,5 @@ export const checkIfRegexp = (str: string): boolean => {
     return true; // Likely intended to be a regex
   }
 
-  try {
-    // Attempt to create a RegExp object; this checks if it's a valid regex
-    new RegExp(str);
-    return true; // It's a valid regex (but might not contain special characters)
-  } catch (e) {
-    return false; // Not a valid regex
-  }
+  return false
 }
