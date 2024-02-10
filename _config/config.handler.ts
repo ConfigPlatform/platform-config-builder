@@ -121,7 +121,7 @@ export interface ISelectAction {
   type: 'select';
   entityName: string;
   leftJoinAndSelect?: [string, string] | [string, string][];
-  where?: { [key: string]: any };
+  where?: { [key: string]: any } | string;
   orderBy?: { [key: string]: 'ASC' | 'DESC' };
   orWhere?: [string, string];
   multiple?: boolean;
