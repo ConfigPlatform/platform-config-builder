@@ -47,10 +47,10 @@ const whereOperationHandler = ({
         acc += ' AND ';
       }
       
-      const isValueRegexp = ${checkIfRegexp.toString()};
-      const sign = isValueRegexp ? ' ~*' : ' =';
+      const [field, value] = curr;
       
-      const field = curr[0];
+      const isValueRegexp = ${checkIfRegexp.toString()};
+      const sign = isValueRegexp(value) ? ' ~*' : ' =';
       
       acc += '${entityName}' + '.' + field + sign + ' :' + field;
       
