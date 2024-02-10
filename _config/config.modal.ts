@@ -25,7 +25,7 @@ const create_client_modal: IModal = {
       value: 'Create Client',
     },
     {
-      type: 'column',
+      type: 'container',
       className: 'col-span-6',
       content: [
         {

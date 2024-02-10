@@ -26,7 +26,7 @@ const pages: IPages = {
         select: 'invoice_get_all',
         columns: [
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'ID',
@@ -43,7 +43,7 @@ const pages: IPages = {
             },
           },
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Client',
@@ -59,7 +59,7 @@ const pages: IPages = {
             },
           },
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Products',
@@ -118,11 +118,11 @@ const pages: IPages = {
         className: 'text-3xl text-gray-900 font-medium',
       },
       {
-        type: 'row',
+        type: 'container',
         className: 'mt-2 grid grid-cols-12 gap-x-6 gap-y-2',
         content: [
           {
-            type: 'column',
+            type: 'container',
             className: 'col-span-6',
             content: [
               {
@@ -226,7 +226,7 @@ const pages: IPages = {
         select: 'client_get_all',
         columns: [
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'ID',
@@ -243,7 +243,7 @@ const pages: IPages = {
             },
           },
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'First Name',
@@ -260,7 +260,7 @@ const pages: IPages = {
             },
           },
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Last Name',
@@ -277,7 +277,7 @@ const pages: IPages = {
             },
           },
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Phone',
@@ -293,7 +293,7 @@ const pages: IPages = {
             },
           },
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Invoices',
@@ -316,7 +316,7 @@ const pages: IPages = {
             },
           },
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Controls',
@@ -453,11 +453,11 @@ const pages: IPages = {
         className: 'text-3xl text-gray-900 font-medium',
       },
       {
-        type: 'row',
+        type: 'container',
         className: 'mt-2 grid grid-cols-12 gap-x-6 gap-y-2',
         content: [
           {
-            type: 'column',
+            type: 'container',
             className: 'col-span-6',
             content: [
               {
@@ -533,7 +533,7 @@ const pages: IPages = {
         select: 'product_get_all',
         columns: [
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'ID',
@@ -550,7 +550,7 @@ const pages: IPages = {
             },
           },
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Name',
@@ -567,7 +567,7 @@ const pages: IPages = {
             },
           },
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Price',
@@ -584,7 +584,7 @@ const pages: IPages = {
             },
           },
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Description',
