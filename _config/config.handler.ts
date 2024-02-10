@@ -200,7 +200,6 @@ const form_create_product_submit: IHandler = {
         },
       ],
       awaitResult: true,
-      
     },
     {
       type: 'return',
@@ -433,13 +432,31 @@ const client_get_all: IHandler = {
       as: 'let',
     },
     {
-      type: 'select',
-      entityName: 'client',
-      leftJoinAndSelect: ['invoices', 'invoice'],
-      orderBy: { id: 'DESC' },
-      itemsPerPage: 5,
-      awaitResult: true,
-      assignToVar: 'clientsGetRes',
+      type: 'condition',
+      condition: '$data.filters',
+      onMatch: [
+        {
+          type: 'select',
+          entityName: 'client',
+          leftJoinAndSelect: ['invoices', 'invoice'],
+          orderBy: { id: 'DESC' },
+          where: '$data.filters',
+          itemsPerPage: 5,
+          awaitResult: true,
+          assignToVar: 'clientsGetRes',
+        },
+      ],
+      onNotMatch: [
+        {
+          type: 'select',
+          entityName: 'client',
+          leftJoinAndSelect: ['invoices', 'invoice'],
+          orderBy: { id: 'DESC' },
+          itemsPerPage: 5,
+          awaitResult: true,
+          assignToVar: 'clientsGetRes',
+        },
+      ],
     },
     {
       type: 'return',

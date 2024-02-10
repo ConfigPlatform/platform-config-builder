@@ -177,6 +177,12 @@ const pages: IPages = {
         className: 'text-3xl text-gray-900 font-medium',
       },
       {
+        type: 'filter',
+        placeholder: 'Search by First Name...',
+        filterBy: 'firstName',
+        select: 'client_get_all',
+      },
+      {
         type: 'button',
         content: [{ type: 'text', value: 'Add Client' }],
         className:
