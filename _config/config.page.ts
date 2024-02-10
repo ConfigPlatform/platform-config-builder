@@ -177,11 +177,11 @@ const pages: IPages = {
         className: 'text-3xl text-gray-900 font-medium',
       },
       {
-        type: 'row',
+        type: 'container',
         className: 'flex flex-wrap flex-row my-4',
         content: [
           {
-            type: 'row',
+            type: 'container',
             className: 'flex flex-wrap flex-row',
             content: [
               {
