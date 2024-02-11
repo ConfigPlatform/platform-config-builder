@@ -122,7 +122,7 @@ export interface ISelectAction {
   entityName: string;
   leftJoinAndSelect?: [string, string] | [string, string][];
   where?: { [key: string]: any } | string;
-  orderBy?: { [key: string]: 'ASC' | 'DESC' };
+  orderBy?: string;
   orWhere?: [string, string];
   multiple?: boolean;
   itemsPerPage?: number;
@@ -370,7 +370,7 @@ const invoice_get_all: IHandler = {
     {
       type: 'select',
       entityName: 'invoice',
-      orderBy: { id: 'DESC' },
+      orderBy: '$data.sortingOptions',
       leftJoinAndSelect: [
         ['client', 'client'],
         ['products', 'product'],
@@ -404,7 +404,7 @@ const product_get_all: IHandler = {
     {
       type: 'select',
       entityName: 'product',
-      orderBy: { id: 'DESC' },
+      orderBy: '$data.sortingOptions',
       itemsPerPage: 5,
       multiple: true,
       awaitResult: true,
@@ -439,7 +439,7 @@ const client_get_all: IHandler = {
           type: 'select',
           entityName: 'client',
           leftJoinAndSelect: ['invoices', 'invoice'],
-          orderBy: { id: 'DESC' },
+          orderBy: '$data.sortingOptions',
           where: '$data.filters',
           itemsPerPage: 5,
           awaitResult: true,
@@ -451,7 +451,7 @@ const client_get_all: IHandler = {
           type: 'select',
           entityName: 'client',
           leftJoinAndSelect: ['invoices', 'invoice'],
-          orderBy: { id: 'DESC' },
+          orderBy: '$data.sortingOptions',
           itemsPerPage: 5,
           awaitResult: true,
           assignToVar: 'clientsGetRes',

@@ -83,17 +83,12 @@ const itemsPerPageOperationHandler = ({
 };
 
 const orderByOperationHandler = ({
-  entityName,
-  payload,
-  operationKey,
-}: IOperationPayload<{ [key: string]: 'DESC' | 'ASC' }>): string => {
-  let orderByStr = '';
-
-  for (const field in payload) {
-    const order = payload[field];
-    orderByStr += `\n    .${operationKey}('${entityName}.${field}', '${order}')`;
-  }
-  return orderByStr;
+                                   payload,
+                                   operationKey,
+                                 }: IOperationPayload<string>): string => {
+  const processedPayload = payload.replaceAll('$', '');
+  const entries = `\n    .${operationKey}(${processedPayload})`;
+  return entries;
 };
 
 const selectActionHandler: TCreateActionHandler<ISelectAction> = (
