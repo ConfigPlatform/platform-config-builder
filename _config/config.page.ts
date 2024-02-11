@@ -30,7 +30,8 @@ const pages: IPages = {
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'ID',
-            sortBy: 'id',
+            sortable: true,
+            sortBy: 'invoice.id',
             cell: {
               className: 'px-5 py-5 border-b border-gray-200 bg-white text-sm',
               content: [
@@ -47,6 +48,8 @@ const pages: IPages = {
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Client',
+            sortable: true,
+            sortBy: 'client.lastName',
             cell: {
               className: 'px-5 py-5 border-b border-gray-200 bg-white text-sm',
               content: [
@@ -543,6 +546,7 @@ const pages: IPages = {
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'ID',
             sortable: true,
+            sortBy: 'product.id',
             cell: {
               className: 'px-5 py-5 border-b border-gray-200 bg-white text-sm',
               content: [
@@ -560,6 +564,7 @@ const pages: IPages = {
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Name',
             sortable: true,
+            sortBy: 'product.name',
             cell: {
               className: 'px-5 py-5 border-b border-gray-200 bg-white text-sm',
               content: [
@@ -577,6 +582,7 @@ const pages: IPages = {
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Price',
             sortable: true,
+            sortBy: 'product.price',
             cell: {
               className: 'px-5 py-5 border-b border-gray-200 bg-white text-sm',
               content: [
@@ -593,6 +599,8 @@ const pages: IPages = {
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Description',
+            sortable: true,
+            sortBy: 'product.description',
             cell: {
               className: 'px-5 py-5 border-b border-gray-200 bg-white text-sm',
               content: [
