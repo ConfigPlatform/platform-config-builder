@@ -16,7 +16,7 @@ const create_product_sidepanel: ISidepanel = {
       value: 'Create Product',
     },
     {
-      type: 'column',
+      type: 'container',
       className: 'col-span-6',
       content: [
         {
@@ -78,7 +78,7 @@ const create_invoice_sidepanel: ISidepanel = {
       value: 'Create Invoice',
     },
     {
-      type: 'column',
+      type: 'container',
       className: 'col-span-6',
       content: [
         {
@@ -132,7 +132,7 @@ const create_client_sidepanel: ISidepanel = {
       value: 'Create Client',
     },
     {
-      type: 'column',
+      type: 'container',
       className: 'col-span-6',
       content: [
         {

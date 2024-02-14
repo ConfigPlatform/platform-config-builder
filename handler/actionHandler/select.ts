@@ -1,7 +1,6 @@
 import { ISelectAction } from '_config/config.handler';
 import { checkIfRegexp, createClassName } from '../../helpers';
 import { TCreateActionHandler } from './index';
-import { isEmpty } from 'lodash';
 
 type TIgnoredKey = 'entityName' | 'type' | 'assignVar' | 'multiple';
 
@@ -16,33 +15,51 @@ const whereOperationHandler = ({
   payload,
   operationKey,
 }: IOperationPayload<{ [key: string]: any } | string>): string => {
+  // Payload can be one of 3 structure. Imagine that in first 2 examples we receive filters object from client, it's just example, filters can be replaced with any object
+  // $data.filters
+  // { firstName: '$data.filters' }
+  // { firstName: '.*Max.*' }
+
+  let data = '';
+
+  // converting payload in needed format
   if (typeof payload === 'string') {
-    return `\n    .${operationKey}(${payload.slice(1)})`;
+    data = payload.slice(1);
   } else {
-    let schema = '';
+    data += '{';
 
-    for (const field in payload) {
-      const value = payload[field];
+    for (const key in payload) {
+      const value = payload[key];
 
-      // add separator before next field
-      if (!isEmpty(schema)) {
-        schema += ' AND ';
-      }
+      const isValueVar = value.includes('$');
+      const updatedValue = isValueVar ? value.replaceAll('$', '') : `'${value}'`;
 
-      const isValueRegexp = checkIfRegexp(value);
-
-      const sign = isValueRegexp ? '~*' : '=';
-
-      // field schema is different for regexp and string filters
-      schema += `${entityName}.${field} ${sign} :${field}`;
+      data += `${key}: ${updatedValue},`;
     }
 
-    const strigifiedPayload = JSON.stringify(payload, null, 2);
-
-    const entries = `\n    .${operationKey}('${schema}', ${strigifiedPayload})`;
-
-    return entries;
+    data += '}';
   }
+
+  // we need to define data schema depending on data
+  // schema describes which data should be used for specific field
+  const schemaCreator = `Object.entries(${data}).reduce((acc, curr) => {
+      if (acc) {
+        acc += ' AND ';
+      }
+      
+      const [field, value] = curr;
+      
+      const isValueRegexp = ${checkIfRegexp.toString()};
+      const sign = isValueRegexp(value) ? ' ~*' : ' =';
+      
+      acc += '${entityName}' + '.' + field + sign + ' :' + field;
+      
+      return acc
+    }, '')`;
+
+  const entries = `\n    .${operationKey}(${schemaCreator}, ${data})`
+
+  return entries;
 };
 
 const leftJoinAndSelectOperationHandler = ({
