@@ -5,7 +5,7 @@ export interface INavbar {
 
 // menu config
 const menu: INavbar = {
-  className: 'border-gray-200 bg-gray-50 max-w-screen flex flex-wrap flex-row p-2',
+  className: 'border-gray-200 bg-gray-100 max-w-screen flex flex-wrap flex-row p-2',
   content: [
     {
       type: 'link',
