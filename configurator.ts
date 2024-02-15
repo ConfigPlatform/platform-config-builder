@@ -15,6 +15,8 @@ const {
   SERVER_MODAL_CONFIG_PATH,
   SIDEPANEL_CONFIG_PATH,
   MODAL_CONFIG_PATH,
+  SERVER_FOOTER_CONFIG_PATH,
+  FOOTER_CONFIG_PATH,
 } = require('./paths');
 
 import entities from './_config/config.entity';
@@ -188,6 +190,7 @@ export const moveToServer = (): void => {
     [MENU_CONFIG_PATH, SERVER_MENU_CONFIG_PATH],
     [SIDEPANEL_CONFIG_PATH, SERVER_SIDEPANEL_CONFIG_PATH],
     [MODAL_CONFIG_PATH, SERVER_MODAL_CONFIG_PATH],
+    [FOOTER_CONFIG_PATH, SERVER_FOOTER_CONFIG_PATH],
   ];
 
   // copy files & dirs
