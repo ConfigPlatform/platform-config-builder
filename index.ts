@@ -9,5 +9,6 @@ import {
   updateEntities();
   updateEntityMap();
   await updateHandlers();
+
   moveToServer();
-})()
+})();
