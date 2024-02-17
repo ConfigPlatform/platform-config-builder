@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon index.ts",
     "prepare": "husky",
-    "lint": "eslint --fix"
+    "lint": "eslint . --fix"
   },
   "nodemonConfig": {
     "ignore": [
