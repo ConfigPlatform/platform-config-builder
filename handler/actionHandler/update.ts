@@ -10,14 +10,13 @@ const updateActionHandler: TCreateActionHandler<IUpdateAction> = ({
 }) => {
   const entityClassName = createClassName(entityName);
 
-  const updateValues = fields
-    .map((field) => `${field.entityField}: ${defineValueFormat(field.value)}`)
+                      const updateValues = fields.map((field) => `${field.entityField}: ${defineValueFormat(field.value)}`)
     .join(', ');
 
-  let entries = ``;
+                          let entries = ``;
 
   // check if we should await result
-  if (awaitResult) {
+                          if (awaitResult) {
     entries += 'await ';
   }
 
