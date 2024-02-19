@@ -1,5 +1,5 @@
 import { ISelectAction } from '_config/config.handler';
-import { createClassName } from '../../helpers';
+import { checkIfRegexp, createClassName } from '../../helpers';
 import { TCreateActionHandler } from './index';
 
 type TIgnoredKey = 'entityName' | 'type' | 'assignVar' | 'multiple';
@@ -14,11 +14,50 @@ const whereOperationHandler = ({
   entityName,
   payload,
   operationKey,
-}: IOperationPayload<{ [key: string]: any }>): string => {
-  const field = Object.keys(payload)[0];
-  const value = Object.values(payload)[0].replaceAll('$', '');
+}: IOperationPayload<{ [key: string]: any } | string>): string => {
+  // Payload can be one of 3 structure. Imagine that in first 2 examples we receive filters object from client, it's just example, filters can be replaced with any object
+  // $data.filters
+  // { firstName: '$data.filters' }
+  // { firstName: '.*Max.*' }
 
-  const entries = `\n    .${operationKey}('${entityName}.${field} = :${field}', { ${field}: ${value} })`;
+  let data = '';
+
+  // converting payload in needed format
+  if (typeof payload === 'string') {
+    data = payload.slice(1);
+  } else {
+    data += '{';
+
+    for (const key in payload) {
+      const value = payload[key];
+
+      const isValueVar = value.includes('$');
+      const updatedValue = isValueVar ? value.replaceAll('$', '') : `'${value}'`;
+
+      data += `${key}: ${updatedValue},`;
+    }
+
+    data += '}';
+  }
+
+  // we need to define data schema depending on data
+  // schema describes which data should be used for specific field
+  const schemaCreator = `Object.entries(${data}).reduce((acc, curr) => {
+      if (acc) {
+        acc += ' AND ';
+      }
+      
+      const [field, value] = curr;
+      
+      const isValueRegexp = ${checkIfRegexp.toString()};
+      const sign = isValueRegexp(value) ? ' ~*' : ' =';
+      
+      acc += '${entityName}' + '.' + field + sign + ' :' + field;
+      
+      return acc
+    }, '')`;
+
+  const entries = `\n    .${operationKey}(${schemaCreator}, ${data})`
 
   return entries;
 };
@@ -50,7 +89,7 @@ const orderByOperationHandler = ({
 }: IOperationPayload<{ [key: string]: 'DESC' | 'ASC' }>): string => {
   let orderByStr = '';
 
-    for (const field in payload) {
+  for (const field in payload) {
     const order = payload[field];
     orderByStr += `\n    .${operationKey}('${entityName}.${field}', '${order}')`;
   }

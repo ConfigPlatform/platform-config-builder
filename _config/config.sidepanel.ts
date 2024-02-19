@@ -16,7 +16,7 @@ const create_product_sidepanel: ISidepanel = {
       value: 'Create Product',
     },
     {
-      type: 'column',
+      type: 'container',
       className: 'col-span-6',
       content: [
         {
@@ -30,18 +30,24 @@ const create_product_sidepanel: ISidepanel = {
               type: 'number',
               required: true,
               defaultValue: 100,
+              className:
+                'py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none',
             },
             {
               name: 'name',
               label: 'Name',
               type: 'string',
               required: true,
+              className:
+                'py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none',
             },
             {
               name: 'description',
               label: 'Description',
               type: 'string',
               required: true,
+              className:
+                'py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none',
             },
           ],
           actions: [
@@ -78,7 +84,7 @@ const create_invoice_sidepanel: ISidepanel = {
       value: 'Create Invoice',
     },
     {
-      type: 'column',
+      type: 'container',
       className: 'col-span-6',
       content: [
         {
@@ -91,12 +97,16 @@ const create_invoice_sidepanel: ISidepanel = {
               label: 'Product',
               type: 'string',
               required: true,
+              className:
+                'py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none',
             },
             {
               name: 'client',
               label: 'Client',
               type: 'string',
               required: true,
+              className:
+                'py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none',
             },
           ],
           actions: [
@@ -132,7 +142,7 @@ const create_client_sidepanel: ISidepanel = {
       value: 'Create Client',
     },
     {
-      type: 'column',
+      type: 'container',
       className: 'col-span-6',
       content: [
         {
@@ -145,18 +155,25 @@ const create_client_sidepanel: ISidepanel = {
               label: 'First Name',
               type: 'string',
               required: true,
+              className:
+                'py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none',
             },
             {
               name: 'lastName',
               label: 'Last Name',
               type: 'string',
               required: true,
+              className:
+                'py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none',
             },
             {
               name: 'phone',
               label: 'Phone',
-              type: 'number',
+              type: 'string',
               required: true,
+              pattern: '^\\d{3}-\\d{3}-\\d{4}$',
+              className:
+                'py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none',
             },
           ],
           actions: [

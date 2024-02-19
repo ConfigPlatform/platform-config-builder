@@ -26,7 +26,7 @@ const pages: IPages = {
         select: 'invoice_get_all',
         columns: [
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'ID',
@@ -43,7 +43,7 @@ const pages: IPages = {
             },
           },
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Client',
@@ -59,7 +59,7 @@ const pages: IPages = {
             },
           },
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Products',
@@ -118,11 +118,11 @@ const pages: IPages = {
         className: 'text-3xl text-gray-900 font-medium',
       },
       {
-        type: 'row',
+        type: 'container',
         className: 'mt-2 grid grid-cols-12 gap-x-6 gap-y-2',
         content: [
           {
-            type: 'column',
+            type: 'container',
             className: 'col-span-6',
             content: [
               {
@@ -135,12 +135,16 @@ const pages: IPages = {
                     label: 'Product',
                     type: 'string',
                     required: true,
+                    className:
+                      'py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none',
                   },
                   {
                     name: 'client',
                     label: 'Client',
                     type: 'string',
                     required: true,
+                    className:
+                      'py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none',
                   },
                 ],
                 actions: [
@@ -177,11 +181,47 @@ const pages: IPages = {
         className: 'text-3xl text-gray-900 font-medium',
       },
       {
-        type: 'button',
-        content: [{ type: 'text', value: 'Add Client' }],
-        className:
-          'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg my-4',
-        serverHandler: 'open_client_create_sidepanel',
+        type: 'container',
+        className: 'flex flex-wrap flex-row my-4',
+        content: [
+          {
+            type: 'container',
+            className: 'flex flex-wrap flex-row',
+            content: [
+              {
+                type: 'filter',
+                placeholder: 'Enter first name',
+                filterBy: 'firstName',
+                select: 'client_get_all',
+                className:
+                  'py-2 px-2 mx-2 border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none max-w-40',
+              },
+              {
+                type: 'filter',
+                placeholder: 'Enter last name',
+                filterBy: 'lastName',
+                select: 'client_get_all',
+                className:
+                  'py-2 px-2 mx-2 border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none max-w-40',
+              },
+              {
+                type: 'filter',
+                placeholder: 'Enter phone',
+                filterBy: 'phone',
+                select: 'client_get_all',
+                className:
+                  'py-2 px-2 mx-2 border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none max-w-40',
+              },
+            ],
+          },
+          {
+            type: 'button',
+            content: [{ type: 'text', value: 'Add Client' }],
+            className:
+              'btn btn-primary btn btn-primary px-3 py-2 mx-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg',
+            serverHandler: 'open_client_create_sidepanel',
+          },
+        ],
       },
       {
         type: 'table',
@@ -190,7 +230,7 @@ const pages: IPages = {
         select: 'client_get_all',
         columns: [
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'ID',
@@ -207,7 +247,7 @@ const pages: IPages = {
             },
           },
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'First Name',
@@ -224,7 +264,7 @@ const pages: IPages = {
             },
           },
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Last Name',
@@ -241,7 +281,7 @@ const pages: IPages = {
             },
           },
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Phone',
@@ -257,7 +297,7 @@ const pages: IPages = {
             },
           },
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Invoices',
@@ -280,7 +320,7 @@ const pages: IPages = {
             },
           },
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Controls',
@@ -368,43 +408,61 @@ const pages: IPages = {
         className: 'text-3xl text-gray-900 font-medium',
       },
       {
-        type: 'form',
-        className: 'space-y-3',
-        id: 'client_create_form',
-        fields: [
+        type: 'container',
+        className: 'mt-2 grid grid-cols-12 gap-x-6 gap-y-2',
+        content: [
           {
-            name: 'firstName',
-            label: 'First Name',
-            type: 'string',
-            required: true,
-            pattern: '^[a-zA-Z]+$',
-          },
-          {
-            name: 'lastName',
-            label: 'Last Name',
-            type: 'string',
-            required: true,
-            pattern: '^[a-zA-Z]+$',
-          },
-          {
-            name: 'phone',
-            label: 'Phone',
-            type: 'string',
-            required: true,
-            pattern: '^\\d{3}-\\d{3}-\\d{4}$',
+            type: 'container',
+            className: 'col-span-6',
+            content: [
+              {
+                type: 'form',
+                className: 'space-y-3',
+                id: 'client_create_form',
+                fields: [
+                  {
+                    name: 'firstName',
+                    label: 'First Name',
+                    type: 'string',
+                    required: true,
+                    pattern: '^[a-zA-Z]+$',
+                    className:
+                      'py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none',
+                  },
+                  {
+                    name: 'lastName',
+                    label: 'Last Name',
+                    type: 'string',
+                    required: true,
+                    pattern: '^[a-zA-Z]+$',
+                    className:
+                      'py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none',
+                  },
+                  {
+                    name: 'phone',
+                    label: 'Phone',
+                    type: 'string',
+                    required: true,
+                    pattern: '^\\d{3}-\\d{3}-\\d{4}$',
+                    className:
+                      'py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none',
+                  },
+                ],
+                actions: [
+                  {
+                    type: 'button',
+                    htmlType: 'submit',
+                    className:
+                      'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg',
+                    content: [{ type: 'text', value: 'Create' }],
+                    serverHandler: 'form_create_client_submit',
+                  },
+                ],
+              },
+            ],
           },
         ],
-        actions: [
-          {
-            type: 'button',
-            htmlType: 'submit',
-            className:
-              'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg',
-            content: [{ type: 'text', value: 'Create' }],
-            serverHandler: 'form_create_client_submit',
-          },
-        ],
-      },
+      },        
     ],
   },
 
@@ -417,11 +475,11 @@ const pages: IPages = {
         className: 'text-3xl text-gray-900 font-medium',
       },
       {
-        type: 'row',
+        type: 'container',
         className: 'mt-2 grid grid-cols-12 gap-x-6 gap-y-2',
         content: [
           {
-            type: 'column',
+            type: 'container',
             className: 'col-span-6',
             content: [
               {
@@ -436,18 +494,24 @@ const pages: IPages = {
                     required: true,
                     defaultValue: 100,
                     pattern: '^[0-9]+$',
+                    className:
+                      'py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none',
                   },
                   {
                     name: 'name',
                     label: 'Name',
                     type: 'string',
                     required: true,
+                    className:
+                      'py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none',
                   },
                   {
                     name: 'description',
                     label: 'Description',
                     type: 'string',
                     required: true,
+                    className:
+                      'py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none',
                   },
                 ],
                 actions: [
@@ -497,7 +561,7 @@ const pages: IPages = {
         select: 'product_get_all',
         columns: [
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'ID',
@@ -514,7 +578,7 @@ const pages: IPages = {
             },
           },
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Name',
@@ -531,7 +595,7 @@ const pages: IPages = {
             },
           },
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Price',
@@ -548,7 +612,7 @@ const pages: IPages = {
             },
           },
           {
-            type: 'column',
+            type: 'container',
             className:
               'px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider',
             name: 'Description',

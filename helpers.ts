@@ -26,3 +26,16 @@ export const defineValueFormat = (value: string | number): string | number => {
 
   return `'${value}'`;
 };
+
+// function check if string is regexp or plain string
+export const checkIfRegexp = (str: string): boolean => {
+  // Regular expression to detect common special characters used in regex patterns
+  const regexSpecialChars = /[\\^$.*+?()[\]{}|]/;
+
+  // Test if the string contains any of the special characters
+  if (regexSpecialChars.test(str)) {
+    return true; // Likely intended to be a regex
+  }
+
+  return false
+}
