@@ -1,4 +1,5 @@
-[
+{
+  "handler": [
     {
       "name": "form_create_product_submit",
       "actions": [
@@ -134,559 +135,560 @@
       ]
     },
     {
-        "name": "form_create_client_submit",
-        "actions": [
-          {
-            "type": "mutate",
-            "field": "$data.firstName",
-            "value": "$data.firstName.toUpperCase()"
-          },
-          {
-            "type": "mutate",
-            "field": "$data.lastName",
-            "value": "$data.lastName.toUpperCase()"
-          },
-          {
-            "type": "insert",
-            "entityName": "client",
-            "fields": [
-              {
-                "entityField": "firstName",
-                "value": "$data.firstName"
-              },
-              {
-                "entityField": "lastName",
-                "value": "$data.lastName"
-              },
-              {
-                "entityField": "phone",
-                "value": "$data.phone"
-              }
-            ],
-            "awaitResult": true
-          },
-          {
-            "type": "return",
-            "config": [
-              {
-                "clientHandler": "setMessage",
-                "id": "client_created",
-                "status": "success",
-                "duration": 2000,
-                "placement": "top-right",
-                "content": "Client was created"
-              },
-              {
-                "clientHandler": "redirectPage",
-                "path": "/client"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "invoice_get_all",
-        "actions": [
-          {
-            "type": "variable",
-            "name": "invoicesGetRes",
-            "value": "null",
-            "as": "let"
-          },
-          {
-            "type": "select",
-            "entityName": "invoice",
-            "orderBy": {
-              "id": "DESC"
+      "name": "form_create_client_submit",
+      "actions": [
+        {
+          "type": "mutate",
+          "field": "$data.firstName",
+          "value": "$data.firstName.toUpperCase()"
+        },
+        {
+          "type": "mutate",
+          "field": "$data.lastName",
+          "value": "$data.lastName.toUpperCase()"
+        },
+        {
+          "type": "insert",
+          "entityName": "client",
+          "fields": [
+            {
+              "entityField": "firstName",
+              "value": "$data.firstName"
             },
-            "leftJoinAndSelect": [
-              [
-                "client",
-                "client"
+            {
+              "entityField": "lastName",
+              "value": "$data.lastName"
+            },
+            {
+              "entityField": "phone",
+              "value": "$data.phone"
+            }
+          ],
+          "awaitResult": true
+        },
+        {
+          "type": "return",
+          "config": [
+            {
+              "clientHandler": "setMessage",
+              "id": "client_created",
+              "status": "success",
+              "duration": 2000,
+              "placement": "top-right",
+              "content": "Client was created"
+            },
+            {
+              "clientHandler": "redirectPage",
+              "path": "/client"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "invoice_get_all",
+      "actions": [
+        {
+          "type": "variable",
+          "name": "invoicesGetRes",
+          "value": "null",
+          "as": "let"
+        },
+        {
+          "type": "select",
+          "entityName": "invoice",
+          "orderBy": {
+            "id": "DESC"
+          },
+          "leftJoinAndSelect": [
+            [
+              "client",
+              "client"
+            ],
+            [
+              "products",
+              "product"
+            ]
+          ],
+          "itemsPerPage": 5,
+          "multiple": true,
+          "awaitResult": true,
+          "assignToVar": "invoicesGetRes"
+        },
+        {
+          "type": "return",
+          "data": {
+            "items": "$invoicesGetRes[0]",
+            "totalCount": "$invoicesGetRes[1]",
+            "pagination": {
+              "itemsPerPage": 5
+            }
+          },
+          "config": null
+        }
+      ]
+    },
+    {
+      "name": "product_get_all",
+      "actions": [
+        {
+          "type": "variable",
+          "name": "productsGetRes",
+          "value": "null",
+          "as": "let"
+        },
+        {
+          "type": "select",
+          "entityName": "product",
+          "orderBy": {
+            "id": "DESC"
+          },
+          "itemsPerPage": 5,
+          "multiple": true,
+          "awaitResult": true,
+          "assignToVar": "productsGetRes"
+        },
+        {
+          "type": "return",
+          "data": {
+            "items": "$productsGetRes[0]",
+            "totalCount": "$productsGetRes[1]",
+            "pagination": {
+              "itemsPerPage": 5
+            }
+          },
+          "config": null
+        }
+      ]
+    },
+    {
+      "name": "client_get_all",
+      "actions": [
+        {
+          "type": "variable",
+          "name": "clientsGetRes",
+          "value": "null",
+          "as": "let"
+        },
+        {
+          "type": "condition",
+          "condition": "$data.filters",
+          "onMatch": [
+            {
+              "type": "select",
+              "entityName": "client",
+              "leftJoinAndSelect": [
+                "invoices",
+                "invoice"
               ],
-              [
-                "products",
-                "product"
-              ]
-            ],
-            "itemsPerPage": 5,
-            "multiple": true,
-            "awaitResult": true,
-            "assignToVar": "invoicesGetRes"
+              "orderBy": {
+                "id": "DESC"
+              },
+              "where": "$data.filters",
+              "itemsPerPage": 5,
+              "awaitResult": true,
+              "assignToVar": "clientsGetRes"
+            }
+          ],
+          "onNotMatch": [
+            {
+              "type": "select",
+              "entityName": "client",
+              "leftJoinAndSelect": [
+                "invoices",
+                "invoice"
+              ],
+              "orderBy": {
+                "id": "DESC"
+              },
+              "itemsPerPage": 5,
+              "awaitResult": true,
+              "assignToVar": "clientsGetRes"
+            }
+          ]
+        },
+        {
+          "type": "return",
+          "data": {
+            "items": "$clientsGetRes[0]",
+            "totalCount": "$clientsGetRes[1]",
+            "pagination": {
+              "itemsPerPage": 5
+            }
           },
-          {
-            "type": "return",
-            "data": {
-              "items": "$invoicesGetRes[0]",
-              "totalCount": "$invoicesGetRes[1]",
-              "pagination": {
-                "itemsPerPage": 5
-              }
+          "config": null
+        }
+      ]
+    },
+    {
+      "name": "form_create_product_cancel",
+      "actions": [
+        {
+          "type": "return",
+          "config": [
+            {
+              "clientHandler": "redirectPage",
+              "path": "/product"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "form_create_invoice_cancel",
+      "actions": [
+        {
+          "type": "return",
+          "config": [
+            {
+              "clientHandler": "redirectPage",
+              "path": "/invoice"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "open_product_create_sidepanel",
+      "actions": [
+        {
+          "type": "return",
+          "config": [
+            {
+              "clientHandler": "openSidepanel",
+              "id": "create_product"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "close_product_create_sidepanel",
+      "actions": [
+        {
+          "type": "return",
+          "config": [
+            {
+              "clientHandler": "closeSidepanel",
+              "id": "create_product"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "product_create_sidepanel_submit",
+      "actions": [
+        {
+          "type": "insert",
+          "entityName": "product",
+          "fields": [
+            {
+              "entityField": "name",
+              "value": "$data.name"
             },
-            "config": null
-          }
-        ]
-      },
-      {
-        "name": "product_get_all",
-        "actions": [
-          {
-            "type": "variable",
-            "name": "productsGetRes",
-            "value": "null",
-            "as": "let"
-          },
-          {
-            "type": "select",
-            "entityName": "product",
-            "orderBy": {
-              "id": "DESC"
+            {
+              "entityField": "price",
+              "value": "$data.price"
             },
-            "itemsPerPage": 5,
-            "multiple": true,
-            "awaitResult": true,
-            "assignToVar": "productsGetRes"
-          },
-          {
-            "type": "return",
-            "data": {
-              "items": "$productsGetRes[0]",
-              "totalCount": "$productsGetRes[1]",
-              "pagination": {
-                "itemsPerPage": 5
-              }
+            {
+              "entityField": "description",
+              "value": "$data.description"
+            }
+          ],
+          "awaitResult": true
+        },
+        {
+          "type": "return",
+          "config": [
+            {
+              "clientHandler": "closeSidepanel",
+              "id": "create_product"
             },
-            "config": null
-          }
-        ]
-      },
-      {
-        "name": "client_get_all",
-        "actions": [
-          {
-            "type": "variable",
-            "name": "clientsGetRes",
-            "value": "null",
-            "as": "let"
-          },
-          {
-            "type": "condition",
-            "condition": "$data.filters",
-            "onMatch": [
-              {
-                "type": "select",
-                "entityName": "client",
-                "leftJoinAndSelect": [
-                  "invoices",
-                  "invoice"
-                ],
-                "orderBy": {
-                  "id": "DESC"
-                },
-                "where": "$data.filters",
-                "itemsPerPage": 5,
-                "awaitResult": true,
-                "assignToVar": "clientsGetRes"
-              }
-            ],
-            "onNotMatch": [
-              {
-                "type": "select",
-                "entityName": "client",
-                "leftJoinAndSelect": [
-                  "invoices",
-                  "invoice"
-                ],
-                "orderBy": {
-                  "id": "DESC"
-                },
-                "itemsPerPage": 5,
-                "awaitResult": true,
-                "assignToVar": "clientsGetRes"
-              }
-            ]
-          },
-          {
-            "type": "return",
-            "data": {
-              "items": "$clientsGetRes[0]",
-              "totalCount": "$clientsGetRes[1]",
-              "pagination": {
-                "itemsPerPage": 5
-              }
+            {
+              "clientHandler": "refreshData",
+              "select": "product_get_all"
             },
-            "config": null
-          }
-        ]
-      },
-      {
-        "name": "form_create_product_cancel",
-        "actions": [
-          {
-            "type": "return",
-            "config": [
-              {
-                "clientHandler": "redirectPage",
-                "path": "/product"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "form_create_invoice_cancel",
-        "actions": [
-          {
-            "type": "return",
-            "config": [
-              {
-                "clientHandler": "redirectPage",
-                "path": "/invoice"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "open_product_create_sidepanel",
-        "actions": [
-          {
-            "type": "return",
-            "config": [
-              {
-                "clientHandler": "openSidepanel",
-                "id": "create_product"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "close_product_create_sidepanel",
-        "actions": [
-          {
-            "type": "return",
-            "config": [
-              {
-                "clientHandler": "closeSidepanel",
-                "id": "create_product"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "product_create_sidepanel_submit",
-        "actions": [
-          {
-            "type": "insert",
-            "entityName": "product",
-            "fields": [
-              {
-                "entityField": "name",
-                "value": "$data.name"
-              },
-              {
-                "entityField": "price",
-                "value": "$data.price"
-              },
-              {
-                "entityField": "description",
-                "value": "$data.description"
-              }
-            ],
-            "awaitResult": true
-          },
-          {
-            "type": "return",
-            "config": [
-              {
-                "clientHandler": "closeSidepanel",
-                "id": "create_product"
-              },
-              {
-                "clientHandler": "refreshData",
-                "select": "product_get_all"
-              },
-              {
-                "clientHandler": "setMessage",
-                "id": "product_created",
-                "status": "success",
-                "duration": 2000,
-                "placement": "top-right",
-                "content": "Product was created"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "open_invoice_create_sidepanel",
-        "actions": [
-          {
-            "type": "return",
-            "config": [
-              {
-                "clientHandler": "openSidepanel",
-                "id": "create_invoice"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "close_invoice_create_sidepanel",
-        "actions": [
-          {
-            "type": "return",
-            "config": [
-              {
-                "clientHandler": "closeSidepanel",
-                "id": "create_invoice"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "invoice_create_sidepanel_submit",
-        "actions": [
-          {
-            "type": "insert",
-            "entityName": "invoice",
-            "fields": [
-              {
-                "entityField": "name",
-                "value": "$data.name"
-              },
-              {
-                "entityField": "price",
-                "value": "$data.price"
-              },
-              {
-                "entityField": "description",
-                "value": "$data.description"
-              }
-            ],
-            "awaitResult": true
-          },
-          {
-            "type": "return",
-            "config": [
-              {
-                "clientHandler": "closeSidepanel",
-                "id": "create_invoice"
-              },
-              {
-                "clientHandler": "refreshData",
-                "select": "invoice_get_all"
-              },
-              {
-                "clientHandler": "setMessage",
-                "id": "invoice_created",
-                "status": "success",
-                "duration": 2000,
-                "placement": "top-right",
-                "content": "Invoice has been created"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "open_client_create_modal",
-        "actions": [
-          {
-            "type": "return",
-            "config": [
-              {
-                "clientHandler": "openModal",
-                "id": "create_client"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "close_client_create_modal",
-        "actions": [
-          {
-            "type": "return",
-            "config": [
-              {
-                "clientHandler": "closeModal",
-                "id": "create_client"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "client_create_modal_submit",
-        "actions": [
-          {
-            "type": "mutate",
-            "field": "$data.firstName",
-            "value": "$data.firstName.toUpperCase()"
-          },
-          {
-            "type": "mutate",
-            "field": "$data.lastName",
-            "value": "$data.lastName.toUpperCase()"
-          },
-          {
-            "type": "insert",
-            "entityName": "client",
-            "fields": [
-              {
-                "entityField": "firstName",
-                "value": "$data.firstName"
-              },
-              {
-                "entityField": "lastName",
-                "value": "$data.lastName"
-              },
-              {
-                "entityField": "phone",
-                "value": "$data.phone"
-              }
-            ],
-            "awaitResult": true
-          },
-          {
-            "type": "return",
-            "config": [
-              {
-                "clientHandler": "closeModal",
-                "id": "create_client"
-              },
-              {
-                "clientHandler": "setMessage",
-                "id": "client_created",
-                "status": "success",
-                "duration": 2000,
-                "placement": "top-right",
-                "content": "Client was created"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "client_delete_one",
-        "actions": [
-          {
-            "type": "delete",
-            "entityName": "client",
-            "where": {
-              "id": "$data.id"
+            {
+              "clientHandler": "setMessage",
+              "id": "product_created",
+              "status": "success",
+              "duration": 2000,
+              "placement": "top-right",
+              "content": "Product was created"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "open_invoice_create_sidepanel",
+      "actions": [
+        {
+          "type": "return",
+          "config": [
+            {
+              "clientHandler": "openSidepanel",
+              "id": "create_invoice"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "close_invoice_create_sidepanel",
+      "actions": [
+        {
+          "type": "return",
+          "config": [
+            {
+              "clientHandler": "closeSidepanel",
+              "id": "create_invoice"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "invoice_create_sidepanel_submit",
+      "actions": [
+        {
+          "type": "insert",
+          "entityName": "invoice",
+          "fields": [
+            {
+              "entityField": "name",
+              "value": "$data.name"
             },
-            "awaitResult": true
+            {
+              "entityField": "price",
+              "value": "$data.price"
+            },
+            {
+              "entityField": "description",
+              "value": "$data.description"
+            }
+          ],
+          "awaitResult": true
+        },
+        {
+          "type": "return",
+          "config": [
+            {
+              "clientHandler": "closeSidepanel",
+              "id": "create_invoice"
+            },
+            {
+              "clientHandler": "refreshData",
+              "select": "invoice_get_all"
+            },
+            {
+              "clientHandler": "setMessage",
+              "id": "invoice_created",
+              "status": "success",
+              "duration": 2000,
+              "placement": "top-right",
+              "content": "Invoice has been created"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "open_client_create_modal",
+      "actions": [
+        {
+          "type": "return",
+          "config": [
+            {
+              "clientHandler": "openModal",
+              "id": "create_client"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "close_client_create_modal",
+      "actions": [
+        {
+          "type": "return",
+          "config": [
+            {
+              "clientHandler": "closeModal",
+              "id": "create_client"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "client_create_modal_submit",
+      "actions": [
+        {
+          "type": "mutate",
+          "field": "$data.firstName",
+          "value": "$data.firstName.toUpperCase()"
+        },
+        {
+          "type": "mutate",
+          "field": "$data.lastName",
+          "value": "$data.lastName.toUpperCase()"
+        },
+        {
+          "type": "insert",
+          "entityName": "client",
+          "fields": [
+            {
+              "entityField": "firstName",
+              "value": "$data.firstName"
+            },
+            {
+              "entityField": "lastName",
+              "value": "$data.lastName"
+            },
+            {
+              "entityField": "phone",
+              "value": "$data.phone"
+            }
+          ],
+          "awaitResult": true
+        },
+        {
+          "type": "return",
+          "config": [
+            {
+              "clientHandler": "closeModal",
+              "id": "create_client"
+            },
+            {
+              "clientHandler": "setMessage",
+              "id": "client_created",
+              "status": "success",
+              "duration": 2000,
+              "placement": "top-right",
+              "content": "Client was created"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "client_delete_one",
+      "actions": [
+        {
+          "type": "delete",
+          "entityName": "client",
+          "where": {
+            "id": "$data.id"
           },
-          {
-            "type": "return",
-            "config": [
-              {
-                "clientHandler": "refreshData",
-                "select": "client_get_all"
-              },
-              {
-                "clientHandler": "setMessage",
-                "id": "client_deleted",
-                "status": "success",
-                "duration": 2000,
-                "placement": "top-right",
-                "content": "Client was deleted"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "form_create_client_cancel",
-        "actions": [
-          {
-            "type": "return",
-            "config": [
-              {
-                "clientHandler": "redirectPage",
-                "path": "/client"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "open_client_create_sidepanel",
-        "actions": [
-          {
-            "type": "return",
-            "config": [
-              {
-                "clientHandler": "openSidepanel",
-                "id": "create_client"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "close_client_create_sidepanel",
-        "actions": [
-          {
-            "type": "return",
-            "config": [
-              {
-                "clientHandler": "closeSidepanel",
-                "id": "create_client"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "client_create_sidepanel_submit",
-        "actions": [
-          {
-            "type": "insert",
-            "entityName": "client",
-            "fields": [
-              {
-                "entityField": "firstName",
-                "value": "$data.firstName.toUpperCase()"
-              },
-              {
-                "entityField": "lastName",
-                "value": "$data.lastName.toUpperCase()"
-              },
-              {
-                "entityField": "phone",
-                "value": "$data.phone"
-              }
-            ],
-            "awaitResult": true
-          },
-          {
-            "type": "return",
-            "config": [
-              {
-                "clientHandler": "closeSidepanel",
-                "id": "create_client"
-              },
-              {
-                "clientHandler": "refreshData",
-                "select": "client_get_all"
-              },
-              {
-                "clientHandler": "setMessage",
-                "id": "client_created",
-                "status": "success",
-                "duration": 2000,
-                "placement": "top-right",
-                "content": "Client was created"
-              }
-            ]
-          }
-        ]
-      }
+          "awaitResult": true
+        },
+        {
+          "type": "return",
+          "config": [
+            {
+              "clientHandler": "refreshData",
+              "select": "client_get_all"
+            },
+            {
+              "clientHandler": "setMessage",
+              "id": "client_deleted",
+              "status": "success",
+              "duration": 2000,
+              "placement": "top-right",
+              "content": "Client was deleted"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "form_create_client_cancel",
+      "actions": [
+        {
+          "type": "return",
+          "config": [
+            {
+              "clientHandler": "redirectPage",
+              "path": "/client"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "open_client_create_sidepanel",
+      "actions": [
+        {
+          "type": "return",
+          "config": [
+            {
+              "clientHandler": "openSidepanel",
+              "id": "create_client"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "close_client_create_sidepanel",
+      "actions": [
+        {
+          "type": "return",
+          "config": [
+            {
+              "clientHandler": "closeSidepanel",
+              "id": "create_client"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "client_create_sidepanel_submit",
+      "actions": [
+        {
+          "type": "insert",
+          "entityName": "client",
+          "fields": [
+            {
+              "entityField": "firstName",
+              "value": "$data.firstName.toUpperCase()"
+            },
+            {
+              "entityField": "lastName",
+              "value": "$data.lastName.toUpperCase()"
+            },
+            {
+              "entityField": "phone",
+              "value": "$data.phone"
+            }
+          ],
+          "awaitResult": true
+        },
+        {
+          "type": "return",
+          "config": [
+            {
+              "clientHandler": "closeSidepanel",
+              "id": "create_client"
+            },
+            {
+              "clientHandler": "refreshData",
+              "select": "client_get_all"
+            },
+            {
+              "clientHandler": "setMessage",
+              "id": "client_created",
+              "status": "success",
+              "duration": 2000,
+              "placement": "top-right",
+              "content": "Client was created"
+            }
+          ]
+        }
+      ]
+    }
   ]
+}
