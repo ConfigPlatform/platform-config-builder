@@ -1,6 +1,6 @@
 const fs = require('fs-extra');
 const { ENTITIES_PATH } = require('./paths');
-import { entities as IEntityData } from './_config/types/config.entity.json';
+import { IEntity as IEntityData } from './_config/types/config.entity';
 import {
   ICreateModuleImportPayload,
   createClassName,
