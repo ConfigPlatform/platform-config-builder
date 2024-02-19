@@ -10,27 +10,27 @@ export const ENTITY_MAP_PATH = mergePaths(ROOT_PATH, '/generated/entityMap.ts');
 
 export const PAGE_CONFIG_PATH = mergePaths(
   ROOT_PATH,
-  '/_config/config.page.json',
+  '/_config/config.page.ts',
 );
 
 export const MENU_CONFIG_PATH = mergePaths(
   ROOT_PATH,
-  '/_config/config.menu.json',
+  '/_config/config.menu.ts',
 );
 
 export const MODAL_CONFIG_PATH = mergePaths(
   ROOT_PATH,
-  '/_config/config.modal.json',
+  '/_config/config.modal.ts',
 );
 
 export const SIDEPANEL_CONFIG_PATH = mergePaths(
   ROOT_PATH,
-  '/_config/config.sidepanel.json',
+  '/_config/config.sidepanel.ts',
 );
 
 export const FOOTER_CONFIG_PATH = mergePaths(
   ROOT_PATH,
-  '/_config/config.footer.json',
+  '/_config/config.footer.ts',
 );
 
 export const SERVER_ROOT_PATH = mergePaths(process.cwd(), '../platform-server');
@@ -52,25 +52,25 @@ export const SERVER_ENTITY_MAP_PATH = mergePaths(
 
 export const SERVER_PAGE_CONFIG_PATH = mergePaths(
   SERVER_ROOT_PATH,
-  '/src/config/config.page.json',
+  '/src/config/config.page.ts',
 );
 
 export const SERVER_MENU_CONFIG_PATH = mergePaths(
   SERVER_ROOT_PATH,
-  '/src/config/config.menu.json',
+  '/src/config/config.menu.ts',
 );
 
 export const SERVER_MODAL_CONFIG_PATH = mergePaths(
   SERVER_ROOT_PATH,
-  '/src/config/config.modal.json',
+  '/src/config/config.modal.ts',
 );
 
 export const SERVER_SIDEPANEL_CONFIG_PATH = mergePaths(
   SERVER_ROOT_PATH,
-  '/src/config/config.sidepanel.json',
+  '/src/config/config.sidepanel.ts',
 );
 
 export const SERVER_FOOTER_CONFIG_PATH = mergePaths(
   SERVER_ROOT_PATH,
-  '/src/config/config.footer.json',
+  '/src/config/config.footer.ts',
 );
