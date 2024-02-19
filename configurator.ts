@@ -19,7 +19,7 @@ const {
   FOOTER_CONFIG_PATH,
 } = require('./paths');
 
-import entities from './_config/config.entity.json';
+import entities from './_config/types/config.entity';
 import handlers from './_config/config.handler.json';
 import {
   ICreateModuleImportPayload,
