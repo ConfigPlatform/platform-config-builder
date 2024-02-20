@@ -1,4 +1,4 @@
-import { IHandler, TServerAction } from '_config/config.handler';
+import { IHandler, TServerAction } from '_config/types/handler.types';
 import { mergePaths } from '../helpers';
 import { HANDLERS_PATH } from '../paths';
 import actionHandler, { TCreateActionHandler } from './actionHandler/index';
