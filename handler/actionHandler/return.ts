@@ -1,4 +1,4 @@
-import { IReturnAction } from '_config/config.handler';
+import { IReturnAction } from '_config/types/handler.types';
 import { TCreateActionHandler } from './index';
 
 const returnActionHandler: TCreateActionHandler<IReturnAction> = ({
@@ -6,7 +6,7 @@ const returnActionHandler: TCreateActionHandler<IReturnAction> = ({
   config,
 }) => {
   let stringifiedConfig;
-  
+
   const stringifyConfig = (config) => {
     return JSON.stringify(
       config,
@@ -21,7 +21,7 @@ const returnActionHandler: TCreateActionHandler<IReturnAction> = ({
       2,
     ).replace(/"\$\{/g, "`").replace(/\}"/g, "`");
   };
-  
+
   if (!config) {
     stringifiedConfig = 'null';
   }
@@ -29,7 +29,7 @@ const returnActionHandler: TCreateActionHandler<IReturnAction> = ({
   if (config && Array.isArray(config)) {
     stringifiedConfig = stringifyConfig(config);
   }
-  
+
   let stringifiedData;
 
   if (!data) {

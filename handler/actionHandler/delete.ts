@@ -1,4 +1,4 @@
-import { IDeleteAction } from '_config/config.handler';
+import { IDeleteAction } from '_config/types/handler.types';
 import { createClassName } from '../../helpers';
 import { TCreateActionHandler } from './index';
 

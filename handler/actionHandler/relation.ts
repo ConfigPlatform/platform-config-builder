@@ -1,7 +1,7 @@
 import {
   IAddRelationAction,
   IRemoveRelationAction,
-} from '_config/config.handler';
+} from '_config/types/handler.types';
 import { createClassName } from '../../helpers';
 import { TCreateActionHandler } from './index';
 

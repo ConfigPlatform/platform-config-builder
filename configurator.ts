@@ -29,7 +29,10 @@ import {
 import { deleteEntity, updateEntity } from './entity';
 import { deleteHandler, updateHandler } from './handler/handler';
 
+const entityArr= Object.values(!!entities);
+
 console.log(entities, '==================entities==================');
+console.log(entityArr, '==================entityARR==================');
 console.log(handlers, '==================handlers==================');
 
 // function generates entities
@@ -45,7 +48,9 @@ export const updateEntities = (): void => {
   // loop through entityDirEntries to define entities for deletion
   for (const entityName of entityDirEntries) {
     // check if we have entity with such name in config. entityMap - exception, we shouldn't delete this file
-    const existsInConfig = !!entities.find(
+
+
+    const existsInConfig = entityArr.find(
       (el) => entityName === el.entityName || entityName === 'entityMap.ts',
     );
 
@@ -55,11 +60,11 @@ export const updateEntities = (): void => {
     }
   }
 
-  // // loop through entities in config to refresh
-  // for (const entityData of entities) {
-  //   // update entity
-  //   updateEntity(entityData);
-  // }
+  // loop through entities in config to refresh
+  for (const entityData of entityArr) {
+    // update entity
+    updateEntity(entityData);
+  }
 };
 
 // function generates entity map file, file is used for accessing entities directly through one object
@@ -68,7 +73,7 @@ export const updateEntityMap = (): void => {
   let entityMapObjEntries = '';
 
   // loop through entities to fill moduleImportPayloads and entityMapObjEntries
-  for (const entity of entities) {
+  for (const entity of entityArr) {
     const className = createClassName(entity.entityName);
 
     // import payload
@@ -128,6 +133,7 @@ export const updateHandlers = async (): Promise<void> => {
   // loop through handlers in config to refresh
   for (const handler of handlers) {
     // update handler
+    // @ts-ignore
     await updateHandler(handler);
   }
 };
@@ -140,7 +146,7 @@ export const serverCleanup = (): void => {
   // loop through entityDirEntries to define entities for deletion
   for (const entityName of entityDirEntries) {
     // check if we have entity with such name in config. entityMap - exception, we shouldn't delete this file
-    const existsInConfig = !!entities.find(
+    const existsInConfig = !!entityArr.find(
       (el) => entityName === el.entityName || entityName === 'entityMap.ts',
     );
 
