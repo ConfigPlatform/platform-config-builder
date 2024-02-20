@@ -19,8 +19,8 @@ const {
   FOOTER_CONFIG_PATH,
 } = require('./paths');
 
-import entities from './_config/types/entity.types';
-import handlers from './_config/types/handler.types';
+import entities from './_config/config.entity.json';
+import handlers from './_config/config.handler.json';
 import {
   ICreateModuleImportPayload,
   createClassName,
@@ -28,6 +28,9 @@ import {
 } from './helpers';
 import { deleteEntity, updateEntity } from './entity';
 import { deleteHandler, updateHandler } from './handler/handler';
+
+console.log(entities, '==================entities==================');
+console.log(handlers, '==================handlers==================');
 
 // function generates entities
 export const updateEntities = (): void => {
@@ -52,11 +55,11 @@ export const updateEntities = (): void => {
     }
   }
 
-  // loop through entities in config to refresh
-  for (const entityData of entities) {
-    // update entity
-    updateEntity(entityData);
-  }
+  // // loop through entities in config to refresh
+  // for (const entityData of entities) {
+  //   // update entity
+  //   updateEntity(entityData);
+  // }
 };
 
 // function generates entity map file, file is used for accessing entities directly through one object
