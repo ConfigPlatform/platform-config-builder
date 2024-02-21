@@ -462,7 +462,7 @@ const pages: IPages = {
             ],
           },
         ],
-      },        
+      },
     ],
   },
 
@@ -548,11 +548,39 @@ const pages: IPages = {
         className: 'text-3xl text-gray-900 font-medium',
       },
       {
-        type: 'button',
-        content: [{ type: 'text', value: 'Add Product' }],
-        className:
-          'btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg my-4',
-        serverHandler: 'open_product_create_sidepanel',
+        type: 'container',
+        className: 'flex flex-wrap flex-row my-4',
+        content: [
+          {
+            type: 'container',
+            className: 'flex flex-wrap flex-row',
+            content: [
+              {
+                type: 'filter',
+                placeholder: 'Enter product name',
+                filterBy: 'name',
+                select: 'product_get_all',
+                className:
+                  'py-2 px-2 mx-2 border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none max-w-40',
+              },
+              {
+                type: 'filter',
+                placeholder: 'Enter price',
+                filterBy: 'price',
+                select: 'product_get_all',
+                className:
+                  'py-2 px-2 mx-2 border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none max-w-40',
+              },
+            ],
+          },
+          {
+            type: 'button',
+            content: [{ type: 'text', value: 'Add Product' }],
+            className:
+              'btn btn-primary btn btn-primary px-3 py-2 mx-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg',
+            serverHandler: 'open_product_create_sidepanel',
+          },
+        ],
       },
       {
         type: 'table',

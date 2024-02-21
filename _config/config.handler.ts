@@ -402,13 +402,34 @@ const product_get_all: IHandler = {
       as: 'let',
     },
     {
-      type: 'select',
-      entityName: 'product',
-      orderBy: { id: 'DESC' },
-      itemsPerPage: 5,
-      multiple: true,
-      awaitResult: true,
-      assignToVar: 'productsGetRes',
+      type: 'condition',
+      condition: '$data.filters',
+      onMatch: [
+        {
+          type: 'select',
+          entityName: 'product',
+          orderBy: { id: 'DESC' },
+          // leftJoinAndSelect: [
+          //   // ['client', 'client'],
+          //   // ['products', 'product'],
+          //   ['invoices', 'invoice'],
+          // ],
+          where: '$data.filters',
+          itemsPerPage: 5,
+          awaitResult: true,
+          assignToVar: 'productsGetRes',
+        },
+      ],
+      onNotMatch: [
+        {
+          type: 'select',
+          entityName: 'product',
+          orderBy: { id: 'DESC' },
+          itemsPerPage: 5,
+          awaitResult: true,
+          assignToVar: 'productsGetRes',
+        },
+      ],
     },
     {
       type: 'return',
