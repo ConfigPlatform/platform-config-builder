@@ -1,5 +1,5 @@
 import actionHandler, { TCreateActionHandler } from './index';
-import { IParallelAction, TServerAction } from '../../_config/config.handler';
+import { IParallelAction, TServerAction } from '../../_config/types/config.handler.types';
 
 const parallelActionHandler: TCreateActionHandler<IParallelAction> = ({
   actions,

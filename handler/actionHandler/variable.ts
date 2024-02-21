@@ -1,4 +1,4 @@
-import { IVariableAction } from '_config/config.handler';
+import { IVariableAction } from '_config/types/config.handler.types';
 import { TCreateActionHandler } from './index';
 
 const variableActionHandler: TCreateActionHandler<IVariableAction> = ({
