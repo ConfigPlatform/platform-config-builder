@@ -20,9 +20,8 @@ const {
 } = require('./paths');
 
 
+import entities from './_config/config.entity.json';
 import handlers from './_config/config.handler.json';
-// import {entities} from './_config/config.entity.json';
-const entities: any = require('./_config/config.entity.json');
 import {
   ICreateModuleImportPayload,
   createClassName,
@@ -31,15 +30,6 @@ import {
 import { deleteEntity, updateEntity } from './entity';
 import { deleteHandler, updateHandler } from './handler/handler';
 
-import {IEntity} from './_config/types/config.entity.types' 
-const newEntities = entities.ectities
-const newHandlers = handlers.handler
-// console.log(entities.entities)
-console.log(entities.entities, '==================entities==================');
-// console.log(entityArr, '==================entityARR==================');
-// console.log(newHandlers, '==================newHandlers==================');
-// console.log(handlers.handler, '==================handlers==================');
-console.log(newEntities, '===========================================')
 
 
 // function generates entities
@@ -52,26 +42,22 @@ export const updateEntities = (): void => {
   // get entity dir entries
   const entityDirEntries = fs.readdirSync(ENTITIES_PATH);
 
-  // loop through entityDirEntries to define entities for deletion
-  for (const entityName of entityDirEntries) {
-    // check if we have entity with such name in config. entityMap - exception, we shouldn't delete this file
-    const existsInConfig = newEntities.includes(entityName) || entityName === 'entityMap.ts';
+// loop through entityDirEntries to define entities for deletion
+for (const entityName of entityDirEntries) {
+  // check if we have entity with such name in config. entityMap - exception, we shouldn't delete this file
+  const existsInConfig = entities.entities.some((entity) => entity.entityName === entityName) || entityName === 'entityMap.ts';
 
-
-    // delete entity if entity isn't in config
-    if (!existsInConfig) {
-      deleteEntity({ entityName, entitiesPath: ENTITIES_PATH });
-    }
+  // delete entity if entity isn't in config
+  if (!existsInConfig) {
+    deleteEntity({ entityName, entitiesPath: ENTITIES_PATH });
   }
+}
 
   // loop through entities in config to refresh
-  // for (const entityData of entities.ectities) {
-  //   console.log(entityData)
-  //   // update entity
-  //   updateEntity(entityData);
-  // }
-  for (let i = 0; i <= entities.entities.length; i++){
-    console.log(entities.ectities[i])
+  for (const entityData of entities.entities) {
+    // update entity
+
+    // updateEntity(entityData);
   }
 };
 
@@ -80,27 +66,27 @@ export const updateEntityMap = (): void => {
   const moduleImportPayloads: ICreateModuleImportPayload[] = [];
   let entityMapObjEntries = '';
 
-  // loop through entities to fill moduleImportPayloads and entityMapObjEntries
-  for (const entity of newEntities) {
-    const className = createClassName(entity.entityName);
+// loop through entities to fill moduleImportPayloads and entityMapObjEntries
+for (const entity of entities.entities) {
+  const className = createClassName(entity.entityName);
 
-    // import payload
-    const moduleImportPayload: ICreateModuleImportPayload = {
-      variable: `{ ${className} }`,
-      path: `./${entity.entityName}/${entity.entityName}.entity`,
-    };
+  // import payload
+  const moduleImportPayload: ICreateModuleImportPayload = {
+    variable: `{ ${className} }`,
+    path: `./${entity.entityName}/${entity.entityName}.entity`,
+  };
 
-    // add import payload
-    moduleImportPayloads.push(moduleImportPayload);
+  // add import payload
+  moduleImportPayloads.push(moduleImportPayload);
 
-    // entity data in format: 'entityName': entity
-    const entityMapData = `  ${className}`;
+  // entity data in format: 'entityName': entity
+  const entityMapData = `  ${className}`;
 
-    // add entity property and value
-    entityMapObjEntries += `${
-      entityMapObjEntries.length ? ',\n' : ''
-    }${entityMapData}`;
-  }
+  // add entity property and value
+  entityMapObjEntries += `${
+    entityMapObjEntries.length ? ',\n' : ''
+  }${entityMapData}`;
+}
 
   // create module imports and convert to string (each import from new string)
   const moduleImports = moduleImportPayloads.map(createModuleImport).join('\n');
@@ -125,21 +111,21 @@ export const updateHandlers = async (): Promise<void> => {
   // get handlers dir entries
   const handlerDirEntries = fs.readdirSync(HANDLERS_PATH);
 
-  // loop through handlerDirEntries to define handler for deletion
-  for (const handlerFile of handlerDirEntries) {
-    const handlerName = handlerFile.slice(0, handlerFile.length - 3);
+// loop through handlerDirEntries to define handler for deletion
+for (const handlerFile of handlerDirEntries) {
+  const handlerName = handlerFile.slice(0, handlerFile.length - 3);
 
-    // check if we have handler with such name in config
-    const existsInConfig = !!newHandlers.find((el) => handlerName === el.name);
+  // check if we have handler with such name in config
+  const existsInConfig = !!handlers.handler.find((el) => handlerName === el.name);
 
-    // delete handler if handler isn't in config
-    if (!existsInConfig) {
-      deleteHandler({ handlerName, handlersPath: HANDLERS_PATH });
-    }
+  // delete handler if handler isn't in config
+  if (!existsInConfig) {
+    deleteHandler({ handlerName, handlersPath: HANDLERS_PATH });
   }
+}
 
   // loop through handlers in config to refresh
-  for (const handler of newHandlers) {
+  for (const handler of handlers.handler) {
     // update handler
     // @ts-ignore
     await updateHandler(handler);
@@ -151,13 +137,12 @@ export const serverCleanup = (): void => {
   // get entity dir entries
   const entityDirEntries = fs.readdirSync(SERVER_ENTITIES_PATH);
 
-  // loop through entityDirEntries to define entities for deletion
   for (const entityName of entityDirEntries) {
     // check if we have entity with such name in config. entityMap - exception, we shouldn't delete this file
-    const existsInConfig = newEntities.find(
+    const existsInConfig = !!entities.entities.find(
       (el) => entityName === el.entityName || entityName === 'entityMap.ts',
     );
-
+  
     // delete entity if entity isn't in config
     if (!existsInConfig) {
       deleteEntity({ entityName, entitiesPath: SERVER_ENTITIES_PATH });
@@ -176,17 +161,17 @@ export const serverCleanup = (): void => {
       'module.ts',
       'service.ts',
     ];
-
+  
     const systemFile = systemFileEnds.some((el) => handlerFile.includes(el));
-
+  
     // skip checks if file is system file
     if (systemFile) continue;
-
+  
     const handlerName = handlerFile.slice(0, handlerFile.length - 3);
-
+  
     // check if we have handler with such name in config
-    const existsInConfig = newEntities.find((el) => handlerName === el.name);
-
+    const existsInConfig = !!entities.entities.find((el) => handlerName === el.entityName);
+  
     // delete handler if handler isn't in config
     if (!existsInConfig) {
       deleteHandler({ handlerName, handlersPath: SERVER_HANDLERS_PATH });
