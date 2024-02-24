@@ -15,22 +15,22 @@ export const PAGE_CONFIG_PATH = mergePaths(
 
 export const MENU_CONFIG_PATH = mergePaths(
   ROOT_PATH,
-  '/_config/types/config.types.ts',
+  '/_config/types/config.menu.types.ts',
 );
 
 export const MODAL_CONFIG_PATH = mergePaths(
   ROOT_PATH,
-  '/_config/types/config.types.ts',
+  '/_config/types/config.modal.types.ts',
 );
 
 export const SIDEPANEL_CONFIG_PATH = mergePaths(
   ROOT_PATH,
-  '/_config/types/config.types.ts',
+  '/_config/types/config.sidepanel.types.ts',
 );
 
 export const FOOTER_CONFIG_PATH = mergePaths(
   ROOT_PATH,
-  '/_config/types/config.types.ts',
+  '/_config/types/config.footer.types.ts',
 );
 
 export const SERVER_ROOT_PATH = mergePaths(process.cwd(), '../platform-server');
