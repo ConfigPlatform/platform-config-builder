@@ -370,7 +370,7 @@ const invoice_get_all: IHandler = {
     {
       type: 'select',
       entityName: 'invoice',
-      orderBy: '$data.sortingOptions',
+      orderBy: '$data.sorting',
       leftJoinAndSelect: [
         ['client', 'client'],
         ['products', 'product'],
@@ -404,7 +404,7 @@ const product_get_all: IHandler = {
     {
       type: 'select',
       entityName: 'product',
-      orderBy: '$data.sortingOptions',
+      orderBy: '$data.sorting',
       itemsPerPage: 5,
       multiple: true,
       awaitResult: true,
@@ -433,39 +433,103 @@ const client_get_all: IHandler = {
     },
     {
       type: 'condition',
+      condition: '$data.filters && $data.sorting',
+      onMatch: [
+        {
+          type: 'select',
+          entityName: 'client',
+          leftJoinAndSelect: ['invoices', 'invoice'],
+          orderBy: '$data.sorting',
+          where: '$data.filters',
+          itemsPerPage: 5,
+          awaitResult: true,
+          assignToVar: 'clientsGetRes',
+        },
+        {
+          type: 'return',
+          data: {
+            items: '$clientsGetRes[0]',
+            totalCount: '$clientsGetRes[1]',
+            pagination: { itemsPerPage: 5 },
+          },
+          config: null,
+        },
+      ],
+      onNotMatch: [],
+    },
+    {
+      type: 'condition',
+      condition: '!$data.filters && !$data.sorting',
+      onMatch: [
+        {
+          type: 'select',
+          entityName: 'client',
+          leftJoinAndSelect: ['invoices', 'invoice'],
+          itemsPerPage: 5,
+          awaitResult: true,
+          assignToVar: 'clientsGetRes',
+        },
+        {
+          type: 'return',
+          data: {
+            items: '$clientsGetRes[0]',
+            totalCount: '$clientsGetRes[1]',
+            pagination: { itemsPerPage: 5 },
+          },
+          config: null,
+        },
+      ],
+      onNotMatch: [],
+    },
+    {
+      type: 'condition',
       condition: '$data.filters',
       onMatch: [
         {
           type: 'select',
           entityName: 'client',
           leftJoinAndSelect: ['invoices', 'invoice'],
-          orderBy: '$data.sortingOptions',
           where: '$data.filters',
           itemsPerPage: 5,
           awaitResult: true,
           assignToVar: 'clientsGetRes',
         },
+        {
+          type: 'return',
+          data: {
+            items: '$clientsGetRes[0]',
+            totalCount: '$clientsGetRes[1]',
+            pagination: { itemsPerPage: 5 },
+          },
+          config: null,
+        },
       ],
-      onNotMatch: [
+      onNotMatch: [],
+    },
+    {
+      type: 'condition',
+      condition: '$data.sorting',
+      onMatch: [
         {
           type: 'select',
           entityName: 'client',
           leftJoinAndSelect: ['invoices', 'invoice'],
-          orderBy: '$data.sortingOptions',
+          orderBy: '$data.sorting',
           itemsPerPage: 5,
           awaitResult: true,
           assignToVar: 'clientsGetRes',
         },
+        {
+          type: 'return',
+          data: {
+            items: '$clientsGetRes[0]',
+            totalCount: '$clientsGetRes[1]',
+            pagination: { itemsPerPage: 5 },
+          },
+          config: null,
+        },
       ],
-    },
-    {
-      type: 'return',
-      data: {
-        items: '$clientsGetRes[0]',
-        totalCount: '$clientsGetRes[1]',
-        pagination: { itemsPerPage: 5 },
-      },
-      config: null,
+      onNotMatch: [],
     },
   ],
 };

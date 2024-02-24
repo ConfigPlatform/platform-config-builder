@@ -17,7 +17,7 @@ const whereOperationHandler = ({
 }: IOperationPayload<{ [key: string]: any } | string>): string => {
   // Payload can be one of 3 structure. Imagine that in first 2 examples we receive filters object from client, it's just example, filters can be replaced with any object
   // $data.filters
-  // { firstName: '$data.filters' }
+  // { firstName: '$data.filters.firstName' }
   // { firstName: '.*Max.*' }
 
   let data = '';
@@ -32,7 +32,9 @@ const whereOperationHandler = ({
       const value = payload[key];
 
       const isValueVar = value.includes('$');
-      const updatedValue = isValueVar ? value.replaceAll('$', '') : `'${value}'`;
+      const updatedValue = isValueVar
+        ? value.replaceAll('$', '')
+        : `'${value}'`;
 
       data += `${key}: ${updatedValue},`;
     }
@@ -57,7 +59,7 @@ const whereOperationHandler = ({
       return acc
     }, '')`;
 
-  const entries = `\n    .${operationKey}(${schemaCreator}, ${data})`
+  const entries = `\n    .${operationKey}(${schemaCreator}, ${data})`;
 
   return entries;
 };
@@ -83,11 +85,42 @@ const itemsPerPageOperationHandler = ({
 };
 
 const orderByOperationHandler = ({
-                                   payload,
-                                   operationKey,
-                                 }: IOperationPayload<string>): string => {
-  const processedPayload = payload.replaceAll('$', '');
-  const entries = `\n    .${operationKey}(${processedPayload})`;
+  payload,
+  operationKey,
+  entityName,
+}: IOperationPayload<{ [key: string]: any } | string>): string => {
+  // Payload can be one of three formats
+  // $data.sorting
+  // { firstName: '$data.sorting.firstName' }
+  // { firstName: 'ASC' }
+
+  // valid output sort object
+  // { 'client.firstName': 'ASC' }
+
+  let data = '';
+
+  // converting payload in needed format
+  if (typeof payload === 'string') {
+    data = `Object.fromEntries(Object.entries(${payload.slice(1)}).map(el => ['${entityName}' + '.' + el[0], el[1]]))`;
+  } else {
+    data += '{';
+
+    for (const key in payload) {
+      const value = payload[key];
+
+      const isValueVar = value.includes('$');
+      const updatedValue = isValueVar
+        ? value.replaceAll('$', '')
+        : `'${value}'`;
+
+      data += `'${entityName}.${key}': ${updatedValue},`;
+    }
+
+    data += '}';
+  }
+
+  const entries = `\n    .${operationKey}(${data})`;
+
   return entries;
 };
 
