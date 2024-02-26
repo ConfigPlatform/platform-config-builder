@@ -567,6 +567,7 @@ const pages: IPages = {
                 type: 'filter',
                 placeholder: 'Enter price',
                 filterBy: 'price',
+                valueType: 'number',
                 select: 'product_get_all',
                 className:
                   'py-2 px-2 mx-2 border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none max-w-40',
