@@ -7,7 +7,9 @@ import {
 
 (async () => {
   updateEntities();
+
   updateEntityMap();
   await updateHandlers();
+
   moveToServer();
-})()
+})();
