@@ -370,7 +370,6 @@ const invoice_get_all: IHandler = {
     {
       type: 'select',
       entityName: 'invoice',
-      orderBy: '$data.sorting',
       leftJoinAndSelect: [
         ['client', 'client'],
         ['products', 'product'],
@@ -404,7 +403,6 @@ const product_get_all: IHandler = {
     {
       type: 'select',
       entityName: 'product',
-      orderBy: '$data.sorting',
       itemsPerPage: 5,
       multiple: true,
       awaitResult: true,
