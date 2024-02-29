@@ -1,4 +1,4 @@
-const path = require('path');
+import * as path from 'path';
 
 export interface ICreateModuleImportPayload {
   variable: string;
@@ -37,5 +37,5 @@ export const checkIfRegexp = (str: string): boolean => {
     return true; // Likely intended to be a regex
   }
 
-  return false
-}
+  return false;
+};

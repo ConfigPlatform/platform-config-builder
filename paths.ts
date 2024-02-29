@@ -1,4 +1,4 @@
-const { mergePaths } = require('./helpers');
+import { mergePaths } from './helpers';
 
 export const ROOT_PATH = process.cwd();
 
@@ -36,27 +36,27 @@ export const FOOTER_CONFIG_PATH = mergePaths(
 export const FOOTER_TYPES_PATH = mergePaths(
   ROOT_PATH,
   '/_config/types/config.footer.ts',
-)
+);
 
 export const MENU_TYPES_PATH = mergePaths(
   ROOT_PATH,
   '/_config/types/config.menu.ts',
-)
+);
 
 export const MODAL_TYPES_PATH = mergePaths(
   ROOT_PATH,
   '/_config/types/config.modal.ts',
-)
+);
 
 export const SIDEPANEL_TYPES_PATH = mergePaths(
   ROOT_PATH,
   '/_config/types/config.sidepanel.ts',
-)
+);
 
 export const PAGE_TYPES_PATH = mergePaths(
   ROOT_PATH,
   '/_config/types/config.page.ts',
-)
+);
 
 export const SERVER_ROOT_PATH = mergePaths(process.cwd(), '../platform-server');
 
@@ -103,24 +103,24 @@ export const SERVER_FOOTER_CONFIG_PATH = mergePaths(
 export const SERVER_FOOTER_TYPES_PATH = mergePaths(
   SERVER_ROOT_PATH,
   '/src/config/types/config.footer.ts',
-)
+);
 
 export const SERVER_MENU_TYPES_PATH = mergePaths(
   SERVER_ROOT_PATH,
   '/src/config/types/config.menu.ts',
-)
+);
 
 export const SERVER_MODAL_TYPES_PATH = mergePaths(
   SERVER_ROOT_PATH,
   '/src/config/types/config.modal.ts',
-)
+);
 
 export const SERVER_SIDEPANEL_TYPES_PATH = mergePaths(
   SERVER_ROOT_PATH,
   '/src/config/types/config.sidepanel.ts',
-)
+);
 
 export const SERVER_PAGE_TYPES_PATH = mergePaths(
   SERVER_ROOT_PATH,
   '/src/config/types/config.page.ts',
-)
+);
