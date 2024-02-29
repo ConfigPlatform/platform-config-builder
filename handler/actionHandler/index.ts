@@ -11,7 +11,7 @@ import {
   IUpdateAction,
   IParallelAction,
   IConditionAction,
-} from '_config/types/config.handler.types';
+} from '_config/types/config.handler';
 import insertActionHandler from './insert';
 import mutateActionHandler from './mutate';
 import selectActionHandler from './select';

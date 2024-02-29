@@ -1,4 +1,4 @@
-import { IReturnAction } from '_config/types/config.handler.types';
+import { IReturnAction } from '_config/types/config.handler';
 import { TCreateActionHandler } from './index';
 
 const returnActionHandler: TCreateActionHandler<IReturnAction> = ({

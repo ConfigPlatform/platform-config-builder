@@ -1,4 +1,4 @@
-import { ISelectAction } from '_config/types/config.handler.types';
+import { ISelectAction } from '_config/types/config.handler';
 import { checkIfRegexp, createClassName } from '../../helpers';
 import { TCreateActionHandler } from './index';
 

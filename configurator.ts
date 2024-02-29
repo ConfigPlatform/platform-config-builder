@@ -1,3 +1,5 @@
+import { IEntity } from './_config/types/config.entity';
+
 const fs = require('fs-extra');
 const {
   ENTITIES_PATH,
@@ -17,8 +19,17 @@ const {
   MODAL_CONFIG_PATH,
   SERVER_FOOTER_CONFIG_PATH,
   FOOTER_CONFIG_PATH,
+  PAGE_TYPES_PATH,
+  SERVER_PAGE_TYPES_PATH,
+  FOOTER_TYPES_PATH,
+  SERVER_FOOTER_TYPES_PATH,
+  MODAL_TYPES_PATH,
+  SERVER_MODAL_TYPES_PATH,
+  SIDEPANEL_TYPES_PATH,
+  SERVER_SIDEPANEL_TYPES_PATH,
+  MENU_TYPES_PATH,
+  SERVER_MENU_TYPES_PATH
 } = require('./paths');
-
 
 import entities from './_config/config.entity.json';
 import handlers from './_config/config.handler.json';
@@ -29,8 +40,6 @@ import {
 } from './helpers';
 import { deleteEntity, updateEntity } from './entity';
 import { deleteHandler, updateHandler } from './handler/handler';
-
-
 
 // function generates entities
 export const updateEntities = (): void => {
@@ -45,7 +54,7 @@ export const updateEntities = (): void => {
 // loop through entityDirEntries to define entities for deletion
 for (const entityName of entityDirEntries) {
   // check if we have entity with such name in config. entityMap - exception, we shouldn't delete this file
-  const existsInConfig = entities.entities.some((entity) => entity.entityName === entityName) || entityName === 'entityMap.ts';
+  const existsInConfig = entities.some((entity) => entity.entityName === entityName) || entityName === 'entityMap.ts';
 
   // delete entity if entity isn't in config
   if (!existsInConfig) {
@@ -54,10 +63,9 @@ for (const entityName of entityDirEntries) {
 }
 
   // loop through entities in config to refresh
-  for (const entityData of entities.entities) {
+  for (const entityData of entities) {
     // update entity
-
-    // updateEntity(entityData);
+    updateEntity(entityData as IEntity);
   }
 };
 
@@ -67,7 +75,7 @@ export const updateEntityMap = (): void => {
   let entityMapObjEntries = '';
 
 // loop through entities to fill moduleImportPayloads and entityMapObjEntries
-for (const entity of entities.entities) {
+for (const entity of entities) {
   const className = createClassName(entity.entityName);
 
   // import payload
@@ -116,7 +124,7 @@ for (const handlerFile of handlerDirEntries) {
   const handlerName = handlerFile.slice(0, handlerFile.length - 3);
 
   // check if we have handler with such name in config
-  const existsInConfig = !!handlers.handler.find((el) => handlerName === el.name);
+  const existsInConfig = !!handlers.find((el) => handlerName === el.name);
 
   // delete handler if handler isn't in config
   if (!existsInConfig) {
@@ -125,7 +133,7 @@ for (const handlerFile of handlerDirEntries) {
 }
 
   // loop through handlers in config to refresh
-  for (const handler of handlers.handler) {
+  for (const handler of handlers) {
     // update handler
     // @ts-ignore
     await updateHandler(handler);
@@ -139,7 +147,7 @@ export const serverCleanup = (): void => {
 
   for (const entityName of entityDirEntries) {
     // check if we have entity with such name in config. entityMap - exception, we shouldn't delete this file
-    const existsInConfig = !!entities.entities.find(
+    const existsInConfig = !!entities.find(
       (el) => entityName === el.entityName || entityName === 'entityMap.ts',
     );
   
@@ -170,7 +178,7 @@ export const serverCleanup = (): void => {
     const handlerName = handlerFile.slice(0, handlerFile.length - 3);
   
     // check if we have handler with such name in config
-    const existsInConfig = !!entities.entities.find((el) => handlerName === el.entityName);
+    const existsInConfig = !!entities.find((el) => handlerName === el.entityName);
   
     // delete handler if handler isn't in config
     if (!existsInConfig) {
@@ -192,7 +200,11 @@ export const moveToServer = (): void => {
     [MENU_CONFIG_PATH, SERVER_MENU_CONFIG_PATH],
     [SIDEPANEL_CONFIG_PATH, SERVER_SIDEPANEL_CONFIG_PATH],
     [MODAL_CONFIG_PATH, SERVER_MODAL_CONFIG_PATH],
-    [FOOTER_CONFIG_PATH, SERVER_FOOTER_CONFIG_PATH],
+    [FOOTER_TYPES_PATH, SERVER_FOOTER_TYPES_PATH],
+    [PAGE_TYPES_PATH, SERVER_PAGE_TYPES_PATH],
+    [MODAL_TYPES_PATH, SERVER_MODAL_TYPES_PATH],
+    [SIDEPANEL_TYPES_PATH, SERVER_SIDEPANEL_TYPES_PATH],
+    [MENU_TYPES_PATH, SERVER_MENU_TYPES_PATH]
   ];
 
   // copy files & dirs

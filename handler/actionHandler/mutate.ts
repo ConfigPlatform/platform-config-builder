@@ -1,4 +1,4 @@
-import { IMutateAction } from '_config/types/config.handler.types';
+import { IMutateAction } from '_config/types/config.handler';
 import { TCreateActionHandler } from './index';
 
 const mutateActionHandler: TCreateActionHandler<IMutateAction> = ({

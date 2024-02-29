@@ -1,4 +1,4 @@
-import { IUpdateAction } from '_config/types/config.handler.types';
+import { IUpdateAction } from '_config/types/config.handler';
 import { createClassName, defineValueFormat } from '../../helpers';
 import { TCreateActionHandler } from './index';
 
