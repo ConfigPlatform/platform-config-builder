@@ -1,4 +1,4 @@
-import { ISelectAction } from '_config/config.handler';
+import { ISelectAction } from '_config/types/config.handler';
 import { checkIfRegexp, createClassName } from '../../helpers';
 import { TCreateActionHandler } from './index';
 
@@ -101,7 +101,9 @@ const orderByOperationHandler = ({
 
   // converting payload in needed format
   if (typeof payload === 'string') {
-    data = `Object.fromEntries(Object.entries(${payload.slice(1)}).map(el => ['${entityName}' + '.' + el[0], el[1]]))`;
+    data = `Object.fromEntries(Object.entries(${payload.slice(
+      1,
+    )}).map(el => ['${entityName}' + '.' + el[0], el[1]]))`;
   } else {
     data += '{';
 

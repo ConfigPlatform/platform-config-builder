@@ -1,4 +1,4 @@
-import { IConditionAction, TServerAction } from '_config/config.handler';
+import { IConditionAction, TServerAction } from '_config/types/config.handler';
 import actionHandler, { TCreateActionHandler } from './index';
 
 const formatCode = (action: TServerAction) => {

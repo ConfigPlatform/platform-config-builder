@@ -1,4 +1,4 @@
-import { IUpdateAction } from '_config/config.handler';
+import { IUpdateAction } from '_config/types/config.handler';
 import { createClassName, defineValueFormat } from '../../helpers';
 import { TCreateActionHandler } from './index';
 
@@ -10,13 +10,14 @@ const updateActionHandler: TCreateActionHandler<IUpdateAction> = ({
 }) => {
   const entityClassName = createClassName(entityName);
 
-                      const updateValues = fields.map((field) => `${field.entityField}: ${defineValueFormat(field.value)}`)
+  const updateValues = fields
+    .map((field) => `${field.entityField}: ${defineValueFormat(field.value)}`)
     .join(', ');
 
-                          let entries = ``;
+  let entries = ``;
 
   // check if we should await result
-                          if (awaitResult) {
+  if (awaitResult) {
     entries += 'await ';
   }
 
