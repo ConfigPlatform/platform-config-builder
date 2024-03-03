@@ -22,21 +22,21 @@
                 {
                   "name": "firstName",
                   "label": "First Name",
-                  "type": "string",
+                  "type": "text",
                   "required": true,
                   "pattern": "^[a-zA-Z]+$"
                 },
                 {
                   "name": "lastName",
                   "label": "Last Name",
-                  "type": "string",
+                  "type": "text",
                   "required": true,
                   "pattern": "^[a-zA-Z]+$"
                 },
                 {
                   "name": "phone",
                   "label": "Phone",
-                  "type": "string",
+                  "type": "text",
                   "required": true,
                   "pattern": "^\\d{3}-\\d{3}-\\d{4}$"
                 }

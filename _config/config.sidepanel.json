@@ -30,14 +30,14 @@
                 {
                   "name": "name",
                   "label": "Name",
-                  "type": "string",
+                  "type": "text",
                   "required": true,
                   "className": "py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                 },
                 {
                   "name": "description",
                   "label": "Description",
-                  "type": "string",
+                  "type": "text",
                   "required": true,
                   "className": "py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                 }
@@ -94,14 +94,14 @@
                 {
                   "name": "product",
                   "label": "Product",
-                  "type": "string",
+                  "type": "text",
                   "required": true,
                   "className": "py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                 },
                 {
                   "name": "client",
                   "label": "Client",
-                  "type": "string",
+                  "type": "text",
                   "required": true,
                   "className": "py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                 }
@@ -158,21 +158,21 @@
                 {
                   "name": "firstName",
                   "label": "First Name",
-                  "type": "string",
+                  "type": "text",
                   "required": true,
                   "className": "py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                 },
                 {
                   "name": "lastName",
                   "label": "Last Name",
-                  "type": "string",
+                  "type": "text",
                   "required": true,
                   "className": "py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                 },
                 {
                   "name": "phone",
                   "label": "Phone",
-                  "type": "string",
+                  "type": "text",
                   "required": true,
                   "pattern": "^\\d{3}-\\d{3}-\\d{4}$",
                   "className": "py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
