@@ -6,7 +6,7 @@
         {
           "type": "text",
           "value": "Invoices",
-          "className": "text-3xl text-gray-900 font-medium"
+          "className": "text-3xl text-gray-900 font-medium pt-8"
         },
         {
           "type": "button",
@@ -113,7 +113,7 @@
         {
           "type": "text",
           "value": "Create Invoice",
-          "className": "text-3xl text-gray-900 font-medium"
+          "className": "text-3xl text-gray-900 font-medium pt-8"
         },
         {
           "type": "container",
@@ -181,7 +181,7 @@
         {
           "type": "text",
           "value": "Clients",
-          "className": "text-3xl text-gray-900 font-medium"
+          "className": "text-3xl text-gray-900 font-medium pt-8"
         },
         {
           "type": "container",
@@ -407,7 +407,7 @@
         {
           "type": "text",
           "value": "Create Client",
-          "className": "text-3xl text-gray-900 font-medium"
+          "className": "text-3xl text-gray-900 font-medium pt-8"
         },
         {
           "type": "container",
@@ -474,7 +474,7 @@
         {
           "type": "text",
           "value": "Create Product",
-          "className": "text-3xl text-gray-900 font-medium"
+          "className": "text-3xl text-gray-900 font-medium pt-8"
         },
         {
           "type": "container",
@@ -551,7 +551,7 @@
         {
           "type": "text",
           "value": "Products",
-          "className": "text-3xl text-gray-900 font-medium"
+          "className": "text-3xl text-gray-900 font-medium pt-8"
         },
         {
           "type": "button",
