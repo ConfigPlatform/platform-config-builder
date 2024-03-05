@@ -193,6 +193,7 @@
               "content": [
                 {
                   "type": "filter",
+                  "filterType": "input",
                   "placeholder": "Enter first name",
                   "filterBy": "firstName",
                   "select": "client_get_all",
@@ -200,6 +201,7 @@
                 },
                 {
                   "type": "filter",
+                  "filterType": "input",
                   "placeholder": "Enter last name",
                   "filterBy": "lastName",
                   "select": "client_get_all",
@@ -207,6 +209,7 @@
                 },
                 {
                   "type": "filter",
+                  "filterType": "input",
                   "placeholder": "Enter phone",
                   "filterBy": "phone",
                   "select": "client_get_all",
