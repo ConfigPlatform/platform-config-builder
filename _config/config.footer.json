@@ -3,8 +3,7 @@
   "content": [
     {
       "type": "text",
-      "value": "If you experience an issue, please report it to support@pasv.us with an attached screenshot.",
-      "className": "block text-md text-grey-900 py-2 px-3 hover:bg-gray-300 rounded"
+      "value": "If you experience an issue, please report it to support@pasv.us with an attached screenshot."
     }
   ]
 }
