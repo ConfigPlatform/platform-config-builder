@@ -10,8 +10,7 @@
           "value": "Create Product"
         },
         {
-          "type": "container",
-          "className": "col-span-6",
+          "type": "column",
           "content": [
             {
               "type": "form",
@@ -69,8 +68,7 @@
           "value": "Create Invoice"
         },
         {
-          "type": "container",
-          "className": "col-span-6",
+          "type": "column",
           "content": [
             {
               "type": "form",
@@ -121,8 +119,7 @@
           "value": "Create Client"
         },
         {
-          "type": "container",
-          "className": "col-span-6",
+          "type": "column",
           "content": [
             {
               "type": "form",
