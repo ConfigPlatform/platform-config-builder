@@ -217,6 +217,7 @@
             },
             {
               "type": "col",
+              "className": "flex justify-end",
               "width": "4",
               "content": [
                 {
@@ -243,11 +244,11 @@
           "columns": [
             {
               "type": "container",
-              "className": "px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider",
+              "className": "",
               "name": "ID",
               "sortBy": "id",
               "cell": {
-                "className": "px-5 py-5 border-b border-gray-200 bg-white text-sm",
+                "className": "",
                 "content": [
                   {
                     "type": "text",
@@ -261,10 +262,10 @@
             },
             {
               "type": "container",
-              "className": "px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider",
+              "className": "",
               "name": "First Name",
               "cell": {
-                "className": "px-5 py-5 border-b border-gray-200 bg-white text-sm",
+                "className": "",
                 "content": [
                   {
                     "type": "text",
@@ -278,11 +279,11 @@
             },
             {
               "type": "container",
-              "className": "px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider",
+              "className": "",
               "name": "Last Name",
               "sortBy": "lastName",
               "cell": {
-                "className": "px-5 py-5 border-b border-gray-200 bg-white text-sm",
+                "className": "",
                 "content": [
                   {
                     "type": "text",
@@ -296,11 +297,11 @@
             },
             {
               "type": "container",
-              "className": "px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider",
+              "className": "",
               "name": "Phone",
               "sortBy": "phone",
               "cell": {
-                "className": "px-5 py-5 border-b border-gray-200 bg-white text-sm",
+                "className": "",
                 "content": [
                   {
                     "type": "text",
@@ -314,10 +315,10 @@
             },
             {
               "type": "container",
-              "className": "px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider",
+              "className": "",
               "name": "Invoices",
               "cell": {
-                "className": "px-5 py-5 border-b border-gray-200 bg-white text-sm",
+                "className": "",
                 "content": [
                   {
                     "type": "list",
@@ -338,10 +339,10 @@
             },
             {
               "type": "container",
-              "className": "px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider",
+              "className": "",
               "name": "Controls",
               "cell": {
-                "className": "px-5 py-5 border-b border-gray-200 bg-white text-sm",
+                "className": "",
                 "content": [
                   {
                     "type": "dropdown",
