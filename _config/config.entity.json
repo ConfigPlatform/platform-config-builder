@@ -1,0 +1,88 @@
+{
+  "entities": [
+    {
+      "entityName": "product",
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "options": {
+            "type": "varchar"
+          }
+        },
+        {
+          "name": "price",
+          "type": "number",
+          "options": {
+            "type": "int"
+          }
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "options": {
+            "type": "varchar"
+          }
+        }
+      ]
+    },
+    {
+      "entityName": "client",
+      "fields": [
+        {
+          "name": "firstName",
+          "type": "string",
+          "options": {
+            "type": "varchar"
+          }
+        },
+        {
+          "name": "lastName",
+          "type": "string",
+          "options": {
+            "type": "varchar"
+          }
+        },
+        {
+          "name": "phone",
+          "type": "string",
+          "options": {
+            "type": "varchar"
+          }
+        },
+        {
+          "name": "invoices",
+          "type": "relation",
+          "options": {
+            "relationType": "one-to-many",
+            "ref": "invoice",
+            "foreignField": "client"
+          }
+        }
+      ]
+    },
+    {
+      "entityName": "invoice",
+      "fields": [
+        {
+          "name": "products",
+          "type": "relation",
+          "options": {
+            "relationType": "many-to-many",
+            "ownerSide": true,
+            "ref": "product"
+          }
+        },
+        {
+          "name": "client",
+          "type": "relation",
+          "options": {
+            "relationType": "many-to-one",
+            "ref": "client",
+            "foreignField": "invoices"
+          }
+        }
+      ]
+    }
+  ]
+}

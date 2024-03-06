@@ -1,6 +1,6 @@
 const fs = require('fs-extra');
 const { ENTITIES_PATH } = require('./paths');
-import { IEntity as IEntityData } from './_config/config.entity';
+import { IEntity as IEntityData } from './_config/types/config.entity';
 import {
   ICreateModuleImportPayload,
   createClassName,
@@ -75,19 +75,26 @@ export const updateEntity = (entityData: IEntityData): void => {
         typeormRequiredEntries.push(relationDecorator);
       }
 
-      let relationRow = `\n\n  @${relationDecorator}(() => ${entityRefClassName})`;
+      let relationRow = `\n\n  @${relationDecorator}(() => ${entityRefClassName}`;
 
       // if foreignField exists, we should add path
       if (foreignField) {
         relationRow += `, (${ref}) => ${ref}.${foreignField}`;
       }
 
+      relationRow += ')';
+
       let column = relationRow;
 
-      // if it's owning side of relation, we should add joinColumn decorator
+      // if it's owning side of relation, we should add join decorator
       if (ownerSide) {
-        column += '\n  @JoinColumn()';
-        typeormRequiredEntries.push('JoinColumn');
+        if (relationType === 'one-to-one') {
+          column += '\n  @JoinColumn()';
+          typeormRequiredEntries.push('JoinColumn');
+        } else {
+          column += '\n  @JoinTable()';
+          typeormRequiredEntries.push('JoinTable');
+        }
       }
 
       const arrRelationTypes: string[] = ['one-to-many', 'many-to-many'];
