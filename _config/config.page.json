@@ -469,6 +469,21 @@
       ]
     },
     {
+      "path": "/landing",
+      "content": [
+        {
+          "type": "text",
+          "value": "The perfect CRM solution for small and medium-sized businesses",
+          "className": "text-4xl text-gray-900 font-medium p-24"
+        },
+        {
+          "type": "text",
+          "value": "Finance, schedule, inventory, client management, telephony calls and messages, planning and more. All in one.",
+          "className": "text-2xl text-gray-700 font-small pr-24 pl-24"
+        }
+      ]
+    },
+    {
       "path": "/product/create",
       "content": [
         {
