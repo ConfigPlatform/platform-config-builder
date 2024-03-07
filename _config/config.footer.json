@@ -1,5 +1,5 @@
 {
-  "className": "fixed bottom-0 left-0 z-20 w-full max-w-screen flex flex-wrap flex-row p-2 bg-gray-50 border-gray-200",
+  "className": "bg-gray-100 border-gray-200",
   "content": [
     {
       "type": "text",
