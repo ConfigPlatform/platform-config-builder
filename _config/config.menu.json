@@ -4,20 +4,17 @@
     {
       "type": "link",
       "href": "/client",
-      "text": "Clients",
-      "className": "mx-2"
+      "text": "Clients"
     },
     {
       "type": "link",
       "href": "/product",
-      "text": "Products",
-      "className": "mx-2"
+      "text": "Products"
     },
     {
       "type": "link",
       "href": "/invoice",
-      "text": "Invoices",
-      "className": "mx-2"
+      "text": "Invoices"
     }
   ]
 }
