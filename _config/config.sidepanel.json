@@ -11,7 +11,7 @@
           "className": "text-xl text-gray-900 font-medium"
         },
         {
-          "type": "column",
+          "type": "col",
           "className": "mt-2",
           "content": [
             {
@@ -72,7 +72,7 @@
           "className": "text-xl text-gray-900 font-medium"
         },
         {
-          "type": "column",
+          "type": "col",
           "className": "mt-2",
           "content": [
             {
