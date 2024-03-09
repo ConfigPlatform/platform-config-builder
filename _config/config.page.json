@@ -15,7 +15,6 @@
         },
         {
           "type": "table",
-          "id": "invoice_table",
           "select": "invoice_get_all",
           "columns": [
             {
@@ -108,7 +107,6 @@
         },
         {
           "type": "table",
-          "id": "client_table",
           "select": "client_get_all",
           "columns": [
             {
@@ -232,7 +230,6 @@
         },
         {
           "type": "table",
-          "id": "product_table",
           "select": "product_get_all",
           "columns": [
             {
