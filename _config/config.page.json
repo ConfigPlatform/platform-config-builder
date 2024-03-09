@@ -82,36 +82,27 @@
           "type": "row",
           "content": [
             {
-              "type": "col",
-              "width": "8",
-              "content": [
-                {
-                  "type": "filter",
-                  "filterType": "input",
-                  "placeholder": "Enter first name",
-                  "filterBy": "firstName",
-                  "select": "client_get_all"
-                },
-                {
-                  "type": "filter",
-                  "filterType": "input",
-                  "placeholder": "Enter last name",
-                  "filterBy": "lastName",
-                  "select": "client_get_all"
-                },
-                {
-                  "type": "filter",
-                  "filterType": "input",
-                  "placeholder": "Enter phone",
-                  "filterBy": "phone",
-                  "select": "client_get_all"
-                },
-                {
-                  "type": "button",
-                  "text": "Add Client",
-                  "serverHandler": "open_client_create_sidepanel"
-                }
-              ]
+              "type": "filter",
+              "placeholder": "Enter first name",
+              "filterBy": "firstName",
+              "select": "client_get_all"
+            },
+            {
+              "type": "filter",
+              "placeholder": "Enter last name",
+              "filterBy": "lastName",
+              "select": "client_get_all"
+            },
+            {
+              "type": "filter",
+              "placeholder": "Enter phone",
+              "filterBy": "phone",
+              "select": "client_get_all"
+            },
+            {
+              "type": "button",
+              "text": "Add Client",
+              "serverHandler": "open_client_create_sidepanel"
             }
           ]
         },
