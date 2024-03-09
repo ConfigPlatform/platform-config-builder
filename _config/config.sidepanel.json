@@ -2,21 +2,20 @@
   "sidepanels": [
     {
       "id": "create_product",
-      "width": "30%",
+      "width": "25%",
       "placement": "right",
       "content": [
         {
           "type": "text",
-          "className": "text-xl text-gray-900 mb-4",
-          "value": "Create Product"
+          "value": "Create Product",
+          "className": "text-xl text-gray-900 font-medium"
         },
         {
-          "type": "container",
-          "className": "col-span-6",
+          "type": "col",
+          "className": "mt-2",
           "content": [
             {
               "type": "form",
-              "className": "space-y-3",
               "id": "product_create_form",
               "fields": [
                 {
@@ -25,45 +24,35 @@
                   "type": "number",
                   "required": true,
                   "defaultValue": 100,
-                  "className": "py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                  "className": "w-full"
                 },
                 {
                   "name": "name",
                   "label": "Name",
                   "type": "text",
                   "required": true,
-                  "className": "py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                  "className": "w-full"
                 },
                 {
                   "name": "description",
                   "label": "Description",
                   "type": "text",
                   "required": true,
-                  "className": "py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                  "className": "w-full"
                 }
               ],
               "actions": [
                 {
                   "type": "button",
+                  "text": "Submit",
                   "htmlType": "submit",
-                  "content": [
-                    {
-                      "type": "text",
-                      "value": "Submit"
-                    }
-                  ],
-                  "className": "btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg",
-                  "serverHandler": "product_create_sidepanel_submit"
+                  "serverHandler": "product_create_sidepanel_submit",
+                  "className": "ms-0"
                 },
                 {
                   "type": "button",
-                  "content": [
-                    {
-                      "type": "text",
-                      "value": "Cancel"
-                    }
-                  ],
-                  "className": "btn btn-primary px-3 py-2 text-sm text-gray-700 duration-100 cursor-pointer border rounded hover:border-indigo-600 active:shadow-lg",
+                  "text": "Cancel",
+                  "variant": "secondary",
                   "serverHandler": "close_product_create_sidepanel"
                 }
               ]
@@ -74,21 +63,20 @@
     },
     {
       "id": "create_invoice",
-      "width": "30%",
+      "width": "25%",
       "placement": "right",
       "content": [
         {
           "type": "text",
-          "className": "text-xl text-gray-900 mb-4",
-          "value": "Create Invoice"
+          "value": "Create Invoice",
+          "className": "text-xl text-gray-900 font-medium"
         },
         {
-          "type": "container",
-          "className": "col-span-6",
+          "type": "col",
+          "className": "mt-2",
           "content": [
             {
               "type": "form",
-              "className": "space-y-3",
               "id": "invoice_create_form",
               "fields": [
                 {
@@ -96,38 +84,28 @@
                   "label": "Product",
                   "type": "text",
                   "required": true,
-                  "className": "py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                  "className": "w-full"
                 },
                 {
                   "name": "client",
                   "label": "Client",
                   "type": "text",
                   "required": true,
-                  "className": "py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                  "className": "w-full"
                 }
               ],
               "actions": [
                 {
                   "type": "button",
                   "htmlType": "submit",
-                  "content": [
-                    {
-                      "type": "text",
-                      "value": "Submit"
-                    }
-                  ],
-                  "className": "btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg",
-                  "serverHandler": "invoice_create_sidepanel_submit"
+                  "text": "Submit",
+                  "serverHandler": "invoice_create_sidepanel_submit",
+                  "className": "ms-0"
                 },
                 {
                   "type": "button",
-                  "content": [
-                    {
-                      "type": "text",
-                      "value": "Cancel"
-                    }
-                  ],
-                  "className": "btn btn-primary px-3 py-2 text-sm text-gray-700 duration-100 cursor-pointer border rounded hover:border-indigo-600 active:shadow-lg",
+                  "text": "Cancel",
+                  "variant": "secondary",
                   "serverHandler": "close_invoice_create_sidepanel"
                 }
               ]
@@ -138,21 +116,20 @@
     },
     {
       "id": "create_client",
-      "width": "30%",
+      "width": "25%",
       "placement": "right",
       "content": [
         {
           "type": "text",
-          "className": "text-xl text-gray-900 mb-4",
-          "value": "Create Client"
+          "value": "Create Client",
+          "className": "text-xl text-gray-900 font-medium"
         },
         {
-          "type": "container",
-          "className": "col-span-6",
+          "type": "col",
+          "className": "mt-2",
           "content": [
             {
               "type": "form",
-              "className": "space-y-3",
               "id": "client_create_form",
               "fields": [
                 {
@@ -160,14 +137,14 @@
                   "label": "First Name",
                   "type": "text",
                   "required": true,
-                  "className": "py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                  "className": "w-full"
                 },
                 {
                   "name": "lastName",
                   "label": "Last Name",
                   "type": "text",
                   "required": true,
-                  "className": "py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                  "className": "w-full"
                 },
                 {
                   "name": "phone",
@@ -175,31 +152,21 @@
                   "type": "text",
                   "required": true,
                   "pattern": "^\\d{3}-\\d{3}-\\d{4}$",
-                  "className": "py-2 px-2 block w-full border border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                  "className": "w-full"
                 }
               ],
               "actions": [
                 {
                   "type": "button",
+                  "text": "Submit",
                   "htmlType": "submit",
-                  "content": [
-                    {
-                      "type": "text",
-                      "value": "Submit"
-                    }
-                  ],
-                  "className": "btn btn-primary btn btn-primary px-3 py-2 text-sm text-white duration-150 cursor-pointer bg-blue-700 rounded hover:bg-blue-900 active:shadow-lg",
-                  "serverHandler": "client_create_sidepanel_submit"
+                  "serverHandler": "client_create_sidepanel_submit",
+                  "className": "ms-0"
                 },
                 {
                   "type": "button",
-                  "content": [
-                    {
-                      "type": "text",
-                      "value": "Cancel"
-                    }
-                  ],
-                  "className": "btn btn-primary px-3 py-2 text-sm text-gray-700 duration-100 cursor-pointer border rounded hover:border-indigo-600 active:shadow-lg",
+                  "text": "Cancel",
+                  "variant": "secondary",
                   "serverHandler": "close_client_create_sidepanel"
                 }
               ]

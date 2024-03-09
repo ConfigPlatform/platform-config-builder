@@ -13,9 +13,9 @@ export const PAGE_CONFIG_PATH = mergePaths(
   '/_config/config.page.json',
 );
 
-export const MENU_CONFIG_PATH = mergePaths(
+export const NAVBAR_CONFIG_PATH = mergePaths(
   ROOT_PATH,
-  '/_config/config.menu.json',
+  '/_config/config.navbar.json',
 );
 
 export const MODAL_CONFIG_PATH = mergePaths(
@@ -80,9 +80,9 @@ export const SERVER_PAGE_CONFIG_PATH = mergePaths(
   '/src/config/config.page.json',
 );
 
-export const SERVER_MENU_CONFIG_PATH = mergePaths(
+export const SERVER_NAVBAR_CONFIG_PATH = mergePaths(
   SERVER_ROOT_PATH,
-  '/src/config/config.menu.json',
+  '/src/config/config.navbar.json',
 );
 
 export const SERVER_MODAL_CONFIG_PATH = mergePaths(
