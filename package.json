@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "start": "nodemon index.ts",
+    "dev": "nodemon index.ts",
     "prepare": "husky",
     "lint": "eslint . --fix"
   },
