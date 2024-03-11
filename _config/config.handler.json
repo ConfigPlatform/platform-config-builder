@@ -207,7 +207,7 @@
               "product"
             ]
           ],
-          "itemsPerPage": 5,
+          "itemsPerPage": 10,
           "multiple": true,
           "awaitResult": true,
           "assignToVar": "invoicesGetRes"
@@ -218,7 +218,7 @@
             "items": "$invoicesGetRes[0]",
             "totalCount": "$invoicesGetRes[1]",
             "pagination": {
-              "itemsPerPage": 5
+              "itemsPerPage": 10
             }
           },
           "config": null
@@ -237,7 +237,7 @@
         {
           "type": "select",
           "entityName": "product",
-          "itemsPerPage": 5,
+          "itemsPerPage": 10,
           "multiple": true,
           "awaitResult": true,
           "assignToVar": "productsGetRes"
@@ -248,7 +248,7 @@
             "items": "$productsGetRes[0]",
             "totalCount": "$productsGetRes[1]",
             "pagination": {
-              "itemsPerPage": 5
+              "itemsPerPage": 10
             }
           },
           "config": null
@@ -277,7 +277,7 @@
               ],
               "orderBy": "$data.sorting",
               "where": "$data.filters",
-              "itemsPerPage": 5,
+              "itemsPerPage": 10,
               "awaitResult": true,
               "assignToVar": "clientsGetRes"
             },
@@ -287,7 +287,7 @@
                 "items": "$clientsGetRes[0]",
                 "totalCount": "$clientsGetRes[1]",
                 "pagination": {
-                  "itemsPerPage": 5
+                  "itemsPerPage": 10
                 }
               },
               "config": null
@@ -306,7 +306,7 @@
                 "invoices",
                 "invoice"
               ],
-              "itemsPerPage": 5,
+              "itemsPerPage": 10,
               "awaitResult": true,
               "assignToVar": "clientsGetRes"
             },
@@ -316,7 +316,7 @@
                 "items": "$clientsGetRes[0]",
                 "totalCount": "$clientsGetRes[1]",
                 "pagination": {
-                  "itemsPerPage": 5
+                  "itemsPerPage": 10
                 }
               },
               "config": null
@@ -336,7 +336,7 @@
                 "invoice"
               ],
               "where": "$data.filters",
-              "itemsPerPage": 5,
+              "itemsPerPage": 10,
               "awaitResult": true,
               "assignToVar": "clientsGetRes"
             },
@@ -346,7 +346,7 @@
                 "items": "$clientsGetRes[0]",
                 "totalCount": "$clientsGetRes[1]",
                 "pagination": {
-                  "itemsPerPage": 5
+                  "itemsPerPage": 10
                 }
               },
               "config": null
@@ -366,7 +366,7 @@
                 "invoice"
               ],
               "orderBy": "$data.sorting",
-              "itemsPerPage": 5,
+              "itemsPerPage": 10,
               "awaitResult": true,
               "assignToVar": "clientsGetRes"
             },
@@ -376,7 +376,7 @@
                 "items": "$clientsGetRes[0]",
                 "totalCount": "$clientsGetRes[1]",
                 "pagination": {
-                  "itemsPerPage": 5
+                  "itemsPerPage": 10
                 }
               },
               "config": null
