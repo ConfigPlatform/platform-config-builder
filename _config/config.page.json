@@ -469,7 +469,7 @@
       ]
     },
     {
-      "path": "/landing",
+      "path": "/",
       "content": [
         {
           "type": "text",
