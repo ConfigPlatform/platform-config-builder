@@ -1,9 +1,11 @@
 {
-  "className": "bg-gray-100 border-gray-200",
-  "content": [
-    {
-      "type": "text",
-      "value": "If you experience an issue, please report it to support@pasv.us with an attached screenshot."
-    }
-  ]
+  "footer": {
+    "className": "bg-gray-100 border-gray-200",
+    "content": [
+      {
+        "type": "text",
+        "value": "If you experience an issue, please report it to support@pasv.us with an attached screenshot."
+      }
+    ]
+  }
 }
