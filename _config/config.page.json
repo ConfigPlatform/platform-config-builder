@@ -288,6 +288,25 @@
           "className": "flex justify-center"
         }
       ]
+    },
+    {
+      "path": "/",
+      "content": [
+        {
+          "type": "text",
+          "value": "The perfect CRM platform to grow your business.",
+          "className": "text-4xl text-gray-900 font-medium pl-48 pt-40"
+        },
+        {
+          "type": "text",
+          "value": "Finance, schedule, inventory, client management, telephony calls and messages, planning and more. All in one.",
+          "className": "text-2xl text-gray-700 font-small pl-48 pt-12"
+        },
+        {
+          "type": "button",
+          "text": "Try for free"
+        }
+      ]
     }
   ]
 }
