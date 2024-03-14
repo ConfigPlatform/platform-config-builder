@@ -6,6 +6,7 @@ import {
   ICreateModuleImportPayload,
   createClassName,
   createModuleImport,
+  mergePaths,
 } from './helpers';
 import { deleteEntity, updateEntity } from './entity';
 import { deleteHandler, updateHandler } from './handler/handler';
@@ -39,6 +40,9 @@ import {
   SIDEPANEL_TYPES_PATH,
 } from './paths';
 import { IHandler } from './_config/types/config.handler';
+import * as process from 'process';
+
+const { CONFIG_PATH } = process.env;
 
 export const updateEntities = (): void => {
   // if /generated/entities path isn't valid, we should create dirs recursively
@@ -207,4 +211,27 @@ export const moveToServer = (): void => {
 
   // copy files & dirs
   paths.forEach((el) => fs.copySync(...el));
+};
+
+// function copies config from config dir
+export const loadConfig = () => {
+  const configDirEntries = fs.readdirSync(CONFIG_PATH);
+
+  const configFiles = configDirEntries.filter((el) => el.includes('.json'));
+
+  // loop through config files to update local files
+  for (const configFile of configFiles) {
+    const filePath = mergePaths(CONFIG_PATH, configFile);
+    const destFilePath = mergePaths(ROOT_PATH, '_config', configFile);
+
+    // copy file if file doesn't exist
+    if (!fs.existsSync(destFilePath)) {
+      fs.copyFileSync(filePath, destFilePath);
+      continue;
+    }
+
+    // update file content if file already exists
+    const content = fs.readFileSync(filePath, { encoding: 'utf8' });
+    fs.writeFileSync(destFilePath, content);
+  }
 };
