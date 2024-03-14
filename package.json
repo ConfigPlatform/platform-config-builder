@@ -9,20 +9,6 @@
     "lint": "eslint . --fix",
     "setup-config-watcher": "node script/setupConfigWatcher.js"
   },
-  "nodemonConfig": {
-    "watch": [
-      "configurator.ts",
-      "entity.ts",
-      "handler",
-      "helpers.ts",
-      "index.ts",
-      "paths.ts",
-      "../config-kompot"
-    ],
-    "execMap": {
-      "ts": "ts-node"
-    }
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",

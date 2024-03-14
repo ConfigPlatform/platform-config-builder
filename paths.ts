@@ -17,6 +17,16 @@ export const PAGE_CONFIG_PATH = mergePaths(
   '/_config/config.page.json',
 );
 
+export const HANDLER_CONFIG_PATH = mergePaths(
+  ROOT_PATH,
+  '/_config/config.handler.json',
+);
+
+export const ENTITY_CONFIG_PATH = mergePaths(
+  ROOT_PATH,
+  '/_config/config.entity.json',
+);
+
 export const NAVBAR_CONFIG_PATH = mergePaths(
   ROOT_PATH,
   '/_config/config.navbar.json',

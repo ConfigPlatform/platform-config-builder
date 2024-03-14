@@ -6,13 +6,13 @@ dotenv.config();
 
 const { CONFIG_PATH } = process.env;
 
-const packageJsonPath = path.join(process.cwd(), 'package.json');
+const nodemonConfigPath = path.join(process.cwd(), 'nodemon.json');
 
 // get file entries
-const packageJsonStr = fs.readFileSync(packageJsonPath, { encoding: 'utf8' });
+const nodemonConfigStr = fs.readFileSync(nodemonConfigPath, { encoding: 'utf8' });
 
 // package json object
-const packageJsonObj = JSON.parse(packageJsonStr);
+const nodemonConfigObj = JSON.parse(nodemonConfigStr);
 
 // root dir entries
 const rootDirEntries = fs.readdirSync(process.cwd());
@@ -23,7 +23,7 @@ const ignoredEntries = ['.env', '.git', '.husky', '.prettierrc', 'package-lock.j
 const watchFilePaths = rootDirEntries.filter(el => !ignoredEntries.includes(el));
 
 // update watcher paths
-packageJsonObj.nodemonConfig.watch = [...watchFilePaths, CONFIG_PATH]
+nodemonConfigObj.watch = [...watchFilePaths, CONFIG_PATH]
 
 // update file
-fs.writeFileSync(packageJsonPath, JSON.stringify(packageJsonObj, null, 2));
+fs.writeFileSync(nodemonConfigPath, JSON.stringify(nodemonConfigObj, null, 2));

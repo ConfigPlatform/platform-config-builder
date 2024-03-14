@@ -1,0 +1,15 @@
+{
+  "watch": [
+    "configurator.ts",
+    "entity.ts",
+    "handler",
+    "helpers.ts",
+    "index.ts",
+    "nodemon.json",
+    "paths.ts",
+    "../config-kompot"
+  ],
+  "execMap": {
+    "ts": "ts-node"
+  }
+}

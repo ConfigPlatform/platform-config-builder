@@ -5,7 +5,7 @@
       "content": [
         {
           "type": "text",
-          "value": "Invoices Table",
+          "value": "Invoices",
           "className": "text-3xl text-gray-900 font-medium"
         },
         {
@@ -74,34 +74,53 @@
       "content": [
         {
           "type": "text",
-          "value": "Clients",
+          "value": "Client list",
           "className": "text-3xl text-gray-900 font-medium"
         },
         {
           "type": "row",
           "content": [
             {
-              "type": "filter",
-              "placeholder": "Enter first name",
-              "filterBy": "firstName",
-              "select": "client_get_all"
+              "type": "col",
+              "width": "6",
+              "content": [
+                {
+                  "type": "filter",
+                  "placeholder": "Enter phone",
+                  "filterBy": "phone",
+                  "select": "client_get_all"
+                },
+                {
+                  "type": "filter",
+                  "placeholder": "Enter first name",
+                  "filterBy": "firstName",
+                  "select": "client_get_all"
+                },
+                {
+                  "type": "filter",
+                  "placeholder": "Enter last name",
+                  "filterBy": "lastName",
+                  "select": "client_get_all"
+                },
+                {
+                  "type": "button",
+                  "variant": "secondary",
+                  "text": "Reset filters",
+                  "serverHandler": "open_client_create_sidepanel"
+                }
+              ]
             },
             {
-              "type": "filter",
-              "placeholder": "Enter last name",
-              "filterBy": "lastName",
-              "select": "client_get_all"
-            },
-            {
-              "type": "filter",
-              "placeholder": "Enter phone",
-              "filterBy": "phone",
-              "select": "client_get_all"
-            },
-            {
-              "type": "button",
-              "text": "Add Client",
-              "serverHandler": "open_client_create_sidepanel"
+              "type": "col",
+              "width": "6",
+              "className": "flex justify-end",
+              "content": [
+                {
+                  "type": "button",
+                  "text": "Add Client",
+                  "serverHandler": "open_client_create_sidepanel"
+                }
+              ]
             }
           ]
         },
@@ -294,13 +313,13 @@
       "content": [
         {
           "type": "text",
-          "value": "The perfect CRM platform to grow your business.",
-          "className": "text-4xl text-gray-900 font-medium pl-48 pt-40"
+          "value": "1 The perfect CRM platform to grow your business.",
+          "className": "text-4xl text-gray-900 font-medium pt-10"
         },
         {
           "type": "text",
           "value": "Finance, schedule, inventory, client management, telephony calls and messages, planning and more. All in one.",
-          "className": "text-2xl text-gray-700 font-small pl-48 pt-12"
+          "className": "text-2xl text-gray-700 font-small pt-12"
         },
         {
           "type": "button",

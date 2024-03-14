@@ -1,15 +1,13 @@
 import { IEntity } from './_config/types/config.entity';
 import * as fs from 'fs-extra';
-import { entities } from './_config/config.entity.json';
-import { handlers } from './_config/config.handler.json';
 import {
   ICreateModuleImportPayload,
   createClassName,
   createModuleImport,
   mergePaths,
 } from './helpers';
-import { deleteEntity, updateEntity } from './entity';
-import { deleteHandler, updateHandler } from './handler/handler';
+import { deleteEntity, getEntities, updateEntity } from './entity';
+import { deleteHandler, getHandlers, updateHandler } from './handler/handler';
 import {
   ENTITIES_PATH,
   ENTITY_MAP_PATH,
@@ -51,12 +49,15 @@ export const updateEntities = (): void => {
   // get entity dir entries
   const entityDirEntries = fs.readdirSync(ENTITIES_PATH);
 
+  // get entities from config file
+  const entities = getEntities();
+
   // loop through entityDirEntries to define entities for deletion
   for (const entityName of entityDirEntries) {
     // check if we have entity with such name in config. entityMap - exception, we shouldn't delete this file
-    const existsInConfig =
-      entities.some((entity) => entity.entityName === entityName) ||
-      entityName === 'entityMap.ts';
+    const existsInConfig = !!entities.find(
+      (entity) => entity.entityName === entityName,
+    );
 
     // delete entity if entity isn't in config
     if (!existsInConfig) {
@@ -75,6 +76,9 @@ export const updateEntities = (): void => {
 export const updateEntityMap = (): void => {
   const moduleImportPayloads: ICreateModuleImportPayload[] = [];
   let entityMapObjEntries = '';
+
+  // get entities from config file
+  const entities = getEntities();
 
   // loop through entities to fill moduleImportPayloads and entityMapObjEntries
   for (const entity of entities) {
@@ -119,6 +123,9 @@ export const updateHandlers = async (): Promise<void> => {
   // get handlers dir entries
   const handlerDirEntries = fs.readdirSync(HANDLERS_PATH);
 
+  // get handlers from config file
+  const handlers = getHandlers();
+
   // loop through handlerDirEntries to define handler for deletion
   for (const handlerFile of handlerDirEntries) {
     const handlerName = handlerFile.slice(0, handlerFile.length - 3);
@@ -143,6 +150,9 @@ export const updateHandlers = async (): Promise<void> => {
 export const serverCleanup = (): void => {
   // get entity dir entries
   const entityDirEntries = fs.readdirSync(SERVER_ENTITIES_PATH);
+
+  // get entities from config file
+  const entities = getEntities();
 
   for (const entityName of entityDirEntries) {
     // check if we have entity with such name in config. entityMap - exception, we shouldn't delete this file

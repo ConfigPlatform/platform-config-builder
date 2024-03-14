@@ -1,8 +1,8 @@
 import { IHandler, TServerAction } from '_config/types/config.handler';
 import { mergePaths } from '../helpers';
-import { HANDLERS_PATH } from '../paths';
+import { HANDLER_CONFIG_PATH, HANDLERS_PATH } from '../paths';
 import actionHandler, { TCreateActionHandler } from './actionHandler/index';
-const fs = require('fs-extra');
+import * as fs from 'fs-extra';
 import * as prettier from 'prettier';
 const prettierConfig = JSON.parse(fs.readFileSync('./.prettierrc', 'utf8'));
 
@@ -59,4 +59,14 @@ export const deleteHandler = ({
 
   // delete file
   fs.removeSync(handlerFilePath);
+};
+
+// function extracts handlers from config file
+export const getHandlers = (): IHandler[] => {
+  const handlerFileEntries = fs.readFileSync(HANDLER_CONFIG_PATH, {
+    encoding: 'utf8',
+  });
+  const { handlers } = JSON.parse(handlerFileEntries);
+
+  return handlers;
 };

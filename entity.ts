@@ -1,6 +1,7 @@
-const fs = require('fs-extra');
-const { ENTITIES_PATH } = require('./paths');
-import { IEntity as IEntityData } from './_config/types/config.entity';
+import { ENTITY_CONFIG_PATH } from './paths';
+import * as fs from 'fs-extra';
+import { ENTITIES_PATH } from './paths';
+import { IEntity, IEntity as IEntityData } from './_config/types/config.entity';
 import {
   ICreateModuleImportPayload,
   createClassName,
@@ -147,8 +148,18 @@ export const deleteEntity = ({
   entitiesPath,
 }: IDeleteEntityPayload): void => {
   // define entity dir path
-  const entityDirPath: string = mergePaths(entitiesPath, `/${entityName}`);
+  const entityDirPath: string = mergePaths(entitiesPath, entityName);
 
   // delete dir
-  fs.removeSync(entityDirPath, { recursive: true });
+  fs.removeSync(entityDirPath);
+};
+
+// function extracts entities from file
+export const getEntities = (): IEntity[] => {
+  const entityFileEntries = fs.readFileSync(ENTITY_CONFIG_PATH, {
+    encoding: 'utf8',
+  });
+  const { entities } = JSON.parse(entityFileEntries);
+
+  return entities;
 };

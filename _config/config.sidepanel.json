@@ -133,23 +133,19 @@
                   "name": "firstName",
                   "label": "First Name",
                   "type": "text",
-                  "required": true,
-                  "className": "w-full"
+                  "required": true
                 },
                 {
                   "name": "lastName",
                   "label": "Last Name",
                   "type": "text",
-                  "required": true,
-                  "className": "w-full"
+                  "required": true
                 },
                 {
                   "name": "phone",
                   "label": "Phone",
                   "type": "text",
-                  "required": true,
-                  "pattern": "^\\d{3}-\\d{3}-\\d{4}$",
-                  "className": "w-full"
+                  "required": true
                 }
               ],
               "actions": [
