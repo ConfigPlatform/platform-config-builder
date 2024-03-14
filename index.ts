@@ -3,12 +3,16 @@ import {
   updateEntityMap,
   moveToServer,
   updateHandlers,
+  loadConfig,
 } from './configurator';
+import 'dotenv/config';
 
 (async () => {
-  updateEntities();
+  loadConfig();
 
+  updateEntities();
   updateEntityMap();
+
   await updateHandlers();
 
   moveToServer();

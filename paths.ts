@@ -1,4 +1,8 @@
 import { mergePaths } from './helpers';
+import * as process from 'process';
+import 'dotenv/config';
+
+const { SERVER_PATH } = process.env;
 
 export const ROOT_PATH = process.cwd();
 
@@ -58,7 +62,7 @@ export const PAGE_TYPES_PATH = mergePaths(
   '/_config/types/config.page.ts',
 );
 
-export const SERVER_ROOT_PATH = mergePaths(process.cwd(), '../platform-server');
+export const SERVER_ROOT_PATH = mergePaths(process.cwd(), SERVER_PATH);
 
 export const SERVER_ENTITIES_PATH = mergePaths(
   SERVER_ROOT_PATH,
