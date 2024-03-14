@@ -5,7 +5,10 @@ const mutateActionHandler: TCreateActionHandler<IMutateAction> = ({
   field,
   value,
 }) => {
-  const entries = `  ${field.replaceAll('$', '')} = ${value.replaceAll('$', '')}`;
+  const entries = `  ${field.replaceAll('$', '')} = ${value.replaceAll(
+    '$',
+    '',
+  )}`;
 
   return entries;
 };

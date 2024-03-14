@@ -6,22 +6,24 @@ const returnActionHandler: TCreateActionHandler<IReturnAction> = ({
   config,
 }) => {
   let stringifiedConfig;
-  
+
   const stringifyConfig = (config) => {
     return JSON.stringify(
       config,
       (key, value) => {
         if (key === 'path') {
           return `\${${value.replace(/\$([\w\d]+)/g, (_, variableName) => {
-          return variableName ? `\${${variableName}}` : '';
+            return variableName ? `\${${variableName}}` : '';
           })}}`;
         }
         return value;
       },
       2,
-    ).replace(/"\$\{/g, "`").replace(/\}"/g, "`");
+    )
+      .replace(/"\$\{/g, '`')
+      .replace(/\}"/g, '`');
   };
-  
+
   if (!config) {
     stringifiedConfig = 'null';
   }
@@ -29,7 +31,7 @@ const returnActionHandler: TCreateActionHandler<IReturnAction> = ({
   if (config && Array.isArray(config)) {
     stringifiedConfig = stringifyConfig(config);
   }
-  
+
   let stringifiedData;
 
   if (!data) {

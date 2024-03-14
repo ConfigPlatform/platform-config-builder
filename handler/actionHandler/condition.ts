@@ -2,7 +2,9 @@ import { IConditionAction, TServerAction } from '_config/types/config.handler';
 import actionHandler, { TCreateActionHandler } from './index';
 
 const formatCode = (action: TServerAction) => {
-  const handler = actionHandler[action.type] as TCreateActionHandler<TServerAction>;
+  const handler = actionHandler[
+    action.type
+  ] as TCreateActionHandler<TServerAction>;
   return `${handler(action).replace(/\n/g, '\n      ')}`;
 };
 
