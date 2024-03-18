@@ -26,3 +26,10 @@ The platform uses query builders to generate SQL queries and execute them in the
 Install the necessary packages on the server using the command **npm install**.
 
 To start the server in development mode, use the command **npm run start**.
+
+---
+
+Create .env file and add necessary variables:
+CONFIG_PATH=../config-kompot
+SERVER_PATH=../platform-server
+
