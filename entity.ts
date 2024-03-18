@@ -116,7 +116,7 @@ export const updateEntity = (entityData: IEntityData): void => {
     const optionArr: [string, string][] = Object.entries(options);
     const optionStr = optionArr.map((el) => `${el[0]}: '${el[1]}'`).join(', ');
 
-    const column = `\n\n  @Column({ ${optionStr} })\n  ${name}: ${type};`;
+    const column = `\n\n  @Column({ ${optionStr}, nullable: true })\n  ${name}: ${type};`;
 
     columns += column;
   }
