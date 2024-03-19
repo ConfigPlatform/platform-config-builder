@@ -19,8 +19,8 @@ export type TActionType =
 
 export interface IInsertAction {
   type: 'insert';
-  entityName: string;
-  fields: { value: string; entityField: string }[];
+  table: string;
+  data: string | { [field: string]: string | number }[];
   assignToVar?: string;
   awaitResult?: boolean;
 }
@@ -119,15 +119,24 @@ export interface IReturnAction {
 
 export interface ISelectAction {
   type: 'select';
-  entityName: string;
-  leftJoinAndSelect?: [string, string] | [string, string][];
-  where?: { [key: string]: any } | string;
+  leftJoinAndSelect?:
+    | { column: string; table: string }
+    | { column: string; table: string }[];
+  where?: { table: string; filters: { [key: string]: any } | string };
   orderBy?: { [key: string]: 'ASC' | 'DESC' };
   orWhere?: [string, string];
   multiple?: boolean;
   itemsPerPage?: number;
   assignToVar?: string;
   awaitResult?: boolean;
+  select?: { column: string; alias: string }[] | string;
+  from?: { table: string; alias?: string };
+  leftJoin?: { table: string; condition: string };
+  groupBy?: string;
+  getRawMany?: boolean;
+  getMany?: boolean;
+  getManyAndCount?: boolean;
+  getOne?: boolean;
 }
 
 export interface IMutateAction {

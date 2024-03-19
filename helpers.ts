@@ -1,4 +1,5 @@
 import * as path from 'path';
+import { get } from 'lodash';
 
 export interface ICreateModuleImportPayload {
   variable: string;
@@ -13,7 +14,7 @@ export const createModuleImport = ({
 
 // function creates class name from string
 export const createClassName = (str: string) =>
-  `${str[0].toUpperCase()}${str.slice(1)}`;
+  `${get(str, '[0]', '').toUpperCase()}${str?.slice(1)}`;
 
 // functions merges two or more paths
 export const mergePaths = (...paths: string[]): string => path.join(...paths);

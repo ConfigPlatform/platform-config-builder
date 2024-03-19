@@ -1,35 +1,106 @@
 import { ISelectAction } from '_config/types/config.handler';
 import { checkIfRegexp, createClassName } from '../../helpers';
 import { TCreateActionHandler } from './index';
+import { isArray } from 'lodash';
 
 type TIgnoredKey = 'entityName' | 'type' | 'assignVar' | 'multiple';
 
 interface IOperationPayload<TPayload> {
-  entityName: string;
+  entityName?: string;
   payload: TPayload;
   operationKey: string;
 }
 
-const whereOperationHandler = ({
-  entityName,
+const getOneOperationHandler = ({ payload }: IOperationPayload<boolean>) => {
+  const entries = `.getOne()`;
+  return entries;
+};
+
+const getManyAndCountOperationHandler = ({
   payload,
-  operationKey,
-}: IOperationPayload<{ [key: string]: any } | string>): string => {
+}: IOperationPayload<boolean>) => {
+  const entries = `.getManyAndCount()`;
+  return entries;
+};
+
+const getManyOperationHandler = ({ payload }: IOperationPayload<boolean>) => {
+  const entries = `.getMany()`;
+  return entries;
+};
+
+const getRawManyOperationHandler = ({
+  payload,
+}: IOperationPayload<boolean>) => {
+  const entries = `.getRawMany()`;
+  return entries;
+};
+
+const groupByOperationHandler = ({ payload }: IOperationPayload<string>) => {
+  const entries = `.groupBy('${payload}')`;
+  return entries;
+};
+
+const leftJoinOperationHandler = ({
+  payload,
+}: IOperationPayload<{ table: string; condition: string }>) => {
+  const entityClassName = createClassName(payload.table);
+  const entries = `.leftJoin(entities.${entityClassName}, '${payload.table}', '${payload.condition}')`;
+
+  return entries;
+};
+
+const fromOperationHandler = ({
+  payload,
+}: IOperationPayload<{ table: string; alias?: string }>) => {
+  const entityClassName = createClassName(payload.table);
+  const entries = `.from(entities.${entityClassName}, '${
+    payload.alias || payload.table
+  }')`;
+
+  return entries;
+};
+
+const selectOperationHandler = ({
+  payload,
+}: IOperationPayload<{ column: string; alias: string }[] | string>) => {
+  if (typeof payload === 'string') return `.select('${payload}')`;
+
+  const selections = payload.reduce((acc, curr, i) => {
+    if (i !== 0) {
+      acc += `\n.addSelect('${curr.column}', '${curr.alias}')`;
+      return acc;
+    }
+
+    acc += `.select('${curr.column}', '${curr.alias}')`;
+    return acc;
+  }, '');
+
+  return `\n${selections}`;
+};
+
+const whereOperationHandler = ({
+  payload,
+}: IOperationPayload<{
+  table: string;
+  filters: { [key: string]: any } | string;
+}>): string => {
   // Payload can be one of 3 structure. Imagine that in first 2 examples we receive filters object from client, it's just example, filters can be replaced with any object
   // $data.filters
   // { firstName: '$data.filters.firstName' }
   // { firstName: '.*Max.*' }
 
+  const { table, filters } = payload;
+
   let data = '';
 
   // converting payload in needed format
-  if (typeof payload === 'string') {
-    data = payload.slice(1);
+  if (typeof filters === 'string') {
+    data = filters.slice(1);
   } else {
     data += '{';
 
-    for (const key in payload) {
-      const value = payload[key];
+    for (const key in filters) {
+      const value = filters[key];
 
       const isValueVar = value.includes('$');
       const updatedValue = isValueVar
@@ -54,24 +125,35 @@ const whereOperationHandler = ({
       const isValueRegexp = ${checkIfRegexp.toString()};
       const sign = isValueRegexp(value) ? ' ~*' : ' =';
       
-      acc += '${entityName}' + '.' + field + sign + ' :' + field;
+      acc += '${table}' + '.' + field + sign + ' :' + field;
       
       return acc
     }, '')`;
 
-  const entries = `\n    .${operationKey}(${schemaCreator}, ${data})`;
+  const entries = `\n.where(${schemaCreator}, ${data})`;
 
   return entries;
 };
 
 const leftJoinAndSelectOperationHandler = ({
-  entityName,
   payload,
-  operationKey,
-}: IOperationPayload<[string, string]>): string => {
-  const [field, foreignEntityName] = payload;
+}: IOperationPayload<
+  { column: string; table: string } | { column: string; table: string }[]
+>): string => {
+  let entries = ``;
 
-  const entries = `\n    .${operationKey}('${entityName}.${field}', '${foreignEntityName}')`;
+  if (!isArray(payload)) {
+    payload = [payload];
+  }
+
+  for (const index in payload) {
+    if (+index === 0) {
+      entries += '\n';
+    }
+
+    const { column, table } = payload[index];
+    entries += `.leftJoinAndSelect('${column}', '${table}')`;
+  }
 
   return entries;
 };
@@ -129,10 +211,7 @@ const orderByOperationHandler = ({
 const selectActionHandler: TCreateActionHandler<ISelectAction> = (
   operations,
 ) => {
-  const { entityName, multiple, itemsPerPage, assignToVar, awaitResult } =
-    operations;
-
-  const entityClassName = createClassName(operations.entityName);
+  const { assignToVar, awaitResult } = operations;
 
   let entries = ``;
 
@@ -146,7 +225,7 @@ const selectActionHandler: TCreateActionHandler<ISelectAction> = (
     entries += 'await ';
   }
 
-  entries += `dataSource\n    .createQueryBuilder()\n    .select('${entityName}')\n    .from(entities.${entityClassName}, '${entityName}')`;
+  entries += 'dataSource\n    .createQueryBuilder()';
 
   const ignoredKeys: TIgnoredKey[] = [
     'entityName',
@@ -165,7 +244,6 @@ const selectActionHandler: TCreateActionHandler<ISelectAction> = (
     // payload for operation handler
     const operationHandlerPayload: IOperationPayload<typeof operationPayload> =
       {
-        entityName,
         payload: operationPayload,
         operationKey,
       };
@@ -175,55 +253,59 @@ const selectActionHandler: TCreateActionHandler<ISelectAction> = (
     // define operation
     switch (operationKey as keyof Omit<ISelectAction, TIgnoredKey>) {
       case 'where':
-      case 'orWhere':
         operationsStr += whereOperationHandler(operationHandlerPayload);
         break;
+
       case 'orderBy':
         entries += orderByOperationHandler(operationHandlerPayload);
         break;
+
       case 'itemsPerPage':
         operationsStr += itemsPerPageOperationHandler(operationHandlerPayload);
         break;
 
       case 'leftJoinAndSelect':
-        // payload can be [string, string] or [string, string][]
-        // define format to handler data
-        if (
-          typeof operationPayload[0] === 'string' &&
-          typeof operationPayload[1] === 'string'
-        ) {
-          // execute handler
-          operationsStr += leftJoinAndSelectOperationHandler(
-            operationHandlerPayload,
-          );
-        } else {
-          // loop through handler payloads to execute handler
-          for (const payload of operationPayload) {
-            const operationHandlerPayload: IOperationPayload<typeof payload> = {
-              entityName,
-              payload,
-              operationKey,
-            };
-
-            // execute handler
-            operationsStr += leftJoinAndSelectOperationHandler(
-              operationHandlerPayload,
-            );
-          }
-        }
-
+        operationsStr += leftJoinAndSelectOperationHandler(
+          operationHandlerPayload,
+        );
         break;
+
+      case 'select':
+        operationsStr += selectOperationHandler(operationHandlerPayload);
+        break;
+
+      case 'from':
+        operationsStr += fromOperationHandler(operationHandlerPayload);
+        break;
+
+      case 'leftJoin':
+        operationsStr += leftJoinOperationHandler(operationHandlerPayload);
+        break;
+
+      case 'groupBy':
+        operationsStr += groupByOperationHandler(operationHandlerPayload);
+        break;
+
+      case 'getRawMany':
+        operationsStr += getRawManyOperationHandler(operationHandlerPayload);
+        break;
+
+      case 'getMany':
+        operationsStr += getManyOperationHandler(operationHandlerPayload);
+        break;
+
+      case 'getManyAndCount':
+        operationsStr += getManyAndCountOperationHandler(
+          operationHandlerPayload,
+        );
+        break;
+
+      case 'getOne':
+        operationsStr += getOneOperationHandler(operationHandlerPayload);
     }
 
     entries += operationsStr;
   }
-
-  // return data operation
-  const getDataOperation = `\n    .get${
-    itemsPerPage ? 'ManyAndCount' : multiple ? 'Many' : 'One'
-  }()`;
-
-  entries += getDataOperation;
 
   return entries;
 };
