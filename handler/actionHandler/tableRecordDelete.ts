@@ -1,7 +1,4 @@
-import {
-  ITableRecordDeleteAction,
-  ITableRelationAction,
-} from '_config/types/config.handler';
+import { ITableRecordDeleteAction } from '_config/types/config.handler';
 import { TCreateActionHandler } from './index';
 import { fromOperationHandler, whereOperationHandler } from './tableDataSelect';
 
@@ -11,6 +8,16 @@ interface IOperationPayload<TPayload> {
   payload: TPayload;
   operationKey: string;
 }
+
+// operation handler map
+const operationHandlerMap: {
+  [operation in keyof Omit<ITableRecordDeleteAction, TIgnoredKey>]: (
+    payload: IOperationPayload<any>,
+  ) => string;
+} = {
+  from: fromOperationHandler,
+  where: whereOperationHandler,
+};
 
 const tableRecordDeleteActionHandler: TCreateActionHandler<
   ITableRecordDeleteAction
@@ -32,16 +39,6 @@ const tableRecordDeleteActionHandler: TCreateActionHandler<
   entries += `dataSource\n.createQueryBuilder()\n.delete()`;
 
   const ignoredKeys: TIgnoredKey[] = ['type', 'assignToVar', 'awaitResult'];
-
-  // operation handler map
-  const operationHandlerMap: {
-    [operation in keyof Omit<ITableRecordDeleteAction, TIgnoredKey>]: (
-      payload: IOperationPayload<any>,
-    ) => string;
-  } = {
-    from: fromOperationHandler,
-    where: whereOperationHandler,
-  };
 
   // loop through operations to fill entries
   for (const operationKey in operations) {

@@ -27,9 +27,10 @@ export interface ITableRecordCreateAction {
 
 export interface ITableRecordUpdateAction {
   type: 'update';
-  entityName: string;
-  fields: { entityField: string; value: string }[];
-  where: { [key: string]: any };
+  update: string;
+  set: { [field: string]: string } | string;
+  where?: { table: string; filters: { [key: string]: any } | string };
+  assignToVar?: string;
   awaitResult?: boolean;
 }
 
@@ -153,6 +154,7 @@ export interface ITableRelationAction {
   remove?: string | { [key: string]: string };
   add?: string | { [key: string]: string };
   set?: string | null | { [key: string]: string };
+  assignToVar?: string;
   awaitResult?: boolean;
 }
 

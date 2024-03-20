@@ -7,7 +7,7 @@ interface IOperationPayload<TPayload> {
   operationKey: string;
 }
 
-type TIgnoredKey = 'type' | 'awaitResult';
+type TIgnoredKey = 'type' | 'awaitResult' | 'assignToVar';
 
 const relationOperationHandler = ({
   payload,
@@ -75,9 +75,14 @@ const operationHandlerMap: {
 const tableRelationActionHandler: TCreateActionHandler<ITableRelationAction> = (
   operations,
 ) => {
-  const { awaitResult } = operations;
+  const { awaitResult, assignToVar } = operations;
 
   let entries = ``;
+
+  // check if we should assign result to var
+  if (assignToVar) {
+    entries += `${assignToVar} = `;
+  }
 
   // check if we should await result
   if (awaitResult) {
