@@ -1,13 +1,10 @@
-import { IInsertAction } from '_config/types/config.handler';
-import { createClassName, defineValueFormat } from '../../helpers';
+import { ITableRecordCreateAction } from '_config/types/config.handler';
+import { createClassName } from '../../helpers';
 import { TCreateActionHandler } from './index';
 
-const insertActionHandler: TCreateActionHandler<IInsertAction> = ({
-  table,
-  data,
-  assignToVar,
-  awaitResult,
-}) => {
+const tableRecordCreateActionHandler: TCreateActionHandler<
+  ITableRecordCreateAction
+> = ({ table, data, assignToVar, awaitResult }) => {
   const entityClassName = createClassName(table);
 
   let entries = '';
@@ -73,4 +70,4 @@ const insertActionHandler: TCreateActionHandler<IInsertAction> = ({
   return entries;
 };
 
-export default insertActionHandler;
+export default tableRecordCreateActionHandler;

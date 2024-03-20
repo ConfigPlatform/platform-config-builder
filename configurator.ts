@@ -148,6 +148,8 @@ export const updateHandlers = async (): Promise<void> => {
 
 // function cleanups server: removes not actual components
 export const serverCleanup = (): void => {
+  fs.ensureDirSync(SERVER_ENTITIES_PATH);
+
   // get entity dir entries
   const entityDirEntries = fs.readdirSync(SERVER_ENTITIES_PATH);
 
@@ -165,6 +167,8 @@ export const serverCleanup = (): void => {
       deleteEntity({ entityName, entitiesPath: SERVER_ENTITIES_PATH });
     }
   }
+
+  fs.ensureDirSync(SERVER_HANDLERS_PATH);
 
   // get handler dir entries
   const handlerDirEntries = fs.readdirSync(SERVER_HANDLERS_PATH);

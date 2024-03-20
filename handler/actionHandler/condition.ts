@@ -1,5 +1,6 @@
 import { IConditionAction, TServerAction } from '_config/types/config.handler';
 import actionHandler, { TCreateActionHandler } from './index';
+import { isEmpty } from 'lodash';
 
 const formatCode = (action: TServerAction) => {
   const handler = actionHandler[
@@ -21,7 +22,14 @@ const conditionActionHandler: TCreateActionHandler<IConditionAction> = ({
   const entriesFormattedOnMatch = formattedOnMatch.join('\n      ');
   const entriesFormattedOnNotMatch = formattedOnNotMatch.join('\n      ');
 
-  return `if (${condition}) { ${entriesFormattedOnMatch} } else { ${entriesFormattedOnNotMatch} }`;
+  let entries = `if (${condition}) { ${entriesFormattedOnMatch} }`;
+
+  // add else only if exists in config
+  if (!isEmpty(onNotMatch)) {
+    entries += ` else { ${entriesFormattedOnNotMatch} }`;
+  }
+
+  return entries;
 };
 
 export default conditionActionHandler;

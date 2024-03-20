@@ -17,7 +17,7 @@ export type TActionType =
   | 'parallel'
   | 'condition';
 
-export interface IInsertAction {
+export interface ITableRecordCreateAction {
   type: 'insert';
   table: string;
   data: string | { [field: string]: string | number }[];
@@ -25,7 +25,7 @@ export interface IInsertAction {
   awaitResult?: boolean;
 }
 
-export interface IUpdateAction {
+export interface ITableRecordUpdateAction {
   type: 'update';
   entityName: string;
   fields: { entityField: string; value: string }[];
@@ -33,14 +33,15 @@ export interface IUpdateAction {
   awaitResult?: boolean;
 }
 
-export interface IDeleteAction {
+export interface ITableRecordDeleteAction {
   type: 'delete';
-  entityName: string;
-  where: { [key: string]: any };
+  from?: { table: string; alias?: string };
+  where?: { table: string; filters: { [key: string]: any } | string };
   awaitResult?: boolean;
+  assignToVar?: string;
 }
 
-export interface IVariableAction {
+export interface IVariableDefineAction {
   type: 'variable';
   name: string;
   value: string;
@@ -117,7 +118,7 @@ export interface IReturnAction {
   pagination?: { itemsPerPage: number };
 }
 
-export interface ISelectAction {
+export interface ITableDataSelectAction {
   type: 'select';
   leftJoinAndSelect?:
     | { column: string; table: string }
@@ -139,28 +140,20 @@ export interface ISelectAction {
   getOne?: boolean;
 }
 
-export interface IMutateAction {
+export interface IVariableUpdateAction {
   type: 'mutate';
-  field: string;
+  variable: string;
   value: string;
 }
 
-export interface IRelationAction {
+export interface ITableRelationAction {
   type: TRelation;
-  entityName: string;
-  entityId: string;
-  field: string;
+  relation: { table: string; column: string };
+  of: string | { [key: string]: string };
+  remove?: string | { [key: string]: string };
+  add?: string | { [key: string]: string };
+  set?: string | null | { [key: string]: string };
   awaitResult?: boolean;
-}
-
-export interface IAddRelationAction extends IRelationAction {
-  type: 'addRelation';
-  addId: string;
-}
-
-export interface IRemoveRelationAction extends IRelationAction {
-  type: 'removeRelation';
-  removeId: string;
 }
 
 export interface IParallelAction {
@@ -171,15 +164,14 @@ export interface IParallelAction {
 }
 
 export type TServerAction =
-  | IInsertAction
+  | ITableRecordCreateAction
   | IReturnAction
-  | ISelectAction
-  | IMutateAction
-  | IAddRelationAction
-  | IRemoveRelationAction
-  | IVariableAction
-  | IUpdateAction
-  | IDeleteAction
+  | ITableDataSelectAction
+  | IVariableUpdateAction
+  | ITableRelationAction
+  | IVariableDefineAction
+  | ITableRecordUpdateAction
+  | ITableRecordDeleteAction
   | IParallelAction
   | IConditionAction;
 

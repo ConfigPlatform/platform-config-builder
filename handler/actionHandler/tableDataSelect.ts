@@ -1,12 +1,11 @@
-import { ISelectAction } from '_config/types/config.handler';
+import { ITableDataSelectAction } from '_config/types/config.handler';
 import { checkIfRegexp, createClassName } from '../../helpers';
 import { TCreateActionHandler } from './index';
 import { isArray } from 'lodash';
 
-type TIgnoredKey = 'entityName' | 'type' | 'assignVar' | 'multiple';
+type TIgnoredKey = 'type' | 'assignToVar' | 'awaitResult';
 
 interface IOperationPayload<TPayload> {
-  entityName?: string;
   payload: TPayload;
   operationKey: string;
 }
@@ -49,7 +48,7 @@ const leftJoinOperationHandler = ({
   return entries;
 };
 
-const fromOperationHandler = ({
+export const fromOperationHandler = ({
   payload,
 }: IOperationPayload<{ table: string; alias?: string }>) => {
   const entityClassName = createClassName(payload.table);
@@ -78,7 +77,7 @@ const selectOperationHandler = ({
   return `\n${selections}`;
 };
 
-const whereOperationHandler = ({
+export const whereOperationHandler = ({
   payload,
 }: IOperationPayload<{
   table: string;
@@ -107,7 +106,11 @@ const whereOperationHandler = ({
         ? value.replaceAll('$', '')
         : `'${value}'`;
 
-      data += `${key}: ${updatedValue},`;
+      data += `${key}: ${updatedValue}`;
+
+      if (Object.keys(filters).indexOf(key) < Object.keys(filters).length - 1) {
+        data += ',';
+      }
     }
 
     data += '}';
@@ -169,7 +172,6 @@ const itemsPerPageOperationHandler = ({
 const orderByOperationHandler = ({
   payload,
   operationKey,
-  entityName,
 }: IOperationPayload<{ [key: string]: any } | string>): string => {
   // Payload can be one of three formats
   // $data.sorting
@@ -183,9 +185,7 @@ const orderByOperationHandler = ({
 
   // converting payload in needed format
   if (typeof payload === 'string') {
-    data = `Object.fromEntries(Object.entries(${payload.slice(
-      1,
-    )}).map(el => ['${entityName}' + '.' + el[0], el[1]]))`;
+    data = payload.slice(1);
   } else {
     data += '{';
 
@@ -197,7 +197,7 @@ const orderByOperationHandler = ({
         ? value.replaceAll('$', '')
         : `'${value}'`;
 
-      data += `'${entityName}.${key}': ${updatedValue},`;
+      data += `'${key}': ${updatedValue},`;
     }
 
     data += '}';
@@ -208,9 +208,29 @@ const orderByOperationHandler = ({
   return entries;
 };
 
-const selectActionHandler: TCreateActionHandler<ISelectAction> = (
-  operations,
-) => {
+// operation handler map
+const operationHandlerMap: {
+  [operation in keyof Omit<ITableDataSelectAction, TIgnoredKey>]: (
+    payload: IOperationPayload<any>,
+  ) => string;
+} = {
+  where: whereOperationHandler,
+  orderBy: orderByOperationHandler,
+  itemsPerPage: itemsPerPageOperationHandler,
+  leftJoin: leftJoinOperationHandler,
+  leftJoinAndSelect: leftJoinAndSelectOperationHandler,
+  from: fromOperationHandler,
+  select: selectOperationHandler,
+  groupBy: groupByOperationHandler,
+  getOne: getOneOperationHandler,
+  getMany: getManyOperationHandler,
+  getManyAndCount: getManyAndCountOperationHandler,
+  getRawMany: getRawManyOperationHandler,
+};
+
+const tableDataSelectActionHandler: TCreateActionHandler<
+  ITableDataSelectAction
+> = (operations) => {
   const { assignToVar, awaitResult } = operations;
 
   let entries = ``;
@@ -227,12 +247,7 @@ const selectActionHandler: TCreateActionHandler<ISelectAction> = (
 
   entries += 'dataSource\n    .createQueryBuilder()';
 
-  const ignoredKeys: TIgnoredKey[] = [
-    'entityName',
-    'type',
-    'assignVar',
-    'multiple',
-  ];
+  const ignoredKeys: TIgnoredKey[] = ['type', 'assignToVar', 'awaitResult'];
 
   // loop through operations to fill entries
   for (const operationKey in operations) {
@@ -248,66 +263,11 @@ const selectActionHandler: TCreateActionHandler<ISelectAction> = (
         operationKey,
       };
 
-    let operationsStr = '';
-
-    // define operation
-    switch (operationKey as keyof Omit<ISelectAction, TIgnoredKey>) {
-      case 'where':
-        operationsStr += whereOperationHandler(operationHandlerPayload);
-        break;
-
-      case 'orderBy':
-        entries += orderByOperationHandler(operationHandlerPayload);
-        break;
-
-      case 'itemsPerPage':
-        operationsStr += itemsPerPageOperationHandler(operationHandlerPayload);
-        break;
-
-      case 'leftJoinAndSelect':
-        operationsStr += leftJoinAndSelectOperationHandler(
-          operationHandlerPayload,
-        );
-        break;
-
-      case 'select':
-        operationsStr += selectOperationHandler(operationHandlerPayload);
-        break;
-
-      case 'from':
-        operationsStr += fromOperationHandler(operationHandlerPayload);
-        break;
-
-      case 'leftJoin':
-        operationsStr += leftJoinOperationHandler(operationHandlerPayload);
-        break;
-
-      case 'groupBy':
-        operationsStr += groupByOperationHandler(operationHandlerPayload);
-        break;
-
-      case 'getRawMany':
-        operationsStr += getRawManyOperationHandler(operationHandlerPayload);
-        break;
-
-      case 'getMany':
-        operationsStr += getManyOperationHandler(operationHandlerPayload);
-        break;
-
-      case 'getManyAndCount':
-        operationsStr += getManyAndCountOperationHandler(
-          operationHandlerPayload,
-        );
-        break;
-
-      case 'getOne':
-        operationsStr += getOneOperationHandler(operationHandlerPayload);
-    }
-
-    entries += operationsStr;
+    const operationHandler = operationHandlerMap[operationKey];
+    entries += operationHandler(operationHandlerPayload);
   }
 
   return entries;
 };
 
-export default selectActionHandler;
+export default tableDataSelectActionHandler;

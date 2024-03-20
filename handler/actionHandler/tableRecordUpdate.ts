@@ -1,13 +1,10 @@
-import { IUpdateAction } from '_config/types/config.handler';
+import { ITableRecordUpdateAction } from '_config/types/config.handler';
 import { createClassName, defineValueFormat } from '../../helpers';
 import { TCreateActionHandler } from './index';
 
-const updateActionHandler: TCreateActionHandler<IUpdateAction> = ({
-  entityName,
-  fields,
-  where,
-  awaitResult,
-}) => {
+const tableRecordUpdateActionHandler: TCreateActionHandler<
+  ITableRecordUpdateAction
+> = ({ entityName, fields, where, awaitResult }) => {
   const entityClassName = createClassName(entityName);
 
   const updateValues = fields
@@ -31,4 +28,4 @@ const updateActionHandler: TCreateActionHandler<IUpdateAction> = ({
   return entries;
 };
 
-export default updateActionHandler;
+export default tableRecordUpdateActionHandler;
