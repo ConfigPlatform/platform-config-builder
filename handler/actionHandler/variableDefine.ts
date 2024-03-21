@@ -3,9 +3,9 @@ import { TCreateActionHandler } from './index';
 
 const variableDefineActionHandler: TCreateActionHandler<
   IVariableDefineAction
-> = ({ name, value, as }) => {
+> = ({ name, value }) => {
   const processedValue = value.replaceAll('$', '');
-  const variableDeclaration = `  ${as} ${name} = ${processedValue}`;
+  const variableDeclaration = `let ${name} = ${processedValue}`;
 
   return variableDeclaration;
 };

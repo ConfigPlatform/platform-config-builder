@@ -184,7 +184,7 @@ const orderByOperationHandler = ({
 
   // converting payload in needed format
   if (typeof payload === 'string') {
-    data = payload.slice(1);
+    data = payload;
   } else {
     data += '{';
 

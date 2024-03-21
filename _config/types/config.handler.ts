@@ -29,7 +29,7 @@ export interface ITableRecordUpdateAction {
   type: 'update';
   update: string;
   set: { [field: string]: string } | string;
-  where?: { table: string; filters: { [key: string]: any } | string };
+  where?: { condition: string; data: { [key: string]: any } | string };
   assignToVar?: string;
   awaitResult?: boolean;
 }
@@ -37,7 +37,7 @@ export interface ITableRecordUpdateAction {
 export interface ITableRecordDeleteAction {
   type: 'delete';
   from?: { table: string; alias?: string };
-  where?: { table: string; filters: { [key: string]: any } | string };
+  where?: { condition: string; data: { [key: string]: any } | string };
   awaitResult?: boolean;
   assignToVar?: string;
 }
@@ -46,7 +46,6 @@ export interface IVariableDefineAction {
   type: 'variable';
   name: string;
   value: string;
-  as: string;
 }
 
 export interface IConditionAction {
@@ -124,7 +123,7 @@ export interface ITableDataSelectAction {
   leftJoinAndSelect?:
     | { column: string; table: string }
     | { column: string; table: string }[];
-  where?: { table: string; filters: { [key: string]: any } | string };
+  where?: { condition: string; data: { [key: string]: any } | string };
   orderBy?: { [key: string]: 'ASC' | 'DESC' };
   orWhere?: [string, string];
   multiple?: boolean;
