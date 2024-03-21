@@ -19,15 +19,6 @@ export const createClassName = (str: string) =>
 // functions merges two or more paths
 export const mergePaths = (...paths: string[]): string => path.join(...paths);
 
-// function defines value format
-export const defineValueFormat = (value: string | number): string | number => {
-  if (typeof value === 'number') return value;
-
-  if (value.includes('$')) return value.replaceAll('$', '');
-
-  return `'${value}'`;
-};
-
 // function check if string is regexp or plain string
 export const checkIfRegexp = (str: string): boolean => {
   // Regular expression to detect common special characters used in regex patterns
@@ -39,4 +30,18 @@ export const checkIfRegexp = (str: string): boolean => {
   }
 
   return false;
+};
+
+export const replaceVarsInString = (str: string): string => {
+  // Replace the template syntax {{...}} with the JavaScript template literal syntax ${...}
+  const outputString = str.replace(/{{(.*?)}}/g, '${$1}');
+  return outputString;
+};
+
+export const checkIfStringIncludeVars = (str: string) => {
+  // Define the template pattern for variables
+  const variablePattern = /\{\{[^\}]+\}\}/;
+
+  // Check if the string includes any template variables
+  return variablePattern.test(str);
 };

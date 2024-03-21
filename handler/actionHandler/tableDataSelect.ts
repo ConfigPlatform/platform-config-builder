@@ -1,5 +1,9 @@
 import { ITableDataSelectAction } from '_config/types/config.handler';
-import { checkIfRegexp, createClassName } from '../../helpers';
+import {
+  checkIfStringIncludeVars,
+  createClassName,
+  replaceVarsInString,
+} from '../../helpers';
 import { TCreateActionHandler } from './index';
 import { isArray } from 'lodash';
 
@@ -80,60 +84,58 @@ const selectOperationHandler = ({
 export const whereOperationHandler = ({
   payload,
 }: IOperationPayload<{
-  table: string;
-  filters: { [key: string]: any } | string;
+  condition: string;
+  data: { [key: string]: any } | string;
 }>): string => {
-  // Payload can be one of 3 structure. Imagine that in first 2 examples we receive filters object from client, it's just example, filters can be replaced with any object
-  // $data.filters
-  // { firstName: '$data.filters.firstName' }
-  // { firstName: '.*Max.*' }
+  // data can be one of 3 structure. Imagine that in first 2 examples we receive data object from client, it's just example, data can be replaced with any object
+  // data
+  // { firstName: ".*{{ data.filters.name }}.*" }
+  // { firstName: "Max" }
 
-  const { table, filters } = payload;
+  const { condition, data } = payload;
 
-  let data = '';
+  let inputData = '';
 
-  // converting payload in needed format
-  if (typeof filters === 'string') {
-    data = filters.slice(1);
+  // converting data in needed format
+  if (typeof data === 'string') {
+    inputData = data;
   } else {
-    data += '{';
+    inputData += '{';
 
-    for (const key in filters) {
-      const value = filters[key];
+    // loop through data to construct valid object for queryBuilder
+    for (const key in data) {
+      let value = data[key];
 
-      const isValueVar = value.includes('$');
-      const updatedValue = isValueVar
-        ? value.replaceAll('$', '')
-        : `'${value}'`;
+      const isValueIncludeVars =
+        typeof value === 'string' && checkIfStringIncludeVars(value);
 
-      data += `${key}: ${updatedValue}`;
+      // convert string to accept vars
+      if (isValueIncludeVars) {
+        value = '`' + replaceVarsInString(value) + '`';
+      }
 
-      if (Object.keys(filters).indexOf(key) < Object.keys(filters).length - 1) {
-        data += ',';
+      // value not var and type string => convert to double string
+      if (!isValueIncludeVars && typeof value === 'string') {
+        value = `'${value}'`;
+      }
+
+      // value not var and type number => convert to string
+      if (!isValueIncludeVars && typeof value === 'string') {
+        value = `${value}`;
+      }
+
+      inputData += `${key}: ${value}`;
+
+      // don't add comma after last entry
+      if (Object.keys(data).indexOf(key) < Object.keys(data).length - 1) {
+        inputData += ',';
       }
     }
 
-    data += '}';
+    inputData += '}';
   }
 
-  // we need to define data schema depending on data
-  // schema describes which data should be used for specific field
-  const schemaCreator = `Object.entries(${data}).reduce((acc, curr) => {
-      if (acc) {
-        acc += ' AND ';
-      }
-      
-      const [field, value] = curr;
-      
-      const isValueRegexp = ${checkIfRegexp.toString()};
-      const sign = isValueRegexp(value) ? ' ~*' : ' =';
-      
-      acc += '${table}' + '.' + field + sign + ' :' + field;
-      
-      return acc
-    }, '')`;
-
-  const entries = `\n.where(${schemaCreator}, ${data})`;
+  const entries = `\n.where('${condition}', ${inputData})`;
 
   return entries;
 };
@@ -174,12 +176,9 @@ const orderByOperationHandler = ({
   operationKey,
 }: IOperationPayload<{ [key: string]: any } | string>): string => {
   // Payload can be one of three formats
-  // $data.sorting
-  // { firstName: '$data.sorting.firstName' }
-  // { firstName: 'ASC' }
-
-  // valid output sort object
-  // { 'client.firstName': 'ASC' }
+  // data.sorting
+  // { firstName: "{{ data.sorting.firstName }}" }
+  // { firstName: "ASC" }
 
   let data = '';
 
@@ -189,15 +188,34 @@ const orderByOperationHandler = ({
   } else {
     data += '{';
 
+    // loop through data to construct valid object for queryBuilder
     for (const key in payload) {
-      const value = payload[key];
+      let value = payload[key];
 
-      const isValueVar = value.includes('$');
-      const updatedValue = isValueVar
-        ? value.replaceAll('$', '')
-        : `'${value}'`;
+      const isValueIncludeVars =
+        typeof value === 'string' && checkIfStringIncludeVars(value);
 
-      data += `'${key}': ${updatedValue},`;
+      // convert string to accept vars
+      if (isValueIncludeVars) {
+        value = '`' + replaceVarsInString(value) + '`';
+      }
+
+      // value not var and type string => convert to double string
+      if (!isValueIncludeVars && typeof value === 'string') {
+        value = `'${value}'`;
+      }
+
+      // value not var and type number => convert to string
+      if (!isValueIncludeVars && typeof value === 'string') {
+        value = `${value}`;
+      }
+
+      data += `'${key}': ${value}`;
+
+      // don't add comma after last entry
+      if (Object.keys(data).indexOf(key) < Object.keys(data).length - 1) {
+        data += ',';
+      }
     }
 
     data += '}';
