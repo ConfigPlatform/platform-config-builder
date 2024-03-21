@@ -1,4 +1,4 @@
-# Platform-Config-Builder
+# Platform Config Builder
 This platform is designed for creating, managing, and deploying configurations that provide functionality for configuring administrative applications. 
 The application includes a set of handlers for various operations such as selection, sorting, and merging data from different entities. 
 The platform uses query builders to generate SQL queries and execute them in the database, with the results being passed to the client.
