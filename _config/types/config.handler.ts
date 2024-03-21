@@ -20,7 +20,7 @@ export type TActionType =
 export interface ITableRecordCreateAction {
   type: 'insert';
   table: string;
-  data: string | { [field: string]: string | number }[];
+  data: string | { [field: string]: string | number };
   assignToVar?: string;
   awaitResult?: boolean;
 }

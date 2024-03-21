@@ -1,5 +1,5 @@
 import { ITableRecordCreateAction } from '_config/types/config.handler';
-import { createClassName } from '../../helpers';
+import { createClassName, createValueFromTemplate } from '../../helpers';
 import { TCreateActionHandler } from './index';
 
 const tableRecordCreateActionHandler: TCreateActionHandler<
@@ -10,12 +10,12 @@ const tableRecordCreateActionHandler: TCreateActionHandler<
   let entries = '';
   let values = '';
 
-  // in case of variable, for example { data: "$data" }
+  // in case of variable, for example { data: "data" }
   if (typeof data === 'string') {
-    values = data.slice(1);
+    values = data;
   } else {
     // in case of object, for example
-    // { data: { name: "$name" } }
+    // { data: { name: "{{ name }}" } }
     // or
     // { data: { status: "denied" } }
     // or
@@ -23,31 +23,18 @@ const tableRecordCreateActionHandler: TCreateActionHandler<
 
     values += '{';
 
+    // loop through data to construct valid object for queryBuilder
     for (const key in data) {
-      const value = data[key];
+      let value = data[key];
 
-      let updatedValue: string | number = '';
-
-      // in case of variable
-      // in case of plain string
-      if (typeof value === 'string' && (value as string).includes('$')) {
-        updatedValue = (value as string).replaceAll('$', '');
+      if (typeof value === 'string') {
+        value = createValueFromTemplate(value);
       }
 
-      // in case of plain string
-      if (typeof value === 'string' && !(value as string).includes('$')) {
-        updatedValue += `'${value}'`;
-      }
+      values += `${key}: ${value}`;
 
-      // in case of number
-      if (typeof value === 'number') {
-        updatedValue = value;
-      }
-
-      values += `${key}: ${updatedValue}`;
-
-      // add comma if not last element
-      if (+key !== data.length) {
+      // don't add comma after last entry
+      if (Object.keys(data).indexOf(key) < Object.keys(data).length - 1) {
         values += ',';
       }
     }

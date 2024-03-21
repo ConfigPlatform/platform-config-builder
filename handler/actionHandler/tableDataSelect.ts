@@ -1,9 +1,5 @@
 import { ITableDataSelectAction } from '_config/types/config.handler';
-import {
-  checkIfStringIncludeVars,
-  createClassName,
-  replaceVarsInString,
-} from '../../helpers';
+import { createClassName, createValueFromTemplate } from '../../helpers';
 import { TCreateActionHandler } from './index';
 import { isArray } from 'lodash';
 
@@ -106,22 +102,8 @@ export const whereOperationHandler = ({
     for (const key in data) {
       let value = data[key];
 
-      const isValueIncludeVars =
-        typeof value === 'string' && checkIfStringIncludeVars(value);
-
-      // convert string to accept vars
-      if (isValueIncludeVars) {
-        value = '`' + replaceVarsInString(value) + '`';
-      }
-
-      // value not var and type string => convert to double string
-      if (!isValueIncludeVars && typeof value === 'string') {
-        value = `'${value}'`;
-      }
-
-      // value not var and type number => convert to string
-      if (!isValueIncludeVars && typeof value === 'string') {
-        value = `${value}`;
+      if (typeof value === 'string') {
+        value = createValueFromTemplate(value);
       }
 
       inputData += `${key}: ${value}`;
@@ -192,22 +174,8 @@ const orderByOperationHandler = ({
     for (const key in payload) {
       let value = payload[key];
 
-      const isValueIncludeVars =
-        typeof value === 'string' && checkIfStringIncludeVars(value);
-
-      // convert string to accept vars
-      if (isValueIncludeVars) {
-        value = '`' + replaceVarsInString(value) + '`';
-      }
-
-      // value not var and type string => convert to double string
-      if (!isValueIncludeVars && typeof value === 'string') {
-        value = `'${value}'`;
-      }
-
-      // value not var and type number => convert to string
-      if (!isValueIncludeVars && typeof value === 'string') {
-        value = `${value}`;
+      if (typeof value === 'string') {
+        value = createValueFromTemplate(value);
       }
 
       data += `'${key}': ${value}`;

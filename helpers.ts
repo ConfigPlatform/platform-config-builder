@@ -32,16 +32,46 @@ export const checkIfRegexp = (str: string): boolean => {
   return false;
 };
 
-export const replaceVarsInString = (str: string): string => {
-  // Replace the template syntax {{...}} with the JavaScript template literal syntax ${...}
-  const outputString = str.replace(/{{(.*?)}}/g, '${$1}');
-  return outputString;
+export const checkIfStringIncludeVars = (
+  str: string,
+): { variableCount: number; includesNonVariableContent: boolean } => {
+  // Define the template pattern for variables
+  const variablePattern = /\{\{[^\}]+\}\}/g;
+
+  // Find all template variables in the string
+  const matches = str.match(variablePattern);
+  const variableCount = matches ? matches.length : 0;
+
+  // Remove all template variables from the string
+  const stringWithoutVariables = str.replace(variablePattern, '');
+
+  // Check if the remaining string includes any content other than spaces
+  const includesNonVariableContent = stringWithoutVariables.trim().length > 0;
+
+  return {
+    variableCount,
+    includesNonVariableContent,
+  };
 };
 
-export const checkIfStringIncludeVars = (str: string) => {
-  // Define the template pattern for variables
-  const variablePattern = /\{\{[^\}]+\}\}/;
+export const createValueFromTemplate = (str: string): string => {
+  const { variableCount, includesNonVariableContent } =
+    checkIfStringIncludeVars(str);
 
-  // Check if the string includes any template variables
-  return variablePattern.test(str);
+  // return plain string if no vars
+  if (!variableCount) return `'${str}'`;
+
+  // Replace the template syntax {{...}} with the JavaScript template literal syntax ${...}
+  let outputString = str.replace(/{{(.*?)}}/g, '${$1}');
+
+  if (!includesNonVariableContent) {
+    const strWithoutSpaces = str.replaceAll(' ', '');
+
+    return strWithoutSpaces.slice(2, strWithoutSpaces.length - 2);
+  }
+
+  // apply format to return double string
+  outputString = '`' + outputString + '`';
+
+  return outputString;
 };

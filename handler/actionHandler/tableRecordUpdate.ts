@@ -1,6 +1,7 @@
 import { ITableRecordUpdateAction } from '_config/types/config.handler';
 import { TCreateActionHandler } from './index';
 import { whereOperationHandler } from './tableDataSelect';
+import { createValueFromTemplate } from '../../helpers';
 
 type TIgnoredKey = 'type' | 'assignToVar' | 'awaitResult';
 
@@ -18,39 +19,40 @@ const setOperationHandler = ({
   payload,
 }: IOperationPayload<{ [field: string]: string } | string>) => {
   // Payload types:
-  // $values
-  // { firstName: '$data.filters.firstName' }
-  // { firstName: 'Max' }
+  // values
+  // { firstName: "{{ data.firstName }}" }
+  // { firstName: "Max" }
 
   let data = '';
 
   // converting payload in needed format
   if (typeof payload === 'string') {
-    data = payload.slice(1);
+    data = payload;
   } else {
     data += '{';
 
+    // loop through data to construct valid object for queryBuilder
     for (const key in payload) {
-      const value = payload[key];
+      let value = data[key];
 
-      const isValueVar = value.includes('$');
-      const updatedValue = isValueVar
-        ? value.replaceAll('$', '')
-        : `'${value}'`;
+      if (typeof value === 'string') {
+        value = createValueFromTemplate(value);
+      }
 
-      data += `${key}: ${updatedValue}`;
+      data += `${key}: ${value}`;
 
-      if (Object.keys(payload).indexOf(key) < Object.keys(payload).length - 1) {
+      // don't add comma after last entry
+      if (Object.keys(data).indexOf(key) < Object.keys(data).length - 1) {
         data += ',';
       }
     }
 
     data += '}';
-
-    const entries = `.set(${data})`;
-
-    return entries;
   }
+
+  const entries = `.set(${data})`;
+
+  return entries;
 };
 
 // operation handler map

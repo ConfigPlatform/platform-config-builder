@@ -1,6 +1,6 @@
 import { ITableRelationAction } from '_config/types/config.handler';
 import { TCreateActionHandler } from './index';
-import { createClassName } from '../../helpers';
+import { createClassName, createValueFromTemplate } from '../../helpers';
 
 interface IOperationPayload<TPayload> {
   payload: TPayload;
@@ -21,8 +21,12 @@ const relationOperationHandler = ({
 
 const ofOperationHandler = ({
   payload,
-}: IOperationPayload<string | { [key: string]: string }>) => {
-  const value = typeof payload === 'string' ? `'${payload}'` : payload;
+}: IOperationPayload<string | number>) => {
+  let value;
+
+  if (typeof payload === 'string') {
+    value = createValueFromTemplate(payload);
+  }
 
   const entries = `.of(${value})`;
 
@@ -32,7 +36,11 @@ const ofOperationHandler = ({
 const removeOperationHandler = ({
   payload,
 }: IOperationPayload<string | { [key: string]: string }>) => {
-  const value = typeof payload === 'string' ? `'${payload}'` : payload;
+  let value;
+
+  if (typeof payload === 'string') {
+    value = createValueFromTemplate(payload);
+  }
 
   const entries = `.remove(${value})`;
 
@@ -42,7 +50,11 @@ const removeOperationHandler = ({
 const addOperationHandler = ({
   payload,
 }: IOperationPayload<string | { [key: string]: string }>) => {
-  const value = typeof payload === 'string' ? `'${payload}'` : payload;
+  let value;
+
+  if (typeof payload === 'string') {
+    value = createValueFromTemplate(payload);
+  }
 
   const entries = `.add(${value})`;
 
@@ -52,7 +64,11 @@ const addOperationHandler = ({
 const setOperationHandler = ({
   payload,
 }: IOperationPayload<string | { [key: string]: string }>) => {
-  const value = typeof payload === 'string' ? `'${payload}'` : payload;
+  let value;
+
+  if (typeof payload === 'string') {
+    value = createValueFromTemplate(payload);
+  }
 
   const entries = `.set(${value})`;
 

@@ -4,7 +4,7 @@ import { TCreateActionHandler } from './index';
 const variableUpdateActionHandler: TCreateActionHandler<
   IVariableUpdateAction
 > = ({ variable, value }) => {
-  const entries = `${variable} = ${value.replaceAll('$', '')}`;
+  const entries = `${variable} = ${value}`;
 
   return entries;
 };

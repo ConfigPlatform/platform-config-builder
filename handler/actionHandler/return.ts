@@ -1,5 +1,6 @@
 import { IReturnAction } from '_config/types/config.handler';
 import { TCreateActionHandler } from './index';
+import { createValueFromTemplate } from '../../helpers';
 
 const returnActionHandler: TCreateActionHandler<IReturnAction> = ({
   data,
@@ -39,21 +40,21 @@ const returnActionHandler: TCreateActionHandler<IReturnAction> = ({
   }
 
   if (data && typeof data === 'string') {
-    stringifiedData = data;
+    stringifiedData = createValueFromTemplate(data);
   }
 
   if (data && typeof data !== 'string') {
     const { items, pagination, totalCount } = data;
 
+    const itemsValue = createValueFromTemplate(items);
+    const totalCountValue = createValueFromTemplate(totalCount);
+
     const stringifiedPagination = JSON.stringify(pagination, null, 2);
 
-    stringifiedData = `{ items: ${items}, totalCount: ${totalCount}, pagination: ${stringifiedPagination} }`;
+    stringifiedData = `{ items: ${itemsValue}, totalCount: ${totalCountValue}, pagination: ${stringifiedPagination} }`;
   }
 
-  const entries = `  return {\n  config: ${stringifiedConfig},\n  data: ${stringifiedData.replaceAll(
-    '$',
-    '',
-  )}}`;
+  const entries = `  return {\n  config: ${stringifiedConfig},\n  data: ${stringifiedData}}`;
 
   return entries;
 };

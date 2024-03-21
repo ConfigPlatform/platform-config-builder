@@ -14,8 +14,6 @@ const conditionActionHandler: TCreateActionHandler<IConditionAction> = ({
   onMatch,
   onNotMatch,
 }) => {
-  condition = condition.replaceAll('$', '');
-
   const formattedOnMatch = onMatch.map(formatCode);
   const formattedOnNotMatch = onNotMatch.map(formatCode);
 
