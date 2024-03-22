@@ -117,7 +117,9 @@ export const whereOperationHandler = ({
     inputData += '}';
   }
 
-  const entries = `\n.where('${condition}', ${inputData})`;
+  const entries = `\n.where('${createValueFromTemplate(
+    condition,
+  )}', ${inputData})`;
 
   return entries;
 };
