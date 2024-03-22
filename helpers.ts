@@ -54,18 +54,20 @@ export const checkIfStringIncludeVars = (
   };
 };
 
-export const createValueFromTemplate = (str: string): string => {
+export const createValueFromTemplate = (input: any): string => {
+  if (typeof input !== 'string') return input;
+
   const { variableCount, includesNonVariableContent } =
-    checkIfStringIncludeVars(str);
+    checkIfStringIncludeVars(input);
 
   // return plain string if no vars
-  if (!variableCount) return `'${str}'`;
+  if (!variableCount) return `'${input}'`;
 
   // Replace the template syntax {{...}} with the JavaScript template literal syntax ${...}
-  let outputString = str.replace(/{{(.*?)}}/g, '${$1}');
+  let outputString = input.replace(/{{(.*?)}}/g, '${$1}');
 
   if (!includesNonVariableContent) {
-    const strWithoutSpaces = str.replaceAll(' ', '');
+    const strWithoutSpaces = input.replaceAll(' ', '');
 
     return strWithoutSpaces.slice(2, strWithoutSpaces.length - 2);
   }
