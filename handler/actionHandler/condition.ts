@@ -15,15 +15,15 @@ const conditionActionHandler: TCreateActionHandler<IConditionAction> = ({
   onNotMatch,
 }) => {
   const formattedOnMatch = onMatch.map(formatCode);
-  const formattedOnNotMatch = onNotMatch.map(formatCode);
-
   const entriesFormattedOnMatch = formattedOnMatch.join('\n      ');
-  const entriesFormattedOnNotMatch = formattedOnNotMatch.join('\n      ');
 
   let entries = `if (${condition}) { ${entriesFormattedOnMatch} }`;
 
   // add else only if exists in config
   if (!isEmpty(onNotMatch)) {
+    const formattedOnNotMatch = onNotMatch?.map(formatCode);
+    const entriesFormattedOnNotMatch = formattedOnNotMatch.join('\n      ');
+
     entries += ` else { ${entriesFormattedOnNotMatch} }`;
   }
 
