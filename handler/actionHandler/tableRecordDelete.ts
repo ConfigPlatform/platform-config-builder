@@ -1,6 +1,7 @@
 import { ITableRecordDeleteAction } from '_config/types/config.handler';
 import { TCreateActionHandler } from './index';
-import { fromOperationHandler, whereOperationHandler } from './tableDataSelect';
+import { whereOperationHandler } from './tableDataSelect';
+import { createClassName } from '../../helpers';
 
 type TIgnoredKey = 'type' | 'assignToVar' | 'awaitResult';
 
@@ -8,6 +9,15 @@ interface IOperationPayload<TPayload> {
   payload: TPayload;
   operationKey: string;
 }
+
+const fromOperationHandler = ({
+  payload,
+}: IOperationPayload<{ table: string; alias?: string }>) => {
+  const entityClassName = createClassName(payload.table);
+  const entries = `.from(entities.${entityClassName})`;
+
+  return entries;
+};
 
 // operation handler map
 const operationHandlerMap: {
