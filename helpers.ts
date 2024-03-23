@@ -55,7 +55,7 @@ export const checkIfStringIncludeVars = (
 };
 
 export const createValueFromTemplate = (input: any): string => {
-  if (typeof input !== 'string') return input;
+  if (typeof input !== 'string') return JSON.stringify(input);
 
   const { variableCount, includesNonVariableContent } =
     checkIfStringIncludeVars(input);

@@ -6,7 +6,7 @@ const formatCode = (action: TServerAction) => {
   const handler = actionHandler[
     action.type
   ] as TCreateActionHandler<TServerAction>;
-  return `${handler(action).replace(/\n/g, '\n      ')}`;
+  return handler(action);
 };
 
 const conditionActionHandler: TCreateActionHandler<IConditionAction> = ({
