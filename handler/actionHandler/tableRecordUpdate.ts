@@ -1,7 +1,7 @@
 import { ITableRecordUpdateAction } from '_config/types/config.handler';
 import { TCreateActionHandler } from './index';
 import { whereOperationHandler } from './tableDataSelect';
-import { createValueFromTemplate } from '../../helpers';
+import { createClassName, createValueFromTemplate } from '../../helpers';
 
 type TIgnoredKey = 'type' | 'assignToVar' | 'awaitResult';
 
@@ -11,7 +11,9 @@ interface IOperationPayload<TPayload> {
 }
 
 const updateOperationHandler = ({ payload }: IOperationPayload<string>) => {
-  const entries = `.update(entities.${payload})`;
+  const className = createClassName(payload);
+
+  const entries = `.update(entities.${className})`;
   return entries;
 };
 
@@ -27,13 +29,13 @@ const setOperationHandler = ({
 
   // converting payload in needed format
   if (typeof payload === 'string') {
-    data = payload;
+    data = createValueFromTemplate(payload);
   } else {
     data += '{';
 
     // loop through data to construct valid object for queryBuilder
     for (const key in payload) {
-      let value = data[key];
+      let value = payload[key];
 
       if (typeof value === 'string') {
         value = createValueFromTemplate(value);

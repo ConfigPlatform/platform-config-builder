@@ -1,21 +1,4 @@
-export interface IField {
-  value: string;
-  entityField: string;
-  update?: string;
-}
-
 export type TRelation = 'addRelation' | 'removeRelation';
-export type TActionType =
-  | 'variable'
-  | 'mutate'
-  | 'select'
-  | 'create'
-  | 'return'
-  | 'delete'
-  | 'update'
-  | TRelation
-  | 'parallel'
-  | 'condition';
 
 export interface ITableRecordCreateAction {
   type: 'insert';
