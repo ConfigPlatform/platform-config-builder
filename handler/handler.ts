@@ -43,7 +43,7 @@ export const updateHandler = async (handler: IHandler): Promise<void> => {
   });
 
   // entity file path
-  const handlerFilePath = mergePaths(HANDLERS_PATH, `${handlerName}.ts`);
+  const handlerFilePath = mergePaths(HANDLERS_PATH, `${handlerName}.js`);
 
   // update handler file
   fs.writeFileSync(handlerFilePath, formattedEntries);
@@ -55,7 +55,7 @@ export const deleteHandler = ({
   handlersPath,
 }: IDeleteHandlerPayload): void => {
   // define handler file path
-  const handlerFilePath: string = mergePaths(handlersPath, `${handlerName}.ts`);
+  const handlerFilePath: string = mergePaths(handlersPath, `${handlerName}.js`);
 
   // delete file
   fs.removeSync(handlerFilePath);

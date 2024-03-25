@@ -19,26 +19,14 @@ export const createClassName = (str: string) =>
 // functions merges two or more paths
 export const mergePaths = (...paths: string[]): string => path.join(...paths);
 
-// function check if string is regexp or plain string
-export const checkIfRegexp = (str: string): boolean => {
-  // Regular expression to detect common special characters used in regex patterns
-  const regexSpecialChars = /[\\^$.*+?()[\]{}|]/;
-
-  // Test if the string contains any of the special characters
-  if (regexSpecialChars.test(str)) {
-    return true; // Likely intended to be a regex
-  }
-
-  return false;
-};
-
-export const checkIfStringIncludeVars = (
+export const checkIfStringIsTemplate = (
   str: string,
 ): { variableCount: number; includesNonVariableContent: boolean } => {
-  // Define the template pattern for variables
-  const variablePattern = /\{\{[^\}]+\}\}/g;
+  // Updated the template pattern to match variables and inline JavaScript code
+  // This pattern is now more permissive, allowing for matching JavaScript expressions inside the braces
+  const variablePattern = /\{\{.+?\}\}/g;
 
-  // Find all template variables in the string
+  // Find all template variables in the string, including those with inline JavaScript
   const matches = str.match(variablePattern);
   const variableCount = matches ? matches.length : 0;
 
@@ -58,7 +46,7 @@ export const createValueFromTemplate = (input: any): string => {
   if (typeof input !== 'string') return JSON.stringify(input);
 
   const { variableCount, includesNonVariableContent } =
-    checkIfStringIncludeVars(input);
+    checkIfStringIsTemplate(input);
 
   // return plain string if no vars
   if (!variableCount) return `'${input}'`;
@@ -66,6 +54,7 @@ export const createValueFromTemplate = (input: any): string => {
   // Replace the template syntax {{...}} with the JavaScript template literal syntax ${...}
   let outputString = input.replace(/{{(.*?)}}/g, '${$1}');
 
+  // only for plain vars
   if (!includesNonVariableContent) {
     const strWithoutSpaces = input.replaceAll(' ', '');
 

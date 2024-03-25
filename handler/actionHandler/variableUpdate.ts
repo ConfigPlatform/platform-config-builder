@@ -5,7 +5,7 @@ import { createValueFromTemplate } from '../../helpers';
 const variableUpdateActionHandler: TCreateActionHandler<
   IVariableUpdateAction
 > = ({ variable, value }) => {
-  const entries = `${variable} = ${value}`;
+  const entries = `${variable} = ${createValueFromTemplate(value)}`;
 
   return entries;
 };

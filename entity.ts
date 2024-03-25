@@ -8,6 +8,7 @@ import {
   createModuleImport,
   mergePaths,
 } from './helpers';
+import { get } from 'lodash';
 
 export interface IDeleteEntityPayload {
   entityName: string;
@@ -42,12 +43,22 @@ export const updateEntity = (entityData: IEntityData): void => {
   // db table columns
   let columns = `\n  @PrimaryGeneratedColumn()\n  id: number;`;
 
+  // relation types
+  const relationTypes = [
+    'one-to-one',
+    'one-to-many',
+    'many-to-one',
+    'many-to-many',
+  ];
+
   // loop through fields to generate columns
   for (const field of fields) {
-    const { name, type, options } = field;
+    const { name, options } = field;
+
+    const type = get(options, 'relationType');
 
     // table relation
-    if (type === 'relation') {
+    if (relationTypes.includes(type)) {
       const { ref, foreignField, ownerSide, relationType } = options;
 
       // ref entity class name
@@ -130,7 +141,7 @@ export const updateEntity = (entityData: IEntityData): void => {
       })
       .join(', ');
 
-    const column = `\n\n  @Column({ ${optionStr} })\n  ${name}: ${type};`;
+    const column = `\n\n  @Column({ ${optionStr} })\n  ${name}: any;`;
 
     columns += column;
   }
